@@ -1,4 +1,4 @@
-﻿using Data.Abstract;
+﻿using Core.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Data.Entities
 {
-    public class Order : Entity
+    public class Order : Entity, IDatedEntity
     {
         public Office Office { get; set; }
         public int OfficeId { get; set; }
@@ -40,6 +40,8 @@ namespace Data.Entities
         public bool IsReservationApproved { get; set; }
         public bool IsPaymentDone { get; set; }
         public bool IsCreditCard { get; set; }
+        public DateTime? UptDate { get; set; }
+        public DateTime CrtDate { get; set; }
 
 
     }
