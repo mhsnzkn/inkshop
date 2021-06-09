@@ -1,21 +1,73 @@
 ﻿@{
 }
+<div class="d-flex justify-content-end p-3">
+    <!-- Large modal -->
+    @*<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg"><i class="fas fa-plus"></i> Ekle</button>*@
+    <button type="button" class="btn btn-primary" id="btn-modal" onclick="openModal(0)"><i class="fas fa-plus"></i> Ekle</button>
+</div>
 
-<h2>Collapsible Sidebar Using Bootstrap 4</h2>
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 
-<div class="line"></div>
+<div class="modal fade bd-example-modal-lg" id="form-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
 
-<h2>Lorem Ipsum Dolor</h2>
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            <div class="modal-header">
+                <h4 class="modal-title" id="myLargeModalLabel">Large modal</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div id="modal-body" class="modal-body">
+                ...
+            </div>
+        </div>
+    </div>
+</div>
 
-<div class="line"></div>
 
-<h2>Lorem Ipsum Dolor</h2>
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<table id="myTable">
+    <thead>
+        <tr>
+            <th>CustomerID</th>
+            <th>CompanyName</th>
+        </tr>
+    </thead>
+</table>
 
-<div class="line"></div>
 
-<h3>Lorem Ipsum Dolor</h3>
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+
+                "processing": true, // for show progress bar
+                "serverSide": false, // for process server side
+                "filter": false, // this is for disable filter (search box)
+                "orderMulti": false, // for disable multiple column at once
+                "pageLength": 5,
+
+
+            });
+        });
+
+        function openModal(id) {
+            let model = id === 0 ? null : {id:id};
+
+            $('#form-modal').modal('show');
+
+            $.ajax({
+                url: "/Orders/Edit",
+                type: "get",
+                data: model,
+                success: function (res) {
+                    $("#myLargeModalLabel").text("Ekle");
+                    $("#modal-body").html(res);
+
+                },
+                error: function (err) {
+                    toastr.error("Baglanti hatasi")
+                }
+            })
+        }
+    </script>
+}

@@ -1,0 +1,113 @@
+﻿@model Web.Models.OrderViewModel
+@{
+}
+
+<div class="text-danger" asp-validation-summary="ModelOnly"></div>
+<form data-ajax-url="/Orders/Edit" data-ajax="true" data-ajax-method="post" data-ajax-complete="completed" data-ajax-failure="failed">
+    <input type="hidden" asp-for="Order.Id" />
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <label>Şube</label>
+            <select class="form-control" asp-for="Order.OfficeId" asp-items="Model.Office">
+            </select>
+            <span class="text-danger" asp-validation-for="Order.OfficeId"></span>
+        </div>
+        <div class="form-group col-md-4">
+            <label>Sipariş Türü</label>
+            <select class="form-control" asp-for="Order.OrderTypeId" asp-items="Model.OrderType">
+            </select>
+        </div>
+        <div class="form-group col-md-4">
+            <label>Ülke</label>
+            <select class="form-control" asp-for="Order.CountryId" asp-items="Model.Country">
+            </select>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label>İsim</label>
+            <input type="text" class="form-control">
+        </div>
+        <div class="form-group col-md-6">
+            <label>Soyisim</label>
+            <input type="text" class="form-control">
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Adres</label>
+        <input class="form-control" asp-for="Order.CustomerAdress">
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <label>Fiyat</label>
+            <input class="form-control" asp-for="Order.Price">
+        </div>
+        <div class="form-group col-md-4">
+            <label>Depozit</label>
+            <input class="form-control" asp-for="Order.Deposit">
+        </div>
+        <div class="form-group col-md-4">
+            <label>Doviz Kuru</label>
+            <select class="form-control" asp-for="Order.Currency" asp-items="Model.Currency">
+                <option value="">--Seçiniz--</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Açıklama</label>
+        <input class="form-control" asp-for="Order.Description">
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <label>Tarih</label>
+            <input class="form-control" asp-for="Order.Date">
+        </div>
+        <div class="form-group col-md-4">
+            <label>Kredi Karti</label>
+            <input class="form-control" asp-for="Order.IsCreditCard">
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group p-1">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="gridCheck1">
+                <label class="form-check-label" for="gridCheck1">
+                    Check me out
+                </label>
+            </div>
+        </div>
+        <div class="form-group p-1">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="gridCheck2">
+                <label class="form-check-label" for="gridCheck2">
+                    Check me out
+                </label>
+            </div>
+        </div>
+        <div class="form-group p-1">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="gridCheck3">
+                <label class="form-check-label" for="gridCheck3">
+                    Check me out
+                </label>
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Kaydet</button>
+</form>
+
+
+@*<partial name="_ValidationScriptsPartial" />*@
+<script>
+    var completed = function (res) {
+        if (res.error === false) {
+            toastr.success("Oldu")
+        } else {
+            toastr.error("Hata")
+        }
+    }
+    var failed = function (xhr) {
+        toastr.error("Baglanti Hatasi")
+        console.log(xhr)
+    }
+</script>

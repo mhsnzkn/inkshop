@@ -1,4 +1,8 @@
+using Business.Abstract;
+using Business.Concrete;
 using Data;
+using DataAccess.Abstract;
+using DataAccess.Concrete;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -35,6 +39,16 @@ namespace Web
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<AppDbContext>();
             services.AddControllersWithViews();
+
+            #region Services
+            services.AddScoped<IOrderManager, OrderManager>();
+            services.AddScoped<IOrderDal, OrderDal>();
+            services.AddScoped<IOrderTypeManager, OrderTypeManager>();
+            services.AddScoped<IOrderTypeDal, OrderTypeDal>();
+            services.AddScoped<IOfficeManager, OfficeManager>();
+            services.AddScoped<IOfficeDal, OfficeDal>();
+            #endregion
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,7 +77,7 @@ namespace Web
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Orders}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
         }
