@@ -19,18 +19,18 @@
         </div>
         <div class="form-group col-md-4">
             <label>Ülke</label>
-            <select class="form-control" asp-for="Order.CountryId" asp-items="Model.Country">
+            <select class="form-control" asp-for="Order.CustomerCountryId" asp-items="Model.Country">
             </select>
         </div>
     </div>
     <div class="form-row">
         <div class="form-group col-md-6">
             <label>İsim</label>
-            <input type="text" class="form-control">
+            <input type="text" class="form-control" asp-for="Order.CustomerName">
         </div>
         <div class="form-group col-md-6">
             <label>Soyisim</label>
-            <input type="text" class="form-control">
+            <input type="text" class="form-control" asp-for="Order.CustomerSurname">
         </div>
     </div>
     <div class="form-group">
@@ -48,7 +48,7 @@
         </div>
         <div class="form-group col-md-4">
             <label>Doviz Kuru</label>
-            <select class="form-control" asp-for="Order.Currency" asp-items="Model.Currency">
+            <select class="form-control" asp-for="Order.CurrencyId" asp-items="Model.Currency">
                 <option value="">--Seçiniz--</option>
             </select>
         </div>
@@ -62,38 +62,43 @@
             <label>Tarih</label>
             <input class="form-control" asp-for="Order.Date">
         </div>
-        <div class="form-group col-md-4">
-            <label>Kredi Karti</label>
-            <input class="form-control" asp-for="Order.IsCreditCard">
+        <div class="form-group offset-md-4 col-md-4 p-1">
+            <div class="form-check">
+                <br />
+                <input class="form-check-input" asp-for="Order.IsCreditCard">
+                <label class="form-check-label" asp-for="Order.IsCreditCard"> Kredi Karti </label>
+            </div>
         </div>
     </div>
     <div class="form-row">
         <div class="form-group p-1">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="gridCheck1">
-                <label class="form-check-label" for="gridCheck1">
-                    Check me out
-                </label>
+            <div class="form-check m-2">
+                <input class="form-check-input" asp-for="Order.TypeCoverUp">
+                <label class="form-check-label" asp-for="Order.TypeCoverUp">Cover Up</label>
             </div>
         </div>
         <div class="form-group p-1">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="gridCheck2">
-                <label class="form-check-label" for="gridCheck2">
-                    Check me out
-                </label>
+            <div class="form-check m-2">
+                <input class="form-check-input" asp-for="Order.TypeFreeHand">
+                <label class="form-check-label" asp-for="Order.TypeFreeHand">Freehand</label>
             </div>
         </div>
         <div class="form-group p-1">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="gridCheck3">
-                <label class="form-check-label" for="gridCheck3">
-                    Check me out
-                </label>
+            <div class="form-check m-2">
+                <input class="form-check-input" asp-for="Order.TypeRefresh">
+                <label class="form-check-label" asp-for="Order.TypeRefresh">Refresh</label>
+            </div>
+        </div>
+        <div class="form-group p-1">
+            <div class="form-check m-2">
+                <input class="form-check-input" asp-for="Order.TypeTouchUp">
+                <label class="form-check-label" asp-for="Order.TypeTouchUp">Touch Up</label>
             </div>
         </div>
     </div>
-    <button type="submit" class="btn btn-primary">Kaydet</button>
+    <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Kaydet</button>
+    </div>
 </form>
 
 
