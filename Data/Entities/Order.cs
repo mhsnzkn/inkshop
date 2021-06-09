@@ -14,17 +14,17 @@ namespace Data.Entities
         public OrderType OrderType { get; set; }
         public int OrderTypeId { get; set; }
         public ApplicationUser Personnel { get; set; }
-        public int PersonnelId { get; set; }
+        public int? PersonnelId { get; set; }
+        public Country Country { get; set; }
+        public int CountryId { get; set; }
         [StringLength(100)]
         public string CustomerName { get; set; }
         [StringLength(100)]
         public string CustomerSurname { get; set; }
         [StringLength(100)]
         public string CustomerCountry { get; set; }
-        [StringLength(250)]
-        public string CustomerHotel { get; set; }
-        [StringLength(100)]
-        public string CustomerRoomNumber { get; set; }
+        [StringLength(500)]
+        public string CustomerAdress { get; set; }
         [Column(TypeName = "decimal(8,2)")]
         public decimal Price { get; set; }
         [Column(TypeName = "decimal(8,2)")]

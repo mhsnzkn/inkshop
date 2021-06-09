@@ -17,5 +17,7 @@ namespace Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderType> OrderTypes { get; set; }
         public DbSet<Office> Offices { get; set; }
+        public DbSet<Country> Countries { get; set; }
+        public DbSet<Currency> Currencies { get; set; }
     }
 }

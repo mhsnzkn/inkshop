@@ -41,5 +41,10 @@ namespace Core.DataAccess
         {
             this.context.Set<TEntity>().Remove(entity);
         }
+
+        public async Task Save()
+        {
+            await this.context.SaveChangesAsync();
+        }
     }
 }
