@@ -1,0 +1,28 @@
+﻿@model Data.Entities.Country
+@{
+}
+
+<div class="text-danger" asp-validation-summary="ModelOnly"></div>
+<form data-ajax-url="/Countries/Edit" data-ajax="true" data-ajax-method="post" data-ajax-complete="ajaxCompleted" data-ajax-failure="ajaxFailed">
+    <input type="hidden" asp-for="Id" />
+    <div class="form-row">
+        <div class="form-group col-md-3">
+            <label>İsim</label>
+            <input type="text" class="form-control" asp-for="Name">
+        </div>
+        <div class="form-group col-md-9">
+            <label>Açıklama</label>
+            <input type="text" class="form-control" asp-for="Description">
+        </div>
+    </div>
+    
+    <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Kaydet</button>
+    </div>
+</form>
+
+
+@*<partial name="_ValidationScriptsPartial" />*@
+<script>
+
+</script>

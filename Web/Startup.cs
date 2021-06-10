@@ -47,6 +47,8 @@ namespace Web
             services.AddScoped<IOrderTypeDal, OrderTypeDal>();
             services.AddScoped<IOfficeManager, OfficeManager>();
             services.AddScoped<IOfficeDal, OfficeDal>();
+            services.AddScoped<ICountryManager, CountryManager>();
+            services.AddScoped<ICountryDal, CountryDal>();
             #endregion
 
         }

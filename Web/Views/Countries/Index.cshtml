@@ -1,5 +1,8 @@
 ﻿@{
 }
+
+@{
+}
 <div class="d-flex justify-content-end p-3">
     <!-- Large modal -->
     <button type="button" class="btn btn-primary" id="btn-modal" onclick="openModal(0)"><i class="fas fa-plus"></i> Ekle</button>
@@ -27,8 +30,8 @@
 <table id="datatable">
     <thead>
         <tr>
-            <th>CustomerID</th>
-            <th>CompanyName</th>
+            <th>Ad</th>
+            <th>Aciklama</th>
         </tr>
     </thead>
 </table>
@@ -38,13 +41,20 @@
     <script>
         $(document).ready(function () {
             $('#datatable').DataTable({
+                language: {
+                    url: '/lib/datatable/tr/tr.json'
+                },
+                //"processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                //"filter": false, // this is for disable filter (search box)
+                //"orderMulti": false, // for disable multiple column at once
+                //"pageLength": 5,
 
-                "processing": true, // for show progress bar
-                "serverSide": false, // for process server side
-                "filter": false, // this is for disable filter (search box)
-                "orderMulti": false, // for disable multiple column at once
-                "pageLength": 5,
-
+                "ajax": "/Countries/GetDataTable",
+                "columns": [
+                    { "data": "name" },
+                    { "data": "description" }
+                ]
 
             });
         });
@@ -56,7 +66,7 @@
             $('#form-modal').modal('show');
 
             $.ajax({
-                url: "/Orders/Edit",
+                url: "/Countries/Edit",
                 type: "get",
                 data: model,
                 success: function (res) {
