@@ -1,4 +1,5 @@
-﻿using Core.Utility;
+﻿using Data.Dtos;
+using Core.Utility;
 using Data.Entities;
 using System;
 using System.Collections.Generic;
@@ -13,8 +14,8 @@ namespace Business.Abstract
     {
         Task<Order> GetByIdAsync(int id);
         Task<List<Order>> Get(Expression<Func<Order, bool>> expression = null);
-        Task<Result> Add(Order entity);
-        Task<Result> Update(Order entity);
+        Task<Result> Add(OrderAddDto dto);
+        Task<Result> Update(OrderAddDto dto);
         Task<Result> Delete(Order entity);
     }
 }

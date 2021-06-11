@@ -24,34 +24,45 @@ namespace Web.Controllers
         }
         public async Task<IActionResult> Edit(int id)
         {
-            var model = new Country();
-            //{
-            //    OrderType = await orderTypeManager.GetForDropDown(),
-            //    Office = await officeManager.GetForDropDown(),
-            //    Country = await officeManager.GetForDropDown(),
-            //    Currency = await currencyManager.GetForDropDown(),
-            //};
+            var model = id == 0 ? new Country() : await countryManager.GetByIdAsync(id);
 
-            return PartialView("_Edit", model);
+            return View(model);
         }
+
         [HttpPost]
         public async Task<IActionResult> Edit(Country country)
         {
-            var result = await countryManager.Add(country);
-            return Ok(result);
+            Core.Utility.Result result = null;
+            if (country.Id == 0)
+            {
+                result = await countryManager.Add(country);
+            }
+            else
+            {
+                result = await countryManager.Update(country);
+            }
+            if (result.Error)
+                return View(country);
+            else
+                return RedirectToAction(nameof(Index));
         }
 
+        public async Task<IActionResult> Delete(Country country)
+        {
+            var result = await countryManager.Delete(country);
+            if (result.Error)
+                return View("Edit", country);
+            else
+                return RedirectToAction("Index");
+        }
         public async Task<IActionResult> GetDataTable()
         {
             var a = HttpContext.Request;
-            var result = new DataTableResult()
-            {
-                Draw = 1,
-                RecordsTotal = 10,
-                RecordsFiltered = 8,
-                Data = await countryManager.Get(),
-            };
-            return Ok(result);
+            //var result = new DataTableResult()
+            //{
+            //    Data = await countryManager.Get(),
+            //};
+            return Ok(new { data = await countryManager.Get() });
         }
     }
 }

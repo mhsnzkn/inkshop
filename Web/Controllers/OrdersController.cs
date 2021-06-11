@@ -37,13 +37,16 @@ namespace Web.Controllers
             //    Currency = await currencyManager.GetForDropDown(),
             //};
 
-            return PartialView("_Edit", model);
+            return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> Edit(Order order)
+        public async Task<IActionResult> Edit(OrderViewModel vModel)
         {
-            var result = await orderManager.Add(order);
-            return Ok(result);
+            var result = await orderManager.Add(vModel.Order);
+            if (result.Error)
+                return View(vModel);
+            else
+                return RedirectToAction(nameof(Index));
         }
 
         public IActionResult GetDataTable()

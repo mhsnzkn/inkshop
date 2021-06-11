@@ -5,33 +5,16 @@
 }
 <div class="d-flex justify-content-end p-3">
     <!-- Large modal -->
-    <button type="button" class="btn btn-primary" id="btn-modal" onclick="openModal(0)"><i class="fas fa-plus"></i> Ekle</button>
+    <a asp-controller="Countries" asp-action="Edit" class="btn btn-primary"><i class="fas fa-plus"></i> Ekle</a>
 </div>
 
 
-<div class="modal fade bd-example-modal-lg" id="form-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-
-            <div class="modal-header">
-                <h4 class="modal-title" id="myLargeModalLabel"></h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div id="modal-body" class="modal-body">
-                ...
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<table id="datatable">
+<table id="datatable" class="table stripe display">
     <thead>
         <tr>
             <th>Ad</th>
             <th>Aciklama</th>
+            <th>Islem</th>
         </tr>
     </thead>
 </table>
@@ -44,8 +27,9 @@
                 language: {
                     url: '/lib/datatable/tr/tr.json'
                 },
-                //"processing": true, // for show progress bar
+                "processing": true, // for show progress bar
                 "serverSide": true, // for process server side
+                "pagination":true,
                 //"filter": false, // this is for disable filter (search box)
                 //"orderMulti": false, // for disable multiple column at once
                 //"pageLength": 5,
@@ -53,7 +37,13 @@
                 "ajax": "/Countries/GetDataTable",
                 "columns": [
                     { "data": "name" },
-                    { "data": "description" }
+                    { "data": "description" },
+                    {
+                        "data":"id",
+                        render: function (data, type, row) {
+                            return '<a href="/Countries/Edit/' + data + '" class="btn btn-sm btn-warning m-1"><i class="fas fa-edit"></i></button>';
+                        }
+                    }
                 ]
 
             });

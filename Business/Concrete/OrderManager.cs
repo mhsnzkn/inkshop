@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Data.Dtos;
 using Core.Utility;
 using Data.Entities;
 using DataAccess.Abstract;
@@ -8,16 +9,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 
 namespace Business.Concrete
 {
     public class OrderManager : IOrderManager
     {
         private readonly IOrderDal orderDal;
+        private readonly IMapper mapper;
 
-        public OrderManager(IOrderDal orderDal)
+        public OrderManager(IOrderDal orderDal, IMapper mapper)
         {
             this.orderDal = orderDal;
+            this.mapper = mapper;
         }
         
         public async Task<List<Order>> Get(System.Linq.Expressions.Expression<Func<Order, bool>> expression = null)
@@ -38,11 +42,12 @@ namespace Business.Concrete
             return result;
         }
 
-        public async Task<Result> Add(Order entity)
+        public async Task<Result> Add(OrderAddDto dto)
         {
             var result = new Result();
             try
             {
+                var entity = mapper.Map<Order>(dto);
                 entity.CrtDate = DateTime.Now;
                 orderDal.Add(entity);
                 await orderDal.Save();
@@ -71,11 +76,12 @@ namespace Business.Concrete
             return result;
         }
 
-        public async Task<Result> Update(Order entity)
+        public async Task<Result> Update(OrderAddDto dto)
         {
             var result = new Result();
             try
             {
+                var entity = mapper.Map<Order>(dto);
                 entity.UptDate = DateTime.Now;
                 orderDal.Update(entity);
                 await orderDal.Save();
