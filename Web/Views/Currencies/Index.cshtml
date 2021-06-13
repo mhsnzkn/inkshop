@@ -5,7 +5,7 @@
 }
 <div class="d-flex justify-content-end p-3">
     <!-- Large modal -->
-    <a asp-controller="Offices" asp-action="Edit" class="btn btn-primary"><i class="fas fa-plus"></i> Ekle</a>
+    <a asp-controller="Currencies" asp-action="Edit" class="btn btn-primary"><i class="fas fa-plus"></i> Ekle</a>
 </div>
 
 
@@ -13,7 +13,7 @@
     <thead>
         <tr>
             <th>Ad</th>
-            <th>Şehir</th>
+            <th>Kısa Ad</th>
             <th>Açıklama</th>
             <th>İşlem</th>
         </tr>
@@ -31,12 +31,12 @@
                 "processing": true, // for show progress bar
                 "serverSide": true, // for process server side
                 "pagination": true,
-                "filter": true, // this is for filter (search box)
+                "filter": true, // this is for disable filter (search box)
                 //"orderMulti": false, // for disable multiple column at once
                 "pageLength": 10,
 
                 "ajax": {
-                    url: "/Offices/GetDataTable",
+                    url: "/Currencies/GetDataTable",
                     type: 'POST',
                     contentType: "application/json",
                     data: function (d) {
@@ -45,12 +45,12 @@
                 },
                 "columns": [
                     { "data": "name", },
-                    { "data": "city" },
+                    { "data": "shortName" },
                     { "data": "description" },
                     {
                         "data":"id",
                         render: function (data, type, row) {
-                            return '<a href="/Offices/Edit/' + data + '" class="btn btn-sm btn-warning m-1"><i class="fas fa-edit"></i></button>';
+                            return '<a href="/Currencies/Edit/' + data + '" class="btn btn-sm btn-warning m-1"><i class="fas fa-edit"></i></button>';
                         }
                     }
                 ]

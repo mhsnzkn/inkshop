@@ -1,4 +1,5 @@
 ﻿using Core.Utility;
+using Core.Utility.Datatables;
 using Data.Entities;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -14,6 +15,7 @@ namespace Business.Abstract
     {
         Task<Currency> GetByIdAsync(int id);
         Task<List<Currency>> Get(Expression<Func<Currency, bool>> expression = null);
+        Task<DataTableResult> GetForDataTable(DataTableParams param);
         Task<Result> Add(Currency entity);
         Task<Result> Update(Currency entity);
         Task<Result> Delete(Currency entity);

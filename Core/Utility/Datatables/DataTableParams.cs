@@ -14,6 +14,8 @@ namespace Core.Utility.Datatables
         public List<Order> order { get; set; }
         public List<Columns> columns { get; set; }
         public Search search { get; set; }
+        public DateTime? minDate { get; set; }
+        public DateTime? maxDate { get; set; }
 
     }
 

@@ -1,27 +1,29 @@
-﻿@model Data.Entities.Office
+﻿@model Data.Entities.Currency
 @{
 }
+
+<p class="text-dange">@ViewData["error"]</p>
 
 <div class="text-danger" asp-validation-summary="ModelOnly"></div>
 <form method="post">
     <input type="hidden" asp-for="Id" />
     <div class="form-row">
-        <div class="form-group col-md-3">
-            <label>İsim</label>
+        <div class="form-group col-md-6">
+            <label>Ad</label>
             <input class="form-control" asp-for="Name">
         </div>
-        <div class="form-group col-md-3">
-            <label>Şehir</label>
-            <input class="form-control" asp-for="City">
-        </div>
         <div class="form-group col-md-6">
+            <label>Kisa Ad</label>
+            <input class="form-control" asp-for="ShortName">
+        </div>
+        <div class="form-group col-md-12">
             <label>Açıklama</label>
             <input class="form-control" asp-for="Description">
         </div>
     </div>
 
     <div class="d-flex justify-content-between">
-        <a asp-controller="Offices" asp-action="Index" class="btn btn-secondary m-1"><i class="fas fa-undo-alt"></i> Geri Don</a>
+        <a asp-controller="Currencies" asp-action="Index" class="btn btn-secondary m-1"><i class="fas fa-undo-alt"></i> Geri Don</a>
         <div>
             @if (Model.Id != 0)
             {
@@ -46,7 +48,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Vazgeç</button>
-                    <button asp-controller="Offices" asp-action="Delete" type="submit" class="btn btn-danger">Sil</button>
+                    <button asp-controller="Currencies" asp-action="Delete" type="submit" class="btn btn-danger">Sil</button>
                 </div>
             </div>
         </div>
