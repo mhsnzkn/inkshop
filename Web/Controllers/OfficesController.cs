@@ -11,13 +11,13 @@ using Web.Models;
 
 namespace Web.Controllers
 {
-    public class CountriesController : Controller
+    public class OfficesController : Controller
     {
-        private readonly ICountryManager countryManager;
+        private readonly IOfficeManager officeManager;
 
-        public CountriesController(ICountryManager countryManager)
+        public OfficesController(IOfficeManager officeManager)
         {
-            this.countryManager = countryManager;
+            this.officeManager = officeManager;
         }
         public IActionResult Index()
         {
@@ -25,41 +25,41 @@ namespace Web.Controllers
         }
         public async Task<IActionResult> Edit(int id)
         {
-            var model = id == 0 ? new Country() : await countryManager.GetByIdAsync(id);
+            var model = id == 0 ? new Office() : await officeManager.GetByIdAsync(id);
 
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Country country)
+        public async Task<IActionResult> Edit(Office office)
         {
             Core.Utility.Result result = null;
-            if (country.Id == 0)
+            if (office.Id == 0)
             {
-                result = await countryManager.Add(country);
+                result = await officeManager.Add(office);
             }
             else
             {
-                result = await countryManager.Update(country);
+                result = await officeManager.Update(office);
             }
             if (result.Error)
-                return View(country);
+                return View(office);
             else
                 return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> Delete(Country country)
+        public async Task<IActionResult> Delete(Office office)
         {
-            var result = await countryManager.Delete(country);
+            var result = await officeManager.Delete(office);
             if (result.Error)
-                return View("Edit", country);
+                return View("Edit", office);
             else
                 return RedirectToAction("Index");
         }
         [HttpPost]
         public async Task<IActionResult> GetDataTable([FromBody] DataTableParams param)
         {
-            return Ok(await countryManager.GetForDataTable(param));
+            return Ok(await officeManager.GetForDataTable(param));
         }
     }
 }

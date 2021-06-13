@@ -9,8 +9,9 @@ namespace Core.Utility.Datatables
     public class DataTableResult
     {
         public int Draw { get; set; }
-        public uint RecordsFiltered { get; set; }
-        public uint RecordsTotal { get; set; }
+        public int RecordsFiltered { get; set; }
+        public int RecordsTotal { get; set; }
         public object Data { get; set; }
+        public string Error { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model Data.Entities.Country
+﻿@model Data.Entities.Office
 @{
 }
 
@@ -10,7 +10,11 @@
             <label>İsim</label>
             <input class="form-control" asp-for="Name">
         </div>
-        <div class="form-group col-md-9">
+        <div class="form-group col-md-3">
+            <label>Şehir</label>
+            <input class="form-control" asp-for="City">
+        </div>
+        <div class="form-group col-md-6">
             <label>Açıklama</label>
             <input class="form-control" asp-for="Description">
         </div>
@@ -42,7 +46,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Vazgeç</button>
-                    <button asp-controller="Countries" asp-action="Delete" type="submit" class="btn btn-danger">Sil</button>
+                    <button asp-controller="Offices" asp-action="Delete" type="submit" class="btn btn-danger">Sil</button>
                 </div>
             </div>
         </div>

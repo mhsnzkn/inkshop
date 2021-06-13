@@ -1,4 +1,5 @@
 ﻿using Core.Utility;
+using Core.Utility.Datatables;
 using Data.Entities;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -14,6 +15,7 @@ namespace Business.Abstract
     {
         Task<Office> GetByIdAsync(int id);
         Task<List<Office>> Get(Expression<Func<Office, bool>> expression = null);
+        Task<DataTableResult> GetForDataTable(DataTableParams param);
         Task<Result> Add(Office entity);
         Task<Result> Update(Office entity);
         Task<Result> Delete(Office entity);
