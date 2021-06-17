@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Business.Constants
+namespace Data.Constants
 {
     public struct OrderTypeString
     {

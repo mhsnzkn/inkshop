@@ -9,8 +9,16 @@
 <table id="datatable" class="table stripe display">
     <thead>
         <tr>
-            <th>CustomerID</th>
-            <th>CompanyName</th>
+            <th>Şube</th>
+            <th>Sipariş No</th>
+            <th>Tür</th>
+            <th>Müşteri</th>
+            <th>Tutar</th>
+            <th>Depozito</th>
+            <th>Kalan</th>
+            <th>Kur</th>
+            <th>Tarih</th>
+            <th>İşlem</th>
         </tr>
     </thead>
 </table>
@@ -20,36 +28,54 @@
     <script>
         $(document).ready(function () {
             $('#datatable').DataTable({
-
+                language: {
+                    url: '/lib/datatable/tr/tr.json'
+                },
                 "processing": true, // for show progress bar
-                "serverSide": false, // for process server side
-                "filter": false, // this is for disable filter (search box)
-                "orderMulti": false, // for disable multiple column at once
-                "pageLength": 5,
+                "serverSide": true, // for process server side
+                "pagination": true,
+                "filter": true, // this is for filter (search box)
+                //"orderMulti": false, // for disable multiple column at once
+                "pageLength": 10,
 
+                "ajax": {
+                    url: "/Orders/GetDataTable",
+                    type: 'POST',
+                    contentType: "application/json",
+                    data: function (d) {
+                        return JSON.stringify(d);
+                    }
+                },
+                "columns": [
+                    { "data": "officeName", },
+                    { "data": "id", },
+                    { "data": "orderTypeName", },
+                    { "data": "customerFullName", },
+                    { "data": "price" },
+                    { "data": "deposit" },
+                    {
+                        "data": "null",
+                        render: function (data, type, row) {
+                            return row.price - row.deposit;
+                        }
+                    },
+                    { "data": "currencyName" },
+                    {
+                        "data": "date",
+                        render: function (data, type, row) {
+                            return (new Date(data)).toLocaleDateString('tr-TR');
+                        }
+                    },
+                    {
+                        "data": "id",
+                        render: function (data, type, row) {
+                            return '<a href="/Orders/Edit/' + data + '" class="btn btn-sm btn-warning m-1"><i class="fas fa-edit"></i></button>';
+                        }
+                    }
+                ]
 
             });
         });
 
-        function openModal(id) {
-            let model = id === 0 ? null : { id: id };
-            let header = id === 0 ? "Ekle" : "Duzenle"
-
-            $('#form-modal').modal('show');
-
-            $.ajax({
-                url: "/Orders/Edit",
-                type: "get",
-                data: model,
-                success: function (res) {
-                    $("#myLargeModalLabel").text(header);
-                    $("#modal-body").html(res);
-
-                },
-                error: function (err) {
-                    toastr.error("Baglanti hatasi")
-                }
-            })
-        }
     </script>
 }

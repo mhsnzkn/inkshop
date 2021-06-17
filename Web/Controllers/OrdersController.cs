@@ -1,5 +1,7 @@
-﻿using Business.Abstract;
+﻿using AutoMapper;
+using Business.Abstract;
 using Core.Utility.Datatables;
+using Data.Dtos;
 using Data.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -15,13 +17,20 @@ namespace Web.Controllers
         private readonly IOrderManager orderManager;
         private readonly IOrderTypeManager orderTypeManager;
         private readonly IOfficeManager officeManager;
+        private readonly ICurrencyManager currencyManager;
+        private readonly ICountryManager countryManager;
+        private readonly IMapper mapper;
 
         public OrdersController(IOrderManager orderManager, IOrderTypeManager orderTypeManager,
-            IOfficeManager officeManager)
+            IOfficeManager officeManager, ICurrencyManager currencyManager, ICountryManager countryManager,
+            IMapper mapper)
         {
             this.orderManager = orderManager;
             this.orderTypeManager = orderTypeManager;
             this.officeManager = officeManager;
+            this.currencyManager = currencyManager;
+            this.countryManager = countryManager;
+            this.mapper = mapper;
         }
         public IActionResult Index()
         {
@@ -29,36 +38,40 @@ namespace Web.Controllers
         }
         public async Task<IActionResult> Edit(int id)
         {
-            var model = new OrderViewModel();
-            //{
-            //    OrderType = await orderTypeManager.GetForDropDown(),
-            //    Office = await officeManager.GetForDropDown(),
-            //    Country = await officeManager.GetForDropDown(),
-            //    Currency = await currencyManager.GetForDropDown(),
-            //};
+            var model = new OrderViewModel()
+            {
+                OrderType = await orderTypeManager.GetForDropDown(),
+                Office = await officeManager.GetForDropDown(),
+                Country = await countryManager.GetForDropDown(),
+                Currency = await currencyManager.GetForDropDown(),
+            };
+            model.Order = id == 0 ? new OrderAddDto() : mapper.Map<OrderAddDto>(await orderManager.GetByIdAsync(id));
 
             return View(model);
         }
         [HttpPost]
         public async Task<IActionResult> Edit(OrderViewModel vModel)
         {
-            var result = await orderManager.Add(vModel.Order);
+            Core.Utility.Result result = null;
+            if(vModel.Order.Id == 0)
+            {
+                result = await orderManager.Add(vModel.Order);
+            }
+            else
+            {
+                result = await orderManager.Update(vModel.Order);
+            }
+
             if (result.Error)
                 return View(vModel);
             else
                 return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult GetDataTable()
+        [HttpPost]
+        public async Task<IActionResult> GetDataTable([FromBody]DataTableParams param)
         {
-            var result = new DataTableResult()
-            {
-                Draw = 1,
-                RecordsTotal = 100,
-                RecordsFiltered = 98,
-                Data = "",
-            };
-            return Ok(result);
+            return Ok(await orderManager.GetForDataTable(param));
         }
     }
 }

@@ -34,8 +34,12 @@ namespace Data.Entities
         public DateTime Date { get; set; }
         [StringLength(500)]
         public string Description { get; set; }
-        public bool IsOrderApproved { get; set; }
-        public bool IsReservationApproved { get; set; }
+        [StringLength(100)]
+        public string OrderCancellationReason { get; set; }
+        [StringLength(100)]
+        public string ReservationCancellationReason { get; set; }
+        public bool? IsOrderApproved { get; set; }
+        public bool? IsReservationApproved { get; set; }
         public bool IsPaymentDone { get; set; }
         public bool IsCreditCard { get; set; }
         public DateTime? UptDate { get; set; }
