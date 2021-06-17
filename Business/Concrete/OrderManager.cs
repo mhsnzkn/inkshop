@@ -52,10 +52,10 @@ namespace Business.Concrete
             {
                 var entity = mapper.Map<Order>(dto);
                 entity.CrtDate = DateTime.Now;
-                entity.Type = dto.TypeCoverUp ? OrderTypeString.CoverUp : "";
-                entity.Type += dto.TypeFreeHand ? OrderTypeString.Freehand : entity.Type;
-                entity.Type += dto.TypeRefresh ? OrderTypeString.Refresh : entity.Type;
-                entity.Type += dto.TypeTouchUp ? OrderTypeString.TouchUp : entity.Type;
+                entity.Type = dto.TypeCoverUp ? OrderTypeString.CoverUp : string.Empty;
+                entity.Type += dto.TypeFreeHand ? OrderTypeString.Freehand : string.Empty;
+                entity.Type += dto.TypeRefresh ? OrderTypeString.Refresh : string.Empty;
+                entity.Type += dto.TypeTouchUp ? OrderTypeString.TouchUp : string.Empty;
 
                 orderDal.Add(entity);
                 await orderDal.Save();
@@ -75,10 +75,10 @@ namespace Business.Concrete
             {
                 var entity = mapper.Map<Order>(dto);
                 entity.UptDate = DateTime.Now;
-                entity.Type = dto.TypeCoverUp ? OrderTypeString.CoverUp : "";
-                entity.Type += dto.TypeFreeHand ? OrderTypeString.Freehand : entity.Type;
-                entity.Type += dto.TypeRefresh ? OrderTypeString.Refresh : entity.Type;
-                entity.Type += dto.TypeTouchUp ? OrderTypeString.TouchUp : entity.Type;
+                entity.Type = dto.TypeCoverUp ? OrderTypeString.CoverUp : string.Empty;
+                entity.Type += dto.TypeFreeHand ? OrderTypeString.Freehand : string.Empty;
+                entity.Type += dto.TypeRefresh ? OrderTypeString.Refresh : string.Empty;
+                entity.Type += dto.TypeTouchUp ? OrderTypeString.TouchUp : string.Empty;
 
                 orderDal.Update(entity);
                 await orderDal.Save();
