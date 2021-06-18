@@ -62,14 +62,28 @@ namespace Web.Controllers
                 result = await orderManager.Update(vModel.Order);
             }
 
-            if (result.Error)
-                return View(vModel);
-            else
-                return RedirectToAction(nameof(Index));
+            return Ok(result);
         }
 
         [HttpPost]
-        public async Task<IActionResult> GetDataTable([FromBody]DataTableParams param)
+        public async Task<IActionResult> Approve([FromBody] OrderPostDto order)
+        {
+            if (order == null || order.Id == 0)
+                return BadRequest();
+
+            return Ok(await orderManager.OrderApprove(order.Id));
+        }
+        [HttpPost]
+        public async Task<IActionResult> Cancel([FromBody] OrderPostDto dto)
+        {
+            if (dto == null || dto.Id == 0)
+                return BadRequest();
+
+            return Ok(await orderManager.OrderCancel(dto.Id,dto.Message ));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GetDataTable([FromBody] DataTableParams param)
         {
             return Ok(await orderManager.GetForDataTable(param));
         }

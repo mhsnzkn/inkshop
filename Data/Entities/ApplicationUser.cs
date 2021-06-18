@@ -9,12 +9,8 @@ namespace Data.Entities
 {
     public class ApplicationUser : IdentityUser
     {
-        [StringLength(100)]
-        public string job { get; set; }
-        public Office Office { get; set; }
-        public int OfficeId { get; set; }
-        [Column(TypeName ="decimal(5,2)")]
-        public decimal Commission { get; set; }
+        public Personnel Personnel { get; set; }
+        public int? PersonnelId { get; set; }
 
     }
 }

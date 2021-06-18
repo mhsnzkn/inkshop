@@ -1,5 +1,11 @@
 ﻿@{
 }
+
+<div class="custom-control custom-switch">
+    <input type="checkbox" class="custom-control-input" id="cancelSwitch">
+    <label class="custom-control-label" for="cancelSwitch">İptal olanları göster</label>
+</div>
+
 <div class="d-flex justify-content-end p-3">
     <!-- Large modal -->
     <a asp-controller="Orders" asp-action="Edit" class="btn btn-primary"><i class="fas fa-plus"></i> Ekle</a>
@@ -43,6 +49,8 @@
                     type: 'POST',
                     contentType: "application/json",
                     data: function (d) {
+                        var isCancelled = $('#cancelSwitch').prop('checked') ? true : null;
+                        d.search.listCancelled = isCancelled;
                         return JSON.stringify(d);
                     }
                 },
@@ -69,7 +77,14 @@
                     {
                         "data": "id",
                         render: function (data, type, row) {
-                            return '<a href="/Orders/Edit/' + data + '" class="btn btn-sm btn-warning m-1"><i class="fas fa-edit"></i></button>';
+                            let buttons = null;
+                            if (row.isOrderApproved === null) {
+                                buttons = '<button onclick="confirmPrompt(' + data + ')" class="btn btn-sm btn-success m-1" title="Onayla"><i class="fas fa-check-circle"></i></button>' +
+                                    '<a href="/Orders/Edit/' + data + '" class="btn btn-sm btn-warning m-1" title="Duzenle"><i class="fas fa-edit"></i></a>' +
+                                    '<button onclick="deletePrompt(' + data + ')" class="btn btn-sm btn-danger m-1" title="Iptal"><i class="fas fa-window-close"></i></button>';
+                            }
+
+                            return buttons;
                         }
                     }
                 ]
@@ -77,5 +92,52 @@
             });
         });
 
+
+        function confirmPrompt(id) {
+            alertify.confirm("Onay", "Siparişi onaylıyor musunuz?",
+                function () {
+                    let model = {id:id}
+                    $.ajax({
+                        url: '/Orders/Approve',
+                        type: 'post',
+                        contentType: "application/json",
+                        data: JSON.stringify(model),
+                        success: function (res) {
+                            if (res.error === false) {
+                                alertify.success("İşlem Başarılı");
+                                $('#datatable').DataTable().ajax.reload();
+                            } else {
+                                alertify.error("İşlem Başarısız");
+                                console.log(res);
+                            }
+                        }
+                    })
+            }, null)
+        }
+        function deletePrompt(id) {
+            alertify.prompt("İptal işlemi", "Sipariş iptal sebebi:", null,
+                function (evt, value) {
+                    let model = { id: id, message: value };
+                    $.ajax({
+                        url: '/Orders/Cancel',
+                        type: 'post',
+                        contentType: "application/json",
+                        data: JSON.stringify(model),
+                        success: function (res) {
+                            if (res.error === false) {
+                                alertify.success("İşlem Başarılı");
+                                $('#datatable').DataTable().ajax.reload();
+                            } else {
+                                alertify.error("İşlem Başarısız");
+                                console.log(res);
+                            }
+                        }
+                    })
+            }, null)
+        }
+
+        $('#cancelSwitch').change(function () {
+            $('#datatable').DataTable().ajax.reload();
+        })
     </script>
 }

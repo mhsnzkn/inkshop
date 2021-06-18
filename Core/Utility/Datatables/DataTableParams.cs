@@ -32,6 +32,7 @@ namespace Core.Utility.Datatables
     {
         public bool regex { get; set; }
         public string value { get; set; }
+        public bool? listCancelled { get; set; }
     }
 
     public class DtOrder

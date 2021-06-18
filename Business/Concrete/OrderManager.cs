@@ -26,7 +26,7 @@ namespace Business.Concrete
             this.orderDal = orderDal;
             this.mapper = mapper;
         }
-        
+
         public async Task<List<Order>> Get(System.Linq.Expressions.Expression<Func<Order, bool>> expression = null)
         {
             return await orderDal.Get(expression).ToListAsync();
@@ -73,14 +73,63 @@ namespace Business.Concrete
             var result = new Result();
             try
             {
-                var entity = mapper.Map<Order>(dto);
-                entity.UptDate = DateTime.Now;
+                var entity = await orderDal.GetByIdAsync(dto.Id);
+                entity.OfficeId = dto.OfficeId;
+                entity.OrderTypeId = dto.OrderTypeId;
+                entity.CustomerCountryId = dto.CustomerCountryId;
+                entity.CustomerName = dto.CustomerName;
+                entity.CustomerSurname = dto.CustomerSurname;
+                entity.CustomerAdress = dto.CustomerAdress;
+                entity.Price = dto.Price;
+                entity.Deposit = dto.Deposit;
+                entity.CurrencyId = dto.CurrencyId;
+                entity.CurrencyId = dto.CurrencyId;
+                entity.Description = dto.Description;
+                entity.Date = dto.Date;
+                entity.IsCreditCard = dto.IsCreditCard;
+
                 entity.Type = dto.TypeCoverUp ? OrderTypeString.CoverUp : string.Empty;
                 entity.Type += dto.TypeFreeHand ? OrderTypeString.Freehand : string.Empty;
                 entity.Type += dto.TypeRefresh ? OrderTypeString.Refresh : string.Empty;
                 entity.Type += dto.TypeTouchUp ? OrderTypeString.TouchUp : string.Empty;
+                entity.UptDate = DateTime.Now;
 
                 orderDal.Update(entity);
+                await orderDal.Save();
+            }
+            catch (Exception ex)
+            {
+                result.SetError(ex.ToString());
+            }
+
+            return result;
+        }
+
+        public async Task<Result> OrderApprove(int id)
+        {
+            var result = new Result();
+            try
+            {
+                var entity = await orderDal.GetByIdAsync(id);
+                entity.IsOrderApproved = true;
+                await orderDal.Save();
+            }
+            catch (Exception ex)
+            {
+                result.SetError(ex.ToString());
+            }
+
+            return result;
+        }
+
+        public async Task<Result> OrderCancel(int id, string message)
+        {
+            var result = new Result();
+            try
+            {
+                var entity = await orderDal.GetByIdAsync(id);
+                entity.IsOrderApproved = false;
+                entity.OrderCancellationReason = message;
                 await orderDal.Save();
             }
             catch (Exception ex)
@@ -110,19 +159,30 @@ namespace Business.Concrete
         public async Task<DataTableResult> GetForDataTable(DataTableParams param)
         {
             var result = new DataTableResult();
+            var query = orderDal.Get()
+                .Include(a => a.Office).Include(a => a.Currency).Include(a => a.CustomerCountry).Include(a => a.OrderType)
+                .Skip(param.start).Take(param.length);
+
             // Filter
-            Expression<Func<Order, bool>> exp = null;
             if (!string.IsNullOrEmpty(param.search.value))
             {
-                exp = a => a.CustomerName.Contains(param.search.value) || a.CustomerSurname.Contains(param.search.value) || a.Description.Contains(param.search.value);
+                query = query.Where(a => a.CustomerName.Contains(param.search.value) || a.CustomerSurname.Contains(param.search.value) || a.Description.Contains(param.search.value));
             }
 
+            if(param.search.listCancelled != null)
+            {
+                query = query.Where(a => a.IsOrderApproved == !param.search.listCancelled);
+            }
+            else
+            {
+                query = query.Where(a => a.IsOrderApproved == null);
+            }
+            
+
             // DataTableModel
-            result.Data = mapper.Map<List<OrderTableDto>>(await orderDal.Get(exp)
-                .Include(a=>a.Office).Include(a=>a.Currency).Include(a=>a.CustomerCountry).Include(a=>a.OrderType)
-                .Skip(param.start).Take(param.length).ToListAsync());
+            result.Data = mapper.Map<List<OrderTableDto>>(await query.ToListAsync());
             result.Draw = param.draw;
-            result.RecordsTotal = await orderDal.Get(exp).CountAsync();
+            result.RecordsTotal = await query.CountAsync();
             result.RecordsFiltered = result.RecordsTotal;
 
             return result;

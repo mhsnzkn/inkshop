@@ -16,6 +16,8 @@ namespace Business.Abstract
         Task<Order> GetByIdAsync(int id);
         Task<List<Order>> Get(Expression<Func<Order, bool>> expression = null);
         Task<DataTableResult> GetForDataTable(DataTableParams param);
+        Task<Result> OrderApprove(int id);
+        Task<Result> OrderCancel(int id, string message);
         Task<Result> Add(OrderAddDto dto);
         Task<Result> Update(OrderAddDto dto);
         Task<Result> Delete(Order entity);
