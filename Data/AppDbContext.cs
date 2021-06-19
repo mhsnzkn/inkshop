@@ -19,5 +19,6 @@ namespace Data
         public DbSet<Office> Offices { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<Currency> Currencies { get; set; }
+        public DbSet<Personnel> Personnel { get; set; }
     }
 }

@@ -14,23 +14,23 @@ using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
-    public class CountryManager : ICountryManager
+    public class PersonnelManager : IPersonnelManager
     {
-        private readonly ICountryDal entityDal;
+        private readonly IPersonnelDal entityDal;
 
-        public CountryManager(ICountryDal entityDal)
+        public PersonnelManager(IPersonnelDal entityDal)
         {
             this.entityDal = entityDal;
         }
         
-        public async Task<List<Country>> Get(System.Linq.Expressions.Expression<Func<Country, bool>> expression = null)
+        public async Task<List<Personnel>> Get(System.Linq.Expressions.Expression<Func<Personnel, bool>> expression = null)
         {
             return await entityDal.Get(expression).ToListAsync();
         }
 
-        public async Task<Country> GetByIdAsync(int id)
+        public async Task<Personnel> GetByIdAsync(int id)
         {
-            Country result = null;
+            Personnel result = null;
             try
             {
                 result = await entityDal.GetByIdAsync(id);
@@ -41,7 +41,7 @@ namespace Business.Concrete
             return result;
         }
 
-        public async Task<Result> Add(Country entity)
+        public async Task<Result> Add(Personnel entity)
         {
             var result = new Result();
             try
@@ -57,7 +57,7 @@ namespace Business.Concrete
             return result;
         }
 
-        public async Task<Result> Delete(Country entity)
+        public async Task<Result> Delete(Personnel entity)
         {
             var result = new Result();
             try
@@ -73,7 +73,7 @@ namespace Business.Concrete
             return result;
         }
 
-        public async Task<Result> Update(Country entity)
+        public async Task<Result> Update(Personnel entity)
         {
             var result = new Result();
             try
@@ -104,7 +104,7 @@ namespace Business.Concrete
             // Filter
             if (!string.IsNullOrEmpty(param.search.value))
             {
-                query = query.Where(a => a.Name.Contains(param.search.value) || a.Description.Contains(param.search.value));
+                query = query.Where(a => a.Name.Contains(param.search.value) || a.Surname.Contains(param.search.value));
             }
 
             // DataTableModel

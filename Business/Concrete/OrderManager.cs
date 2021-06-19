@@ -45,7 +45,7 @@ namespace Business.Concrete
             return result;
         }
 
-        public async Task<Result> Add(OrderAddDto dto)
+        public async Task<Result> AddOrder(OrderAddDto dto)
         {
             var result = new Result();
             try
@@ -68,7 +68,7 @@ namespace Business.Concrete
             return result;
         }
 
-        public async Task<Result> Update(OrderAddDto dto)
+        public async Task<Result> UpdateOrder(OrderAddDto dto)
         {
             var result = new Result();
             try
@@ -105,7 +105,7 @@ namespace Business.Concrete
             return result;
         }
 
-        public async Task<Result> OrderApprove(int id)
+        public async Task<Result> ApproveOrder(int id)
         {
             var result = new Result();
             try
@@ -122,7 +122,7 @@ namespace Business.Concrete
             return result;
         }
 
-        public async Task<Result> OrderCancel(int id, string message)
+        public async Task<Result> CancelOrder(int id, string message)
         {
             var result = new Result();
             try
@@ -130,6 +130,77 @@ namespace Business.Concrete
                 var entity = await orderDal.GetByIdAsync(id);
                 entity.IsOrderApproved = false;
                 entity.OrderCancellationReason = message;
+                await orderDal.Save();
+            }
+            catch (Exception ex)
+            {
+                result.SetError(ex.ToString());
+            }
+
+            return result;
+        }
+        public async Task<Result> UpdateReservation(OrderAddDto dto)
+        {
+            var result = new Result();
+            try
+            {
+                var entity = await orderDal.GetByIdAsync(dto.Id);
+                entity.OfficeId = dto.OfficeId;
+                entity.OrderTypeId = dto.OrderTypeId;
+                entity.CustomerCountryId = dto.CustomerCountryId;
+                entity.CustomerName = dto.CustomerName;
+                entity.CustomerSurname = dto.CustomerSurname;
+                entity.CustomerAdress = dto.CustomerAdress;
+                entity.Price = dto.Price;
+                entity.Deposit = dto.Deposit;
+                entity.CurrencyId = dto.CurrencyId;
+                entity.CurrencyId = dto.CurrencyId;
+                entity.Description = dto.Description;
+                entity.Date = dto.Date;
+                entity.IsCreditCard = dto.IsCreditCard;
+
+                entity.Type = dto.TypeCoverUp ? OrderTypeString.CoverUp : string.Empty;
+                entity.Type += dto.TypeFreeHand ? OrderTypeString.Freehand : string.Empty;
+                entity.Type += dto.TypeRefresh ? OrderTypeString.Refresh : string.Empty;
+                entity.Type += dto.TypeTouchUp ? OrderTypeString.TouchUp : string.Empty;
+                entity.UptDate = DateTime.Now;
+
+                orderDal.Update(entity);
+                await orderDal.Save();
+            }
+            catch (Exception ex)
+            {
+                result.SetError(ex.ToString());
+            }
+
+            return result;
+        }
+
+        public async Task<Result> ApproveReservation(int id)
+        {
+            var result = new Result();
+            try
+            {
+                var entity = await orderDal.GetByIdAsync(id);
+                entity.IsReservationApproved = true;
+                await orderDal.Save();
+            }
+            catch (Exception ex)
+            {
+                result.SetError(ex.ToString());
+            }
+
+            return result;
+        }
+
+        public async Task<Result> CancelReservation(int id, string message)
+        {
+            var result = new Result();
+            try
+            {
+                var entity = await orderDal.GetByIdAsync(id);
+                entity.IsReservationApproved = false;
+                entity.ReservationCancellationReason = message;
                 await orderDal.Save();
             }
             catch (Exception ex)
@@ -156,7 +227,7 @@ namespace Business.Concrete
             return result;
         }
 
-        public async Task<DataTableResult> GetForDataTable(DataTableParams param)
+        public async Task<DataTableResult> GetOrderDataTable(DataTableParams param)
         {
             var result = new DataTableResult();
             var query = orderDal.Get()
@@ -170,13 +241,48 @@ namespace Business.Concrete
             }
 
             if(param.search.listCancelled != null)
-            {
                 query = query.Where(a => a.IsOrderApproved == !param.search.listCancelled);
-            }
             else
-            {
                 query = query.Where(a => a.IsOrderApproved == null);
+
+            if (param.minDate != null)
+                query = query.Where(a => a.Date >= param.minDate);
+            if (param.maxDate != null)
+                query = query.Where(a => a.Date <= param.maxDate);
+
+            
+
+            // DataTableModel
+            result.Data = mapper.Map<List<OrderTableDto>>(await query.ToListAsync());
+            result.Draw = param.draw;
+            result.RecordsTotal = await query.CountAsync();
+            result.RecordsFiltered = result.RecordsTotal;
+
+            return result;
+        }
+        public async Task<DataTableResult> GetReservationDataTable(DataTableParams param)
+        {
+            var result = new DataTableResult();
+            var query = orderDal.Get().Where(a=>a.IsOrderApproved == true)
+                .Include(a => a.Office).Include(a => a.Currency).Include(a => a.CustomerCountry).Include(a => a.OrderType)
+                .Skip(param.start).Take(param.length);
+
+            // Filter
+            if (!string.IsNullOrEmpty(param.search.value))
+            {
+                query = query.Where(a => a.CustomerName.Contains(param.search.value) || a.CustomerSurname.Contains(param.search.value) || a.Description.Contains(param.search.value));
             }
+
+            if(param.search.listCancelled != null)
+                query = query.Where(a => a.IsReservationApproved == !param.search.listCancelled);
+            else
+                query = query.Where(a => a.IsReservationApproved == null);
+
+            if (param.minDate != null)
+                query = query.Where(a => a.Date >= param.minDate);
+            if (param.maxDate != null)
+                query = query.Where(a => a.Date <= param.maxDate);
+
             
 
             // DataTableModel

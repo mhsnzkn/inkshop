@@ -15,6 +15,8 @@ namespace Data.Entities
         public string Surname { get; set; }
         [StringLength(100)]
         public string Email { get; set; }
+        [StringLength(20)]
+        public string Phone { get; set; }
         [StringLength(100)]
         public string job { get; set; }
         public Office Office { get; set; }

@@ -12,24 +12,26 @@ using Web.Models;
 
 namespace Web.Controllers
 {
-    public class OrdersController : Controller
+    public class ReservationsController : Controller
     {
         private readonly IOrderManager orderManager;
         private readonly IOrderTypeManager orderTypeManager;
         private readonly IOfficeManager officeManager;
         private readonly ICurrencyManager currencyManager;
         private readonly ICountryManager countryManager;
+        private readonly IPersonnelManager personnelManager;
         private readonly IMapper mapper;
 
-        public OrdersController(IOrderManager orderManager, IOrderTypeManager orderTypeManager,
+        public ReservationsController(IOrderManager orderManager, IOrderTypeManager orderTypeManager,
             IOfficeManager officeManager, ICurrencyManager currencyManager, ICountryManager countryManager,
-            IMapper mapper)
+            IPersonnelManager personnelManager, IMapper mapper)
         {
             this.orderManager = orderManager;
             this.orderTypeManager = orderTypeManager;
             this.officeManager = officeManager;
             this.currencyManager = currencyManager;
             this.countryManager = countryManager;
+            this.personnelManager = personnelManager;
             this.mapper = mapper;
         }
         public IActionResult Index()
@@ -38,12 +40,13 @@ namespace Web.Controllers
         }
         public async Task<IActionResult> Edit(int id)
         {
-            var model = new OrderViewModel()
+            var model = new ReservationViewModel()
             {
                 OrderType = await orderTypeManager.GetForDropDown(),
                 Office = await officeManager.GetForDropDown(),
                 Country = await countryManager.GetForDropDown(),
                 Currency = await currencyManager.GetForDropDown(),
+                Personnel = await personnelManager.GetForDropDown()
             };
             model.Order = id == 0 ? new OrderAddDto() : mapper.Map<OrderAddDto>(await orderManager.GetByIdAsync(id));
 
@@ -52,15 +55,10 @@ namespace Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(OrderViewModel vModel)
         {
-            Core.Utility.Result result = null;
             if(vModel.Order.Id == 0)
-            {
-                result = await orderManager.AddOrder(vModel.Order);
-            }
-            else
-            {
-                result = await orderManager.UpdateOrder(vModel.Order);
-            }
+                return BadRequest();
+
+            var result = await orderManager.UpdateReservation(vModel.Order);
 
             return Ok(result);
         }
@@ -71,7 +69,7 @@ namespace Web.Controllers
             if (order == null || order.Id == 0)
                 return BadRequest();
 
-            return Ok(await orderManager.ApproveOrder(order.Id));
+            return Ok(await orderManager.ApproveReservation(order.Id));
         }
         [HttpPost]
         public async Task<IActionResult> Cancel([FromBody] OrderPostDto dto)
@@ -79,13 +77,13 @@ namespace Web.Controllers
             if (dto == null || dto.Id == 0)
                 return BadRequest();
 
-            return Ok(await orderManager.CancelOrder(dto.Id,dto.Message ));
+            return Ok(await orderManager.CancelReservation(dto.Id,dto.Message ));
         }
 
         [HttpPost]
         public async Task<IActionResult> GetDataTable([FromBody] DataTableParams param)
         {
-            return Ok(await orderManager.GetOrderDataTable(param));
+            return Ok(await orderManager.GetReservationDataTable(param));
         }
     }
 }

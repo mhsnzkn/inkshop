@@ -13,7 +13,7 @@ namespace Data.Entities
         public int OfficeId { get; set; }
         public OrderType OrderType { get; set; }
         public int OrderTypeId { get; set; }
-        public ApplicationUser Personnel { get; set; }
+        public Personnel Personnel { get; set; }
         public int? PersonnelId { get; set; }
         public Country CustomerCountry { get; set; }
         public int CustomerCountryId { get; set; }
