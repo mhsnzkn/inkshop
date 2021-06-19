@@ -1,6 +1,19 @@
 ﻿@{
 }
 
+<div class="form-group row">
+    <label for="mindate" class="col-sm-2 col-form-label">Başlangıç Tarihi</label>
+    <div class="col-sm-6">
+        <input type="date" class="form-control" id="mindate" >
+    </div>
+</div>
+<div class="form-group row">
+    <label for="maxdate" class="col-sm-2 col-form-label">Bitiş Tarihi</label>
+    <div class="col-sm-6">
+        <input type="date" class="form-control" id="maxdate" >
+    </div>
+</div>
+
 <div class="custom-control custom-switch">
     <input type="checkbox" class="custom-control-input" id="cancelSwitch">
     <label class="custom-control-label" for="cancelSwitch">İptal olanları göster</label>
@@ -96,7 +109,7 @@
         function confirmPrompt(id) {
             alertify.confirm("Onay", "Siparişi onaylıyor musunuz?",
                 function () {
-                    let model = {id:id}
+                    let model = { id: id }
                     $.ajax({
                         url: '/Orders/Approve',
                         type: 'post',
@@ -112,7 +125,7 @@
                             }
                         }
                     })
-            }, null)
+                }, null)
         }
         function deletePrompt(id) {
             alertify.prompt("İptal işlemi", "Sipariş iptal sebebi:", null,
@@ -133,7 +146,7 @@
                             }
                         }
                     })
-            }, null)
+                }, null)
         }
 
         $('#cancelSwitch').change(function () {
