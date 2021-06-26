@@ -83,7 +83,16 @@ namespace Web.Controllers
         [HttpPost]
         public async Task<IActionResult> GetDataTable([FromBody] DataTableParams param)
         {
-            return Ok(await orderManager.GetReservationDataTable(param));
+            DataTableResult result = new DataTableResult();
+            try
+            {
+                result = await orderManager.GetReservationDataTable(param);
+            }
+            catch (Exception ex)
+            {
+                result.Error = ex.ToString();
+            }
+            return Ok(result);
         }
     }
 }

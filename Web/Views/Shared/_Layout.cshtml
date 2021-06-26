@@ -23,9 +23,12 @@
             </div>
 
             <ul class="list-unstyled components">
-                <p>Dummy Heading</p>
+                <p>Baslik</p>
                 <li>
-                    <a asp-controller="Orders" asp-action="Index">Siparisler</a>
+                    <a asp-controller="Orders" asp-action="Index">Siparis</a>
+                </li>
+                <li>
+                    <a asp-controller="Reservations" asp-action="Index">Rezervasyon</a>
                 </li>
                 @*<li class="active">
                     <a href="homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
@@ -55,6 +58,9 @@
                         </li>
                         <li>
                             <a asp-controller="OrderTypes" asp-action="Index">Sipariş Türü</a>
+                        </li>
+                        <li>
+                            <a asp-controller="Personnel" asp-action="Index">Personel</a>
                         </li>
                     </ul>
                 </li>

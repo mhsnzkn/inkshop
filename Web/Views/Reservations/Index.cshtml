@@ -20,7 +20,7 @@
 </div>
 
 
-<table id="datatable" class="table stripe display">
+<table id="datatable" class="table stripe display table-responsive-lg">
     <thead>
         <tr>
             <th>Şube</th>
@@ -51,9 +51,16 @@
                 "filter": true, // this is for filter (search box)
                 //"orderMulti": false, // for disable multiple column at once
                 "pageLength": 10,
+                "createdRow": function (row, data, dataIndex) {
+                    //if (data[2] == `someVal`) {
+                    //    $(row).addClass('redClass');
+                    //}
+                    console.log(data)
+                    console.log(data[2])
+                },
 
                 "ajax": {
-                    url: "/Orders/GetDataTable",
+                    url: "/Reservations/GetDataTable",
                     type: 'POST',
                     contentType: "application/json",
                     data: function (d) {
@@ -86,10 +93,11 @@
                         "data": "id",
                         render: function (data, type, row) {
                             let buttons = null;
-                            if (row.isOrderApproved === null) {
-                                buttons = '<button onclick="confirmPrompt(' + data + ')" class="btn btn-sm btn-success m-1" title="Onayla"><i class="fas fa-check-circle"></i></button>' +
-                                    '<a href="/Orders/Edit/' + data + '" class="btn btn-sm btn-warning m-1" title="Duzenle"><i class="fas fa-edit"></i></a>' +
-                                    '<button onclick="deletePrompt(' + data + ')" class="btn btn-sm btn-danger m-1" title="Iptal"><i class="fas fa-window-close"></i></button>';
+                            if (row.isReservationApproved === null) {
+                                buttons = '<button onclick="confirmPrompt(' + data + ')" class="btn btn-sm btn-success" title="Onayla"><i class="fas fa-check-circle"></i></button>' +
+                                    '<a href="/Reservations/Edit/' + data + '" class="btn btn-sm btn-default" title="Odendi"><i class="fas fa-edit"></i></a>' +
+                                    '<a href="/Reservations/Edit/' + data + '" class="btn btn-sm btn-warning" title="Duzenle"><i class="fas fa-edit"></i></a>' +
+                                    '<button onclick="deletePrompt(' + data + ')" class="btn btn-sm btn-danger" title="Iptal"><i class="fas fa-window-close"></i></button>';
                             }
 
                             return buttons;
@@ -106,7 +114,7 @@
                 function () {
                     let model = { id: id }
                     $.ajax({
-                        url: '/Orders/Approve',
+                        url: '/Reservations/Approve',
                         type: 'post',
                         contentType: "application/json",
                         data: JSON.stringify(model),
@@ -122,12 +130,34 @@
                     })
                 }, null)
         }
+
         function deletePrompt(id) {
             alertify.prompt("İptal işlemi", "Sipariş iptal sebebi:", null,
                 function (evt, value) {
                     let model = { id: id, message: value };
                     $.ajax({
-                        url: '/Orders/Cancel',
+                        url: '/Reservations/Cancel',
+                        type: 'post',
+                        contentType: "application/json",
+                        data: JSON.stringify(model),
+                        success: function (res) {
+                            if (res.error === false) {
+                                alertify.success("İşlem Başarılı");
+                                $('#datatable').DataTable().ajax.reload();
+                            } else {
+                                alertify.error("İşlem Başarısız");
+                                console.log(res);
+                            }
+                        }
+                    })
+                }, null)
+        }
+        function payPrompt(id) {
+            alertify.confirm("Onay", "Ödemeyi onaylıyor musunuz?",
+                function () {
+                    let model = { id: id }
+                    $.ajax({
+                        url: '/Reservations/Pay',
                         type: 'post',
                         contentType: "application/json",
                         data: JSON.stringify(model),

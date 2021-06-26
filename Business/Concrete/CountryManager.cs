@@ -102,7 +102,7 @@ namespace Business.Concrete
             var result = new DataTableResult();
             var query = entityDal.Get().Skip(param.start).Take(param.length);
             // Filter
-            if (!string.IsNullOrEmpty(param.search.value))
+            if (!string.IsNullOrEmpty(param.search?.value))
             {
                 query = query.Where(a => a.Name.Contains(param.search.value) || a.Description.Contains(param.search.value));
             }

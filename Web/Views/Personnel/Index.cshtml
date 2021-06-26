@@ -1,0 +1,68 @@
+﻿@{
+}
+
+@{
+}
+<div class="d-flex justify-content-end p-3">
+    <!-- Large modal -->
+    <a asp-controller="Personnel" asp-action="Edit" class="btn btn-primary"><i class="fas fa-plus"></i> Ekle</a>
+</div>
+
+
+<table id="datatable" class="table stripe display">
+    <thead>
+        <tr>
+            <th>Ad</th>
+            <th>Soyad</th>
+            <th>Gorev</th>
+            <th>Telefon</th>
+            <th>Mail</th>
+            <th>Komisyon</th>
+            <th>İşlem</th>
+        </tr>
+    </thead>
+</table>
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#datatable').DataTable({
+                language: {
+                    url: '/lib/datatable/tr/tr.json'
+                },
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                "pagination": true,
+                "filter": true, // this is for disable filter (search box)
+                //"orderMulti": false, // for disable multiple column at once
+                "pageLength": 10,
+
+                "ajax": {
+                    url: "/Personnel/GetDataTable",
+                    type: 'POST',
+                    contentType: "application/json",
+                    data: function (d) {
+                        return JSON.stringify(d);
+                    }
+                },
+                "columns": [
+                    { "data": "name", },
+                    { "data": "surname" },
+                    { "data": "job" },
+                    { "data": "phone" },
+                    { "data": "email" },
+                    { "data": "commission" },
+                    {
+                        "data":"id",
+                        render: function (data, type, row) {
+                            return '<a href="/Personnel/Edit/' + data + '" class="btn btn-sm btn-warning m-1"><i class="fas fa-edit"></i></button>';
+                        }
+                    }
+                ]
+
+            });
+        });
+
+    </script>
+}

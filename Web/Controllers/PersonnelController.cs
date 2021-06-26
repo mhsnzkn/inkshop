@@ -11,13 +11,13 @@ using Web.Models;
 
 namespace Web.Controllers
 {
-    public class OfficesController : Controller
+    public class PersonnelController : Controller
     {
-        private readonly IOfficeManager officeManager;
+        private readonly IPersonnelManager personnelManager;
 
-        public OfficesController(IOfficeManager officeManager)
+        public PersonnelController(IPersonnelManager personnelManager)
         {
-            this.officeManager = officeManager;
+            this.personnelManager = personnelManager;
         }
         public IActionResult Index()
         {
@@ -25,48 +25,44 @@ namespace Web.Controllers
         }
         public async Task<IActionResult> Edit(int id)
         {
-            var model = id == 0 ? new Office() : await officeManager.GetByIdAsync(id);
+            var model = id == 0 ? new Personnel() : await personnelManager.GetByIdAsync(id);
 
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Office office)
+        public async Task<IActionResult> Edit(Personnel personnel)
         {
             Core.Utility.Result result = null;
-            if (office.Id == 0)
+            if (personnel.Id == 0)
             {
-                result = await officeManager.Add(office);
+                result = await personnelManager.Add(personnel);
             }
             else
             {
-                result = await officeManager.Update(office);
+                result = await personnelManager.Update(personnel);
             }
             if (result.Error)
-                return View(office);
+            {
+                ViewData["error"] = result.Message;
+                return View(personnel);
+            }
             else
                 return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> Delete(Office office)
+        public async Task<IActionResult> Delete(Personnel personnel)
         {
-            var result = await officeManager.Delete(office);
+            var result = await personnelManager.Delete(personnel);
             if (result.Error)
-                return View("Edit", office);
+                return View("Edit", personnel);
             else
                 return RedirectToAction("Index");
         }
-
-        public async Task<IActionResult> GetForDropDown()
-        {
-            var items = await officeManager.GetForDropDown();
-            return Ok(items);
-        }
-
         [HttpPost]
         public async Task<IActionResult> GetDataTable([FromBody] DataTableParams param)
         {
-            return Ok(await officeManager.GetForDataTable(param));
+            return Ok(await personnelManager.GetForDataTable(param));
         }
     }
 }

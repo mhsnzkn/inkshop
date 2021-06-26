@@ -268,7 +268,7 @@ namespace Business.Concrete
                 .Skip(param.start).Take(param.length);
 
             // Filter
-            if (!string.IsNullOrEmpty(param.search.value))
+            if (!string.IsNullOrEmpty(param.search?.value))
             {
                 query = query.Where(a => a.CustomerName.Contains(param.search.value) || a.CustomerSurname.Contains(param.search.value) || a.Description.Contains(param.search.value));
             }
@@ -286,7 +286,7 @@ namespace Business.Concrete
             
 
             // DataTableModel
-            result.Data = mapper.Map<List<OrderTableDto>>(await query.ToListAsync());
+            result.Data = mapper.Map<List<ReservationTableDto>>(await query.ToListAsync());
             result.Draw = param.draw;
             result.RecordsTotal = await query.CountAsync();
             result.RecordsFiltered = result.RecordsTotal;

@@ -43,7 +43,10 @@ namespace Web.Controllers
                 result = await countryManager.Update(country);
             }
             if (result.Error)
+            {
+                ViewData["error"] = result.Message;
                 return View(country);
+            }
             else
                 return RedirectToAction(nameof(Index));
         }

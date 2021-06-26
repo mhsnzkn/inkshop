@@ -1,0 +1,146 @@
+﻿@model Web.Models.ReservationViewModel
+@{
+}
+
+<div class="text-danger" asp-validation-summary="ModelOnly"></div>
+<form id="form-post" data-ajax-url="/Orders/Edit" data-ajax="true" data-ajax-method="post" data-ajax-complete="success" data-ajax-failure="fail">
+    <input type="hidden" asp-for="Order.Id" />
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <label>Şube</label>
+            <select class="form-control" asp-for="Order.OfficeId" asp-items="Model.Office">
+            </select>
+            <span class="text-danger" asp-validation-for="Order.OfficeId"></span>
+        </div>
+        <div class="form-group col-md-4">
+            <label>Sipariş Türü</label>
+            <select class="form-control" asp-for="Order.OrderTypeId" asp-items="Model.OrderType">
+                <option value="">--Seçiniz--</option>
+            </select>
+            <span class="text-danger" asp-validation-for="Order.OrderTypeId"></span>
+        </div>
+        <div class="form-group col-md-4">
+            <label>Ülke</label>
+            <select class="form-control" asp-for="Order.CustomerCountryId" asp-items="Model.Country">
+                <option value="">--Seçiniz--</option>
+            </select>
+            <span class="text-danger" asp-validation-for="Order.CustomerCountryId"></span>
+        </div>
+
+        <div class="form-group col-md-4">
+            <label>Personel</label>
+            <select class="form-control" asp-for="Order.CustomerCountryId" asp-items="Model.Personnel">
+                <option value="">--Seçiniz--</option>
+            </select>
+            <span class="text-danger" asp-validation-for="Order.CustomerCountryId"></span>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label>İsim</label>
+            <input type="text" class="form-control" asp-for="Order.CustomerName">
+            <span class="text-danger" asp-validation-for="Order.CustomerName"></span>
+        </div>
+        <div class="form-group col-md-6">
+            <label>Soyisim</label>
+            <input type="text" class="form-control" asp-for="Order.CustomerSurname">
+            <span class="text-danger" asp-validation-for="Order.CustomerSurname"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Adres</label>
+        <input class="form-control" asp-for="Order.CustomerAdress">
+        <span class="text-danger" asp-validation-for="Order.CustomerAdress"></span>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <label>Fiyat</label>
+            <input class="form-control" asp-for="Order.Price">
+            <span class="text-danger" asp-validation-for="Order.Price"></span>
+        </div>
+        <div class="form-group col-md-4">
+            <label>Depozit</label>
+            <input class="form-control" asp-for="Order.Deposit">
+            <span class="text-danger" asp-validation-for="Order.Deposit"></span>
+        </div>
+        <div class="form-group col-md-4">
+            <label>Doviz Kuru</label>
+            <select class="form-control" asp-for="Order.CurrencyId" asp-items="Model.Currency">
+                <option value="">--Seçiniz--</option>
+            </select>
+            <span class="text-danger" asp-validation-for="Order.CurrencyId"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Açıklama</label>
+        <input class="form-control" asp-for="Order.Description">
+        <span class="text-danger" asp-validation-for="Order.Description"></span>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <label>Tarih</label>
+            <input class="form-control" asp-for="Order.Date" asp-format="{0:yyyy-MM-ddTHH:mm}">
+            <span class="text-danger" asp-validation-for="Order.Date"></span>
+        </div>
+        <div class="form-group offset-md-4 col-md-4 p-1">
+            <div class="form-check">
+                <br />
+                <input class="form-check-input" asp-for="Order.IsCreditCard">
+                <label class="form-check-label" asp-for="Order.IsCreditCard"> Kredi Karti </label>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group p-1">
+            <div class="form-check m-2">
+                <input class="form-check-input" asp-for="Order.TypeCoverUp">
+                <label class="form-check-label" asp-for="Order.TypeCoverUp">Cover Up</label>
+            </div>
+        </div>
+        <div class="form-group p-1">
+            <div class="form-check m-2">
+                <input class="form-check-input" asp-for="Order.TypeFreeHand">
+                <label class="form-check-label" asp-for="Order.TypeFreeHand">Freehand</label>
+            </div>
+        </div>
+        <div class="form-group p-1">
+            <div class="form-check m-2">
+                <input class="form-check-input" asp-for="Order.TypeRefresh">
+                <label class="form-check-label" asp-for="Order.TypeRefresh">Refresh</label>
+            </div>
+        </div>
+        <div class="form-group p-1">
+            <div class="form-check m-2">
+                <input class="form-check-input" asp-for="Order.TypeTouchUp">
+                <label class="form-check-label" asp-for="Order.TypeTouchUp">Touch Up</label>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-between">
+        <a asp-controller="Orders" asp-action="Index" class="btn btn-secondary m-1"><i class="fas fa-undo-alt"></i> Geri Don</a>
+        <div>
+            <button type="submit" class="btn btn-success m-1"><i class="fas fa-save"></i> Kaydet</button>
+        </div>
+    </div>
+
+</form>
+
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+
+        function success(xhr) {
+            if (xhr.responseJSON.error === false)
+                window.location.href = '/Orders';
+            else {
+                alertify.error("Kayit Basarisiz");
+                console.log(xhr.responseJSON.message);
+            }
+        }
+        function fail(err) {
+            alertify.error("Baglanti Hatasi");
+            console.log(err);
+        }
+    </script>
+ }

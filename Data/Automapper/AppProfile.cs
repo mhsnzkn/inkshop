@@ -28,6 +28,13 @@ namespace Data.Automapper
                 .ForMember(a => a.CustomerFullName, s => s.MapFrom(o => o.CustomerName + " " + o.CustomerSurname))
                 .ForMember(a => a.OrderTypeName, s => s.MapFrom(o => o.OrderType.Name));
 
+            CreateMap<Order, ReservationTableDto>()
+                .ForMember(a => a.OfficeName, s => s.MapFrom(o => o.Office.Name))
+                .ForMember(a => a.CurrencyName, s => s.MapFrom(o => o.Currency.ShortName))
+                .ForMember(a => a.CustomerCountryName, s => s.MapFrom(o => o.CustomerCountry.Name))
+                .ForMember(a => a.CustomerFullName, s => s.MapFrom(o => o.CustomerName + " " + o.CustomerSurname))
+                .ForMember(a => a.OrderTypeName, s => s.MapFrom(o => o.OrderType.Name));
+
         }
     }
 }
