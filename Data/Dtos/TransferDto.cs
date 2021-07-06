@@ -7,14 +7,9 @@ using System.Threading.Tasks;
 
 namespace Data.Dtos
 {
-    public class OrderAddDto
+    public class TransferDto
     {
         public int Id { get; set; }
-        public int OfficeId { get; set; }
-        [Required(ErrorMessage ="Sipariş türü boş bırakılamaz")]
-        public int OrderTypeId { get; set; }
-        [Required(ErrorMessage = "Kur boş bırakılamaz")]
-        public int CurrencyId { get; set; }
         [Required(ErrorMessage = "Ülke boş bırakılamaz")]
         public int CustomerCountryId { get; set; }
         public string CustomerName { get; set; }
@@ -22,16 +17,8 @@ namespace Data.Dtos
         public string CustomerHotel { get; set; }
         public string CustomerRoomNumber { get; set; }
         public string CustomerPhoneNumber { get; set; }
-        public decimal Price { get; set; }
-        public decimal Deposit { get; set; }
-        public bool TypeCoverUp { get; set; }
-        public bool TypeRefresh { get; set; }
-        public bool TypeFreeHand { get; set; }
-        public bool TypeTouchUp { get; set; }
-        public bool IsTransfer { get; set; }
         [Required]
         public DateTime Date { get; set; } = DateTime.Now;
         public string Description { get; set; }
-        public bool IsCreditCard { get; set; }
     }
 }

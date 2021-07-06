@@ -10,34 +10,41 @@
         <div class="form-group col-md-4">
             <label>Şube</label>
             <select id="officeSelect" class="form-control" asp-for="OfficeId"></select>
+            <span class="text-danger" asp-validation-for="OfficeId"></span>
         </div>
         <div class="form-group col-md-4">
             <label>İsim</label>
             <input class="form-control" asp-for="Name">
+            <span class="text-danger" asp-validation-for="Name"></span>
         </div>
         <div class="form-group col-md-4">
             <label>Soyisim</label>
             <input class="form-control" asp-for="Surname">
+            <span class="text-danger" asp-validation-for="Surname"></span>
         </div>
     </div>
     <div class="form-row">
         <div class="form-group col-md-6">
             <label>Email</label>
             <input class="form-control" asp-for="Email">
+            <span class="text-danger" asp-validation-for="Email"></span>
         </div>
         <div class="form-group col-md-6">
             <label>Telefon</label>
             <input class="form-control" asp-for="Phone">
+            <span class="text-danger" asp-validation-for="Phone"></span>
         </div>
     </div>
     <div class="form-row">
         <div class="form-group col-md-6">
             <label>Gorevi</label>
             <input class="form-control" asp-for="job">
+            <span class="text-danger" asp-validation-for="job"></span>
         </div>
         <div class="form-group col-md-6">
             <label>Komisyon</label>
             <input class="form-control" asp-for="Commission">
+            <span class="text-danger" asp-validation-for="Commission"></span>
         </div>
     </div>
 

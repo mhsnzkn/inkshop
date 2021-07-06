@@ -13,4 +13,11 @@ namespace Data.Constants
         public const string Refresh = "refresh";
         public const string TouchUp = "touchup";
     }
+
+    public enum OrderStatus
+    {
+        Transfer,
+        Order,
+        Reservation
+    }
 }

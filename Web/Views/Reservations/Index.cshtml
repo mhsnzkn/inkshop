@@ -1,41 +1,44 @@
 ﻿@{
 }
 
-<div class="form-group row">
-    <label for="mindate" class="col-sm-2 col-form-label">Başlangıç Tarihi</label>
-    <div class="col-sm-6">
-        <input type="date" class="form-control" id="mindate">
+<form>
+    <div class="form-group row">
+        <label for="mindate" class="col-sm-2 col-form-label">Başlangıç Tarihi</label>
+        <div class="col-sm-6">
+            <input type="date" class="form-control param-change" id="mindate">
+        </div>
     </div>
-</div>
-<div class="form-group row">
-    <label for="maxdate" class="col-sm-2 col-form-label">Bitiş Tarihi</label>
-    <div class="col-sm-6">
-        <input type="date" class="form-control" id="maxdate">
+    <div class="form-group row">
+        <label for="maxdate" class="col-sm-2 col-form-label">Bitiş Tarihi</label>
+        <div class="col-sm-6">
+            <input type="date" class="form-control param-change" id="maxdate">
+        </div>
     </div>
-</div>
 
-<div class="custom-control custom-switch">
-    <input type="checkbox" class="custom-control-input" id="cancelSwitch">
-    <label class="custom-control-label" for="cancelSwitch">İptal olanları göster</label>
-</div>
+    <div class="custom-control custom-switch">
+        <input type="checkbox" class="custom-control-input param-change" id="cancelSwitch">
+        <label class="custom-control-label" for="cancelSwitch">İptal olanları göster</label>
+    </div>
+    <input type="reset" class="btn btn-info m-1" value="Temizle" />
+</form>
 
 
-<table id="datatable" class="table stripe display table-responsive-lg">
-    <thead>
-        <tr>
-            <th>Şube</th>
-            <th>Sipariş No</th>
-            <th>Tür</th>
-            <th>Müşteri</th>
-            <th>Tutar</th>
-            <th>Depozito</th>
-            <th>Kalan</th>
-            <th>Kur</th>
-            <th>Tarih</th>
-            <th>İşlem</th>
-        </tr>
-    </thead>
-</table>
+    <table id="datatable" class="table stripe display" width="100%">
+        <thead>
+            <tr>
+                <th>Şube</th>
+                <th>Sipariş No</th>
+                <th>Tür</th>
+                <th>Müşteri</th>
+                <th>Tutar</th>
+                <th>Depozito</th>
+                <th>Kalan</th>
+                <th>Kur</th>
+                <th>Tarih</th>
+                <th>İşlem</th>
+            </tr>
+        </thead>
+    </table>
 
 
 @section Scripts{
@@ -66,6 +69,10 @@
                     data: function (d) {
                         var isCancelled = $('#cancelSwitch').prop('checked') ? true : null;
                         d.search.listCancelled = isCancelled;
+                        var date1 = $('#mindate').val();
+                        var date2 = $('#maxdate').val();
+                        d.minDate = date1 ? new Date(date1) : null;
+                        d.maxDate = date2 ? new Date(date2) : null;
                         return JSON.stringify(d);
                     }
                 },
@@ -174,7 +181,7 @@
                 }, null)
         }
 
-        $('#cancelSwitch').change(function () {
+        $('.param-change').change(function () {
             $('#datatable').DataTable().ajax.reload();
         })
     </script>

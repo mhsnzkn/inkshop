@@ -4,14 +4,16 @@ using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210705171439_OrderTransferAdjusted")]
+    partial class OrderTransferAdjusted
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -149,9 +151,6 @@ namespace Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<bool?>("IsReservationApproved")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsTransfer")
                         .HasColumnType("bit");
 
                     b.Property<int>("OfficeId")

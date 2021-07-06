@@ -4,14 +4,16 @@ using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210705144358_OrderAdressCorrection")]
+    partial class OrderAdressCorrection
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -103,7 +105,7 @@ namespace Data.Migrations
                     b.Property<DateTime>("CrtDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("CurrencyId")
+                    b.Property<int>("CurrencyId")
                         .HasColumnType("int");
 
                     b.Property<int>("CustomerCountryId")
@@ -151,9 +153,6 @@ namespace Data.Migrations
                     b.Property<bool?>("IsReservationApproved")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsTransfer")
-                        .HasColumnType("bit");
-
                     b.Property<int>("OfficeId")
                         .HasColumnType("int");
 
@@ -161,7 +160,7 @@ namespace Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int?>("OrderTypeId")
+                    b.Property<int>("OrderTypeId")
                         .HasColumnType("int");
 
                     b.Property<int?>("PersonnelId")
@@ -468,7 +467,9 @@ namespace Data.Migrations
                 {
                     b.HasOne("Data.Entities.Currency", "Currency")
                         .WithMany()
-                        .HasForeignKey("CurrencyId");
+                        .HasForeignKey("CurrencyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Data.Entities.Country", "CustomerCountry")
                         .WithMany()
@@ -484,7 +485,9 @@ namespace Data.Migrations
 
                     b.HasOne("Data.Entities.OrderType", "OrderType")
                         .WithMany()
-                        .HasForeignKey("OrderTypeId");
+                        .HasForeignKey("OrderTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Data.Entities.Personnel", "Personnel")
                         .WithMany()

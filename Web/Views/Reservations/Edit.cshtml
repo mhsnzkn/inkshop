@@ -47,10 +47,22 @@
             <span class="text-danger" asp-validation-for="Order.CustomerSurname"></span>
         </div>
     </div>
-    <div class="form-group">
-        <label>Adres</label>
-        <input class="form-control" asp-for="Order.CustomerAdress">
-        <span class="text-danger" asp-validation-for="Order.CustomerAdress"></span>
+    <div class="form-row">
+        <div class="form-group col-md-5">
+            <label>Hotel</label>
+            <input class="form-control" asp-for="Order.CustomerHotel">
+            <span class="text-danger" asp-validation-for="Order.CustomerHotel"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label>Oda</label>
+            <input class="form-control" asp-for="Order.CustomerRoomNumber">
+            <span class="text-danger" asp-validation-for="Order.CustomerRoomNumber"></span>
+        </div>
+        <div class="form-group col-md-4">
+            <label>Telefon</label>
+            <input class="form-control" asp-for="Order.CustomerPhoneNumber">
+            <span class="text-danger" asp-validation-for="Order.CustomerPhoneNumber"></span>
+        </div>
     </div>
     <div class="form-row">
         <div class="form-group col-md-4">

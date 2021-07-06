@@ -17,6 +17,7 @@ namespace Business.Abstract
         Task<List<Order>> Get(Expression<Func<Order, bool>> expression = null);
         Task<DataTableResult> GetOrderDataTable(DataTableParams param);
         Task<DataTableResult> GetReservationDataTable(DataTableParams param);
+        Task<DataTableResult> GetTransferDataTable(DataTableParams param);
         Task<Result> AddOrder(OrderAddDto dto);
         Task<Result> ApproveOrder(int id);
         Task<Result> CancelOrder(int id, string message);
@@ -24,6 +25,8 @@ namespace Business.Abstract
         Task<Result> ApproveReservation(int id);
         Task<Result> CancelReservation(int id, string message);
         Task<Result> UpdateReservation(OrderAddDto dto);
+        Task<Result> AddTransfer(TransferDto dto);
+        Task<Result> UpdateTransfer(TransferDto dto);
         Task<Result> Delete(Order entity);
     }
 }
