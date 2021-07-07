@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Core.Utility.Datatables;
 using Data.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,6 +12,7 @@ using Web.Models;
 
 namespace Web.Controllers
 {
+    [Authorize]
     public class OfficesController : Controller
     {
         private readonly IOfficeManager officeManager;
