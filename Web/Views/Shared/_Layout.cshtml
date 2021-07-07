@@ -34,19 +34,19 @@
                     <a asp-controller="Transfers" asp-action="Index">Transfer</a>
                 </li>
                 @*<li class="active">
-                    <a href="homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
-                    <ul class="collapse list-unstyled" id="homeSubmenu">
-                        <li>
-                            <a href="#">Home 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Home 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Home 3</a>
-                        </li>
-                    </ul>
-                </li>*@
+            <a href="homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
+            <ul class="collapse list-unstyled" id="homeSubmenu">
+                <li>
+                    <a href="#">Home 1</a>
+                </li>
+                <li>
+                    <a href="#">Home 2</a>
+                </li>
+                <li>
+                    <a href="#">Home 3</a>
+                </li>
+            </ul>
+        </li>*@
                 <li>
                     <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Ayarlar</a>
                     <ul class="collapse list-unstyled" id="pageSubmenu">
@@ -64,6 +64,14 @@
                         </li>
                         <li>
                             <a asp-controller="Personnel" asp-action="Index">Personel</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#userSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Kullanıcı Ayarları</a>
+                    <ul class="collapse list-unstyled" id="userSubmenu">
+                        <li>
+                            <a href="/Identity/Account/Register">Kullanıcı Ekle</a>
                         </li>
                     </ul>
                 </li>
@@ -96,7 +104,10 @@
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="nav navbar-nav ml-auto">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#"><i class="fas fa-user-circle fa-2x"></i></a>
+                                    <a href="/Identity/Account/Manage/ChangePassword" class="nav-link" title="Hesabım"><i class="fas fa-user-circle fa-2x"></i></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/Identity/Account/Logout" class="nav-link" title="Çıkış"><i class="fas fa-sign-out-alt fa-2x"></i></a>
                                 </li>
                             </ul>
                         </div>

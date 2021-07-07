@@ -92,7 +92,7 @@ namespace Business.Concrete
         {
             return await entityDal.Get().Select(a => new SelectListItem
             {
-                Text = a.Name,
+                Text = a.Name+" "+a.Surname+"-"+a.job,
                 Value = a.Id.ToString()
             }).ToListAsync();
         }

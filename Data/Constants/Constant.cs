@@ -20,4 +20,12 @@ namespace Data.Constants
         Order,
         Reservation
     }
+
+    public struct UserRoles
+    {
+        public const string Admin = "Admin";
+        public const string Accountant = "Accountant";
+        public const string Supervisor = "Supervisor";
+        public const string Info = "Info";
+    }
 }

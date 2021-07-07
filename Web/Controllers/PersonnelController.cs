@@ -64,5 +64,10 @@ namespace Web.Controllers
         {
             return Ok(await personnelManager.GetForDataTable(param));
         }
+        public async Task<IActionResult> GetForDropDown()
+        {
+            var items = await personnelManager.GetForDropDown();
+            return Ok(items);
+        }
     }
 }

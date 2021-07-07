@@ -1,21 +1,30 @@
 ﻿@page
 @model RegisterModel
+@using Data.Constants
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Kayıt";
 }
 
 <h1>@ViewData["Title"]</h1>
+<partial name="_StatusMessage" for="StatusMessage" />
+<div class="">
+    <h4>Yeni kullanıcı hesabı</h4>
+    <hr />
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <form asp-route-returnUrl="@Model.ReturnUrl" class="row" method="post">
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h4>Create a new account.</h4>
-            <hr />
-            <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="col-md-6">
+
+
             <div class="form-group">
                 <label asp-for="Input.Email"></label>
                 <input asp-for="Input.Email" class="form-control" />
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Username"></label>
+                <input asp-for="Input.Username" class="form-control" />
+                <span asp-validation-for="Input.Username" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Input.Password"></label>
@@ -27,41 +36,45 @@
                 <input asp-for="Input.ConfirmPassword" class="form-control" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
-            <button type="submit" class="btn btn-primary">Register</button>
-        </form>
-    </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h4>Use another service to register.</h4>
-            <hr />
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    <div>
-                        <p>
-                            There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
-                            for details on setting up this ASP.NET application to support logging in via external services.
-                        </p>
-                    </div>
-                }
-                else
-                {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
-                            </p>
-                        </div>
-                    </form>
-                }
-            }
-        </section>
-    </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Input.Role"></label>
+                <select asp-for="Input.Role" class="form-control">
+                    <option value="@UserRoles.Admin">Admin</option>
+                    <option value="@UserRoles.Accountant">Muhasebeci</option>
+                    <option value="@UserRoles.Supervisor">Supervisor</option>
+                    <option value="@UserRoles.Info">Info</option>
+                </select>
+                <span asp-validation-for="Input.Role" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.PersonnelId"></label>
+                <select asp-for="Input.PersonnelId" class="form-control" id="PersonelSelect">
+                    <option value="" disabled selected>--Seçiniz--</option>
+                </select>
+                <span asp-validation-for="Input.PersonnelId" class="text-danger"></span>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Kaydet</button>
+    </form>
 </div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+    $(document).ready(function () {
+        $.ajax({
+            url: '/Personnel/GetForDropDown',
+            success: function (res) {
+                var s = '<option value="" >--Seçiniz--</option>';
+                for (var i = 0; i < res.length; i++) {
+                    s += '<option value="' + res[i].value + '">' + res[i].text + '</option>';
+                }
+                $("#PersonelSelect").html(s);
+                @*$("#PersonelSelect").val("@Model.Input.PersonnelId").change();*@
+            }
+        })
+    })
+    </script>
 }

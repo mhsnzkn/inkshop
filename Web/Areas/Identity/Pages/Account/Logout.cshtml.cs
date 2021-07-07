@@ -22,8 +22,12 @@ namespace Web.Areas.Identity.Pages.Account
             _logger = logger;
         }
 
-        public void OnGet()
+        public async Task<IActionResult> OnGet()
         {
+            await _signInManager.SignOutAsync();
+            _logger.LogInformation("User logged out.");
+
+            return RedirectToPage("./Identity/Account/Login");
         }
 
         public async Task<IActionResult> OnPost(string returnUrl = null)
