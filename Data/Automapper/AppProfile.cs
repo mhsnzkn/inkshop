@@ -21,6 +21,12 @@ namespace Data.Automapper
                 .ForMember(a => a.TypeRefresh, s => s.MapFrom(o => o.Type.Contains(OrderTypeString.Refresh)))
                 .ForMember(a => a.TypeTouchUp, s => s.MapFrom(o => o.Type.Contains(OrderTypeString.TouchUp)));
 
+            CreateMap<Order, TransferTableDto>()
+                .ForMember(a => a.OfficeName, s => s.MapFrom(o => o.Office.Name))
+                .ForMember(a => a.CustomerCountryName, s => s.MapFrom(o => o.CustomerCountry.Name))
+                .ForMember(a => a.CustomerFullName, s => s.MapFrom(o => o.CustomerName + " " + o.CustomerSurname))
+                .ForMember(a => a.CustomerAddress, s => s.MapFrom(o => o.CustomerHotel+ " - " + o.CustomerRoomNumber))                ;
+
             CreateMap<Order, OrderTableDto>()
                 .ForMember(a => a.OfficeName, s => s.MapFrom(o => o.Office.Name))
                 .ForMember(a => a.CurrencyName, s => s.MapFrom(o => o.Currency.ShortName))
@@ -36,6 +42,13 @@ namespace Data.Automapper
                 .ForMember(a => a.OrderTypeName, s => s.MapFrom(o => o.OrderType.Name));
 
             CreateMap<TransferDto, Order>().ReverseMap();
+
+            CreateMap<ApplicationUser, UserTableDto>()
+                .ForMember(a => a.PersonnelName, o => o.MapFrom(a => a.Personnel.Name + " " + a.Personnel.Surname));
+
+            CreateMap<ApplicationUser, UserEditDto>()
+                .ForMember(a => a.Password, o => o.Ignore())
+                .ForMember(a => a.ConfirmPassword, o => o.Ignore());
         }
     }
 }

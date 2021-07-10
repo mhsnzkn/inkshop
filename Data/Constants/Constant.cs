@@ -23,9 +23,9 @@ namespace Data.Constants
 
     public struct UserRoles
     {
-        public const string Admin = "Admin";
-        public const string Accountant = "Accountant";
-        public const string Supervisor = "Supervisor";
-        public const string Info = "Info";
+        public const string Admin = "admin";
+        public const string Accountant = "accountant";
+        public const string Supervisor = "supervisor";
+        public const string Info = "info";
     }
 }

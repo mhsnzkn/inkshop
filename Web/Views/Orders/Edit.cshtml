@@ -3,7 +3,7 @@
 }
 
 <div class="text-danger" asp-validation-summary="ModelOnly"></div>
-<form id="form-post" data-ajax-url="/Orders/Edit" data-ajax="true" data-ajax-method="post" data-ajax-complete="success" data-ajax-failure="fail">
+<form id="form-post" data-ajax-url="/Orders/Edit" data-ajax="true" data-ajax-method="post" data-ajax-complete="success" data-ajax-failure="ajaxFail">
     <input type="hidden" asp-for="Order.Id" />
     <div class="form-row">
         <div class="form-group col-md-4">
@@ -81,23 +81,23 @@
         <span class="text-danger" asp-validation-for="Order.Description"></span>
     </div>
     <div class="form-row">
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-5">
             <label>Tarih</label>
             <input class="form-control" asp-for="Order.Date" asp-format="{0:yyyy-MM-ddTHH:mm}">
             <span class="text-danger" asp-validation-for="Order.Date"></span>
         </div>
-        <div class="form-group offset-md-4 col-md-4 p-1">
+        <div class="form-group offset-md-1 col-md-3 p-1">
             <div class="form-check">
                 <br />
                 <input class="form-check-input" asp-for="Order.IsCreditCard">
                 <label class="form-check-label" asp-for="Order.IsCreditCard"> Kredi Karti </label>
             </div>
         </div>
-        <div class="form-group offset-md-4 col-md-4 p-1">
+        <div class="form-group col-md-3 p-1">
             <div class="form-check">
                 <br />
                 <input class="form-check-input" asp-for="Order.IsTransfer">
-                <label class="form-check-label" asp-for="Order.IsTransfer"> Transfer </label>
+                <label class="form-check-label" asp-for="Order.IsTransfer"> Transfer Var</label>
             </div>
         </div>
     </div>
@@ -141,17 +141,9 @@
     <partial name="_ValidationScriptsPartial" />
     <script>
 
-        function success(xhr) {
-            if (xhr.responseJSON.error === false)
-                window.location.href = '/Orders';
-            else {
-                alertify.error("Kayit Basarisiz");
-                console.log(xhr.responseJSON.message);
-            }
+        var success = function (xhr) {
+            ajaxSuccess(xhr, '/Orders');
         }
-        function fail(err) {
-            alertify.error("Baglanti Hatasi");
-            console.log(err);
-        }
+
     </script>
  }

@@ -10,7 +10,7 @@ using Web.Models;
 
 namespace Web.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

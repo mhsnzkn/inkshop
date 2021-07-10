@@ -42,10 +42,16 @@
         </div>
     </div>
     <div class="form-row">
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-6">
             <label>Tarih</label>
             <input class="form-control" asp-for="Transfer.Date" asp-format="{0:yyyy-MM-ddTHH:mm}">
             <span class="text-danger" asp-validation-for="Transfer.Date"></span>
+        </div>
+        <div class="form-group col-md-6">
+            <label>Şube</label>
+            <select class="form-control" asp-for="Transfer.OfficeId" id="officeSelect">
+            </select>
+            <span class="text-danger" asp-validation-for="Transfer.OfficeId"></span>
         </div>
     </div>
     <div class="form-group">
@@ -66,6 +72,19 @@
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />
     <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: '/Offices/GetForDropDown',
+                success: function (res) {
+                    var s = '<option value="">--Seçiniz--</option>';
+                    for (var i = 0; i < res.length; i++) {
+                        s += '<option value="' + res[i].value + '">' + res[i].text + '</option>';
+                    }
+                    $("#officeSelect").html(s);
+                    $("#officeSelect").val("@Model.Transfer.OfficeId").change();
+                }
+            })
+        });
 
         function success(xhr) {
             if (xhr.responseJSON.error === false)
@@ -79,5 +98,6 @@
             alertify.error("Baglanti Hatasi");
             console.log(err);
         }
+
     </script>
  }

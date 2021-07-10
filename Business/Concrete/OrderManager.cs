@@ -324,7 +324,7 @@ namespace Business.Concrete
         public async Task<DataTableResult> GetTransferDataTable(DataTableParams param)
         {
             var result = new DataTableResult();
-            var query = orderDal.Get().Where(a => a.Status == OrderStatus.Transfer)
+            var query = orderDal.Get().Where(a => a.IsTransfer && a.IsApproved != false)
                 .Include(a => a.Office).Include(a => a.Currency).Include(a => a.CustomerCountry).Include(a => a.OrderType)
                 .Skip(param.start).Take(param.length);
 
@@ -344,14 +344,14 @@ namespace Business.Concrete
             if (param.maxDate != null)
                 query = query.Where(a => a.Date <= param.maxDate);
             if (param.maxDate == null && param.minDate == null )
-                query = query.Where(a => a.Date == DateTime.Today);
+                query = query.Where(a => a.Date.Date == DateTime.Today);
 
 
             
 
             // DataTableModel
             // TODO: Orderbydescending datatable'a gore duzenlenecek
-            result.Data = mapper.Map<List<OrderTableDto>>(await query.OrderByDescending(a => a.Date).ToListAsync());
+            result.Data = await mapper.ProjectTo<TransferTableDto>(query.OrderByDescending(a => a.Date)).ToListAsync();
             result.Draw = param.draw;
             result.RecordsTotal = await query.CountAsync();
             result.RecordsFiltered = result.RecordsTotal;

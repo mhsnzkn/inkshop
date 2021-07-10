@@ -2,6 +2,7 @@ using Business.Abstract;
 using Business.Concrete;
 using Data;
 using Data.Automapper;
+using Data.Entities;
 using DataAccess.Abstract;
 using DataAccess.Concrete;
 using Microsoft.AspNetCore.Builder;
@@ -34,7 +35,7 @@ namespace Web
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<AppDbContext>();
             services.AddControllersWithViews();

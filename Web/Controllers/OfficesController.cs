@@ -12,7 +12,7 @@ using Web.Models;
 
 namespace Web.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class OfficesController : Controller
     {
         private readonly IOfficeManager officeManager;

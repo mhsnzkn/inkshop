@@ -36,7 +36,7 @@ namespace Web.Controllers
         {
             var model = new TransferViewModel()
             {
-                Country = await countryManager.GetForDropDown(),
+                Country = await countryManager.GetForDropDown()
             };
             model.Transfer = id == 0 ? new TransferDto() : mapper.Map<TransferDto>(await orderManager.GetByIdAsync(id));
 
