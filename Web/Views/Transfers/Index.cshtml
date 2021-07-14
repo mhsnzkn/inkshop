@@ -5,13 +5,13 @@
     <div class="form-group row">
         <label for="mindate" class="col-sm-2 col-form-label">Başlangıç Tarihi</label>
         <div class="col-sm-6">
-            <input type="date" class="form-control param-change" id="mindate">
+            <input type="date" class="form-control param-change" id="mindate" value="@DateTime.Today.ToString("yyyy-MM-dd")">
         </div>
     </div>
     <div class="form-group row">
         <label for="maxdate" class="col-sm-2 col-form-label">Bitiş Tarihi</label>
         <div class="col-sm-6">
-            <input type="date" class="form-control param-change" id="maxdate">
+            <input type="date" class="form-control param-change" id="maxdate" value="@DateTime.Today.ToString("yyyy-MM-dd")">
         </div>
     </div>
 
@@ -35,6 +35,7 @@
             <th>Sipariş No</th>
             <th>Müşteri</th>
             <th>Tarih</th>
+            <th>Telefon</th>
             <th>Adres</th>
             <th>Kayıt Tarihi</th>
             <th>İşlem</th>
@@ -81,6 +82,7 @@
                             return (new Date(data)).toLocaleDateString('tr-TR');
                         }
                     },
+                    { "data": "customerPhoneNumber", },
                     { "data": "customerAddress", },
                     {
                         "data": "crtDate",

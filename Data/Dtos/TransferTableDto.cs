@@ -16,6 +16,7 @@ namespace Data.Dtos
         public string CustomerCountryName { get; set; }
         public string CustomerFullName { get; set; }
         public string CustomerAddress { get; set; }
+        public string CustomerPhoneNumber { get; set; }
         public DateTime Date { get; set; }
         public DateTime CrtDate { get; set; }
         public string Description { get; set; }
