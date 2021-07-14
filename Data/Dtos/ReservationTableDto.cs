@@ -28,7 +28,7 @@ namespace Data.Dtos
         public DateTime Date { get; set; }
         public string Description { get; set; }
         public bool IsCreditCard { get; set; }
-        public bool? IsOrderApproved { get; set; }
+        public bool? IsApproved { get; set; }
         public bool? IsReservationApproved { get; set; }
         public bool IsPaymentDone { get; set; }
 

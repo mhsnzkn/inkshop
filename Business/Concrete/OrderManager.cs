@@ -214,7 +214,6 @@ namespace Business.Concrete
                 entity.Price = dto.Price;
                 entity.Deposit = dto.Deposit;
                 entity.CurrencyId = dto.CurrencyId;
-                entity.CurrencyId = dto.CurrencyId;
                 entity.Description = dto.Description;
                 entity.Date = dto.Date;
                 entity.IsCreditCard = dto.IsCreditCard;
@@ -324,7 +323,7 @@ namespace Business.Concrete
         public async Task<DataTableResult> GetTransferDataTable(DataTableParams param)
         {
             var result = new DataTableResult();
-            var query = orderDal.Get().Where(a => a.IsTransfer && a.IsApproved != false)
+            var query = orderDal.Get().Where(a => a.IsTransfer)
                 .Include(a => a.Office).Include(a => a.Currency).Include(a => a.CustomerCountry).Include(a => a.OrderType)
                 .Skip(param.start).Take(param.length);
 
@@ -337,7 +336,7 @@ namespace Business.Concrete
             if(param.search.listCancelled != null)
                 query = query.Where(a => a.IsApproved == !param.search.listCancelled);
             else
-                query = query.Where(a => a.IsApproved == null);
+                query = query.Where(a => a.IsApproved != false);
 
             if (param.minDate != null)
                 query = query.Where(a => a.Date >= param.minDate);

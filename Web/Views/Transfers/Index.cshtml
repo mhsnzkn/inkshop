@@ -92,12 +92,14 @@
                         "data": "id",
                         render: function (data, type, row) {
                             let buttons = null;
-                            if (row.status === 0) {
+                            if (row.status === 0 && row.isApproved === null) {
                                 buttons = '<button onclick="confirmPrompt(' + data + ')" class="btn btn-sm btn-success m-1" title="Sipariş Ekle"><i class="fas fa-check-circle"></i></button>' +
                                     '<a href="/Transfers/Edit/' + data + '" class="btn btn-sm btn-warning m-1" title="Duzenle"><i class="fas fa-edit"></i></a>' +
                                     '<button onclick="deletePrompt(' + data + ')" class="btn btn-sm btn-danger m-1" title="Iptal"><i class="fas fa-window-close"></i></button>';
+                            } else if(row.isApproved === false) {
+                                buttons = '<span class="badge badge-danger">Iptal</span>'
                             } else {
-                                buttons = '<span class="badge badge-info">Sipariş</span>'
+                                buttons = '<span class="badge badge-info">Rezervasyon</span>'
                             }
 
                             return buttons;
@@ -132,7 +134,7 @@
                 }, null)
         }
         function deletePrompt(id) {
-            alertify.prompt("İptal işlemi", "Sipariş iptal sebebi:", null,
+            alertify.prompt("İptal işlemi", "İptal sebebi:", null,
                 function (evt, value) {
                     let model = { id: id, message: value };
                     $.ajax({

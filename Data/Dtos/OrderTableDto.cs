@@ -30,6 +30,6 @@ namespace Data.Dtos
         public string Description { get; set; }
         public string OrderCancellationReason { get; set; }
         public bool IsCreditCard { get; set; }
-        public bool? IsOrderApproved { get; set; }
+        public bool? IsApproved { get; set; }
     }
 }

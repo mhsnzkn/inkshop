@@ -20,5 +20,6 @@ namespace Data.Dtos
         public DateTime CrtDate { get; set; }
         public string Description { get; set; }
         public OrderStatus Status { get; set; }
+        public bool? IsApproved { get; set; }
     }
 }

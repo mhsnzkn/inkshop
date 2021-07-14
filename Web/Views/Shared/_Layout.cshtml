@@ -23,15 +23,15 @@
             </div>
 
             <ul class="list-unstyled components">
-                <p>Baslik</p>
+                @*<p>Baslik</p>*@
+                <li>
+                    <a asp-controller="Transfers" asp-action="Index">Transfer</a>
+                </li>
                 <li>
                     <a asp-controller="Orders" asp-action="Index">Siparis</a>
                 </li>
                 <li>
                     <a asp-controller="Reservations" asp-action="Index">Rezervasyon</a>
-                </li>
-                <li>
-                    <a asp-controller="Transfers" asp-action="Index">Transfer</a>
                 </li>
                 @*<li class="active">
             <a href="homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
@@ -135,6 +135,6 @@
     <script src="~/lib/alertify/alertify.min.js"></script>
     <script src="~/lib/select2/select2.full.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/site.js"></script>
 </body>
 </html>

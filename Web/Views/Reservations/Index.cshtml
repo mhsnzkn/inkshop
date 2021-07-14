@@ -100,9 +100,9 @@
                         "data": "id",
                         render: function (data, type, row) {
                             let buttons = null;
-                            if (row.isReservationApproved === null) {
+                            if (row.isApproved === null) {
                                 buttons = '<button onclick="confirmPrompt(' + data + ')" class="btn btn-sm btn-success" title="Onayla"><i class="fas fa-check-circle"></i></button>' +
-                                    '<a href="/Reservations/Edit/' + data + '" class="btn btn-sm btn-default" title="Odendi"><i class="fas fa-edit"></i></a>' +
+                                    '<a href="/Reservations/Edit/' + data + '" class="btn btn-sm btn-default" title="Odendi"><i class="fas fa-money-bill-wave"></i></a>' +
                                     '<a href="/Reservations/Edit/' + data + '" class="btn btn-sm btn-warning" title="Duzenle"><i class="fas fa-edit"></i></a>' +
                                     '<button onclick="deletePrompt(' + data + ')" class="btn btn-sm btn-danger" title="Iptal"><i class="fas fa-window-close"></i></button>';
                             }
