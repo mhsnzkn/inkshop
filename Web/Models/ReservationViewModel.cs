@@ -10,7 +10,7 @@ namespace Web.Models
 {
     public class ReservationViewModel
     {
-        public OrderAddDto Order { get; set; }
+        public ReservationDto Reservation { get; set; }
         public List<SelectListItem> OrderType { get; set; }
         public List<SelectListItem> Office { get; set; }
         public List<SelectListItem> Country { get; set; }

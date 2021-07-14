@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Data.Dtos
 {
@@ -21,8 +17,10 @@ namespace Data.Dtos
         public string CustomerHotel { get; set; }
         public string CustomerRoomNumber { get; set; }
         public string CustomerPhoneNumber { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Tarih boş bırakılamaz")]
         public DateTime Date { get; set; } = DateTime.Now;
         public string Description { get; set; }
+        [Required(ErrorMessage ="Kişi sayısı boş bırakılamaz")]
+        public int PersonCount { get; set; }
     }
 }

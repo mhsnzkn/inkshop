@@ -2,6 +2,7 @@
 using Data.Constants;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
@@ -48,6 +49,7 @@ namespace Data.Entities
         public bool IsPaymentDone { get; set; }
         public bool IsCreditCard { get; set; }
         public bool IsTransfer { get; set; }
+        public int PersonCount { get; set; }
         public DateTime? UptDate { get; set; }
         public DateTime CrtDate { get; set; }
 

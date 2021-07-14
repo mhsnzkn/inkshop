@@ -383,7 +383,7 @@ namespace Business.Concrete
             
 
             // DataTableModel
-            result.Data = mapper.Map<List<ReservationTableDto>>(await query.ToListAsync());
+            result.Data = await mapper.ProjectTo<ReservationTableDto>(query).ToListAsync();
             result.Draw = param.draw;
             result.RecordsTotal = await query.CountAsync();
             result.RecordsFiltered = result.RecordsTotal;

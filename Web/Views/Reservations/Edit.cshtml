@@ -4,127 +4,126 @@
 
 <div class="text-danger" asp-validation-summary="All"></div>
 <form id="form-post" data-ajax-url="/Reservations/Edit" data-ajax="true" data-ajax-method="post" data-ajax-complete="success" data-ajax-failure="fail">
-    <input type="hidden" asp-for="Order.Id" />
+    <input type="hidden" asp-for="Reservation.Id" />
     <div class="form-row">
         <div class="form-group col-md-4">
             <label>Şube</label>
-            <select class="form-control" asp-for="Order.OfficeId" asp-items="Model.Office">
+            <select class="form-control" asp-for="Reservation.OfficeId" asp-items="Model.Office">
             </select>
-            <span class="text-danger" asp-validation-for="Order.OfficeId"></span>
+            <span class="text-danger" asp-validation-for="Reservation.OfficeId"></span>
         </div>
         <div class="form-group col-md-4">
             <label>Sipariş Türü</label>
-            <select class="form-control" asp-for="Order.OrderTypeId" asp-items="Model.OrderType">
+            <select class="form-control" asp-for="Reservation.OrderTypeId" asp-items="Model.OrderType">
                 <option value="">--Seçiniz--</option>
             </select>
-            <span class="text-danger" asp-validation-for="Order.OrderTypeId"></span>
+            <span class="text-danger" asp-validation-for="Reservation.OrderTypeId"></span>
         </div>
         <div class="form-group col-md-4">
-            <label>Ülke</label>
-            <select class="form-control" asp-for="Order.CustomerCountryId" asp-items="Model.Country">
+            <label>Artist</label>
+            <select class="form-control" asp-for="Reservation.PersonnelId" asp-items="Model.Personnel">
                 <option value="">--Seçiniz--</option>
             </select>
-            <span class="text-danger" asp-validation-for="Order.CustomerCountryId"></span>
-        </div>
-
-        <div class="form-group col-md-4">
-            <label>Personel</label>
-            <select class="form-control" asp-for="Order.CustomerCountryId" asp-items="Model.Personnel">
-                <option value="">--Seçiniz--</option>
-            </select>
-            <span class="text-danger" asp-validation-for="Order.CustomerCountryId"></span>
+            <span class="text-danger" asp-validation-for="Reservation.PersonnelId"></span>
         </div>
     </div>
     <div class="form-row">
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-4">
             <label>İsim</label>
-            <input type="text" class="form-control" asp-for="Order.CustomerName">
-            <span class="text-danger" asp-validation-for="Order.CustomerName"></span>
+            <input type="text" class="form-control" asp-for="Reservation.CustomerName">
+            <span class="text-danger" asp-validation-for="Reservation.CustomerName"></span>
         </div>
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-4">
             <label>Soyisim</label>
-            <input type="text" class="form-control" asp-for="Order.CustomerSurname">
-            <span class="text-danger" asp-validation-for="Order.CustomerSurname"></span>
+            <input type="text" class="form-control" asp-for="Reservation.CustomerSurname">
+            <span class="text-danger" asp-validation-for="Reservation.CustomerSurname"></span>
+        </div>
+        <div class="form-group col-md-4">
+            <label>Ülke</label>
+            <select class="form-control" asp-for="Reservation.CustomerCountryId" asp-items="Model.Country">
+                <option value="">--Seçiniz--</option>
+            </select>
+            <span class="text-danger" asp-validation-for="Reservation.CustomerCountryId"></span>
         </div>
     </div>
     <div class="form-row">
         <div class="form-group col-md-5">
             <label>Hotel</label>
-            <input class="form-control" asp-for="Order.CustomerHotel">
-            <span class="text-danger" asp-validation-for="Order.CustomerHotel"></span>
+            <input class="form-control" asp-for="Reservation.CustomerHotel">
+            <span class="text-danger" asp-validation-for="Reservation.CustomerHotel"></span>
         </div>
         <div class="form-group col-md-3">
             <label>Oda</label>
-            <input class="form-control" asp-for="Order.CustomerRoomNumber">
-            <span class="text-danger" asp-validation-for="Order.CustomerRoomNumber"></span>
+            <input class="form-control" asp-for="Reservation.CustomerRoomNumber">
+            <span class="text-danger" asp-validation-for="Reservation.CustomerRoomNumber"></span>
         </div>
         <div class="form-group col-md-4">
             <label>Telefon</label>
-            <input class="form-control" asp-for="Order.CustomerPhoneNumber">
-            <span class="text-danger" asp-validation-for="Order.CustomerPhoneNumber"></span>
+            <input class="form-control" asp-for="Reservation.CustomerPhoneNumber">
+            <span class="text-danger" asp-validation-for="Reservation.CustomerPhoneNumber"></span>
         </div>
     </div>
     <div class="form-row">
         <div class="form-group col-md-4">
             <label>Fiyat</label>
-            <input class="form-control" asp-for="Order.Price">
-            <span class="text-danger" asp-validation-for="Order.Price"></span>
+            <input class="form-control" asp-for="Reservation.Price">
+            <span class="text-danger" asp-validation-for="Reservation.Price"></span>
         </div>
         <div class="form-group col-md-4">
             <label>Depozit</label>
-            <input class="form-control" asp-for="Order.Deposit">
-            <span class="text-danger" asp-validation-for="Order.Deposit"></span>
+            <input class="form-control" asp-for="Reservation.Deposit">
+            <span class="text-danger" asp-validation-for="Reservation.Deposit"></span>
         </div>
         <div class="form-group col-md-4">
             <label>Doviz Kuru</label>
-            <select class="form-control" asp-for="Order.CurrencyId" asp-items="Model.Currency">
+            <select class="form-control" asp-for="Reservation.CurrencyId" asp-items="Model.Currency">
                 <option value="">--Seçiniz--</option>
             </select>
-            <span class="text-danger" asp-validation-for="Order.CurrencyId"></span>
+            <span class="text-danger" asp-validation-for="Reservation.CurrencyId"></span>
         </div>
     </div>
     <div class="form-group">
         <label>Açıklama</label>
-        <input class="form-control" asp-for="Order.Description">
-        <span class="text-danger" asp-validation-for="Order.Description"></span>
+        <input class="form-control" asp-for="Reservation.Description">
+        <span class="text-danger" asp-validation-for="Reservation.Description"></span>
     </div>
     <div class="form-row">
         <div class="form-group col-md-4">
             <label>Tarih</label>
-            <input class="form-control" asp-for="Order.Date" asp-format="{0:yyyy-MM-ddTHH:mm}">
-            <span class="text-danger" asp-validation-for="Order.Date"></span>
+            <input class="form-control" asp-for="Reservation.Date" asp-format="{0:yyyy-MM-ddTHH:mm}">
+            <span class="text-danger" asp-validation-for="Reservation.Date"></span>
         </div>
         <div class="form-group offset-md-4 col-md-4 p-1">
             <div class="form-check">
                 <br />
-                <input class="form-check-input" asp-for="Order.IsCreditCard">
-                <label class="form-check-label" asp-for="Order.IsCreditCard"> Kredi Karti </label>
+                <input class="form-check-input" asp-for="Reservation.IsCreditCard">
+                <label class="form-check-label" asp-for="Reservation.IsCreditCard"> Kredi Karti </label>
             </div>
         </div>
     </div>
     <div class="form-row">
         <div class="form-group p-1">
             <div class="form-check m-2">
-                <input class="form-check-input" asp-for="Order.TypeCoverUp">
-                <label class="form-check-label" asp-for="Order.TypeCoverUp">Cover Up</label>
+                <input class="form-check-input" asp-for="Reservation.TypeCoverUp">
+                <label class="form-check-label" asp-for="Reservation.TypeCoverUp">Cover Up</label>
             </div>
         </div>
         <div class="form-group p-1">
             <div class="form-check m-2">
-                <input class="form-check-input" asp-for="Order.TypeFreeHand">
-                <label class="form-check-label" asp-for="Order.TypeFreeHand">Freehand</label>
+                <input class="form-check-input" asp-for="Reservation.TypeFreeHand">
+                <label class="form-check-label" asp-for="Reservation.TypeFreeHand">Freehand</label>
             </div>
         </div>
         <div class="form-group p-1">
             <div class="form-check m-2">
-                <input class="form-check-input" asp-for="Order.TypeRefresh">
-                <label class="form-check-label" asp-for="Order.TypeRefresh">Refresh</label>
+                <input class="form-check-input" asp-for="Reservation.TypeRefresh">
+                <label class="form-check-label" asp-for="Reservation.TypeRefresh">Refresh</label>
             </div>
         </div>
         <div class="form-group p-1">
             <div class="form-check m-2">
-                <input class="form-check-input" asp-for="Order.TypeTouchUp">
-                <label class="form-check-label" asp-for="Order.TypeTouchUp">Touch Up</label>
+                <input class="form-check-input" asp-for="Reservation.TypeTouchUp">
+                <label class="form-check-label" asp-for="Reservation.TypeTouchUp">Touch Up</label>
             </div>
         </div>
     </div>

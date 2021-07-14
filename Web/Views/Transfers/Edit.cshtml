@@ -42,16 +42,21 @@
         </div>
     </div>
     <div class="form-row">
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-5">
             <label>Tarih</label>
             <input class="form-control" asp-for="Transfer.Date" asp-format="{0:yyyy-MM-ddTHH:mm}">
             <span class="text-danger" asp-validation-for="Transfer.Date"></span>
         </div>
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-5">
             <label>Şube</label>
             <select class="form-control" asp-for="Transfer.OfficeId" id="officeSelect">
             </select>
             <span class="text-danger" asp-validation-for="Transfer.OfficeId"></span>
+        </div>
+        <div class="form-group col-md-2">
+            <label>Transfer Kişi Sayısı</label>
+            <input class="form-control" asp-for="Transfer.PersonCount" value="1">
+            <span class="text-danger" asp-validation-for="Transfer.PersonCount"></span>
         </div>
     </div>
     <div class="form-group">

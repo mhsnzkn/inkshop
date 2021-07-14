@@ -48,7 +48,7 @@ namespace Web.Controllers
                 Currency = await currencyManager.GetForDropDown(),
                 Personnel = await personnelManager.GetForDropDown()
             };
-            model.Order = id == 0 ? new OrderAddDto() : mapper.Map<OrderAddDto>(await orderManager.GetByIdAsync(id));
+            model.Reservation = id == 0 ? new ReservationDto() : mapper.Map<ReservationDto>(await orderManager.GetByIdAsync(id));
 
             return View(model);
         }
