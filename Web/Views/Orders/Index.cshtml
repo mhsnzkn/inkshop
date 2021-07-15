@@ -1,6 +1,8 @@
 ﻿@{
 }
 
+<h4>Siparişler</h4>
+<hr />
 <form>
     <div class="form-group row">
         <label for="mindate" class="col-sm-2 col-form-label">Başlangıç Tarihi</label>
@@ -27,23 +29,23 @@
     <a asp-controller="Orders" asp-action="Edit" class="btn btn-primary"><i class="fas fa-plus"></i> Ekle</a>
 </div>
 
-    <table id="datatable" class="table stripe display" width="100%">
-        <thead>
-            <tr>
-                <th>Şube</th>
-                <th>Sipariş No</th>
-                <th>Tür</th>
-                <th>Müşteri</th>
-                <th>Tutar</th>
-                <th>Depozito</th>
-                <th>Kalan</th>
-                <th>Kur</th>
-                <th>Tarih</th>
-                <th>Kayıt Tarihi</th>
-                <th>İşlem</th>
-            </tr>
-        </thead>
-    </table>
+<table id="datatable" class="table stripe display" width="100%">
+    <thead>
+        <tr>
+            <th>Şube</th>
+            <th>Sipariş No</th>
+            <th>Tür</th>
+            <th>Müşteri</th>
+            <th>Tutar</th>
+            <th>Depozito</th>
+            <th>Kalan</th>
+            <th>Kur</th>
+            <th>Tarih</th>
+            <th>Kayıt Tarihi</th>
+            <th>İşlem</th>
+        </tr>
+    </thead>
+</table>
 
 
 @section Scripts{

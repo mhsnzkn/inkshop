@@ -22,9 +22,10 @@ namespace Business.Abstract
         Task<Result> ApproveOrder(int id);
         Task<Result> CancelOrder(int id, string message);
         Task<Result> UpdateOrder(OrderAddDto dto);
+        Task<Result> PayReservation(int id);
         Task<Result> ApproveReservation(int id);
         Task<Result> CancelReservation(int id, string message);
-        Task<Result> UpdateReservation(OrderAddDto dto);
+        Task<Result> UpdateReservation(ReservationDto dto);
         Task<Result> AddTransfer(TransferDto dto);
         Task<Result> UpdateTransfer(TransferDto dto);
         Task<Result> Delete(Order entity);

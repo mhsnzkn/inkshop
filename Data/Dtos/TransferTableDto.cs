@@ -22,5 +22,6 @@ namespace Data.Dtos
         public string Description { get; set; }
         public OrderStatus Status { get; set; }
         public bool? IsApproved { get; set; }
+        public bool IsPaymentDone { get; set; }
     }
 }

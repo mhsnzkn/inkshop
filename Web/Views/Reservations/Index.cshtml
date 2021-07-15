@@ -1,6 +1,8 @@
 ﻿@{
 }
 
+<h4>Rezervasyonlar</h4>
+<hr />
 <form>
     <div class="form-group row">
         <label for="mindate" class="col-sm-2 col-form-label">Başlangıç Tarihi</label>
@@ -22,23 +24,26 @@
     <input type="reset" class="btn btn-info m-1" value="Temizle" />
 </form>
 
+<div class="d-flex justify-content-end p-3">
 
-    <table id="datatable" class="table stripe display" width="100%">
-        <thead>
-            <tr>
-                <th>Şube</th>
-                <th>Sipariş No</th>
-                <th>Tür</th>
-                <th>Müşteri</th>
-                <th>Tutar</th>
-                <th>Depozito</th>
-                <th>Kalan</th>
-                <th>Kur</th>
-                <th>Tarih</th>
-                <th>İşlem</th>
-            </tr>
-        </thead>
-    </table>
+</div>
+
+<table id="datatable" class="table stripe display" width="100%">
+    <thead>
+        <tr>
+            <th>Şube</th>
+            <th>Sipariş No</th>
+            <th>Tür</th>
+            <th>Müşteri</th>
+            <th>Tutar</th>
+            <th>Depozito</th>
+            <th>Kalan</th>
+            <th>Kur</th>
+            <th>Tarih</th>
+            <th>İşlem</th>
+        </tr>
+    </thead>
+</table>
 
 
 @section Scripts{
@@ -99,11 +104,14 @@
                     {
                         "data": "id",
                         render: function (data, type, row) {
-                            let buttons = null;
+                            let buttons = "";
                             if (row.isApproved === null) {
-                                buttons = '<button onclick="confirmPrompt(' + data + ')" class="btn btn-sm btn-success" title="Onayla"><i class="fas fa-check-circle"></i></button>' +
-                                    '<a href="/Reservations/Edit/' + data + '" class="btn btn-sm btn-default" title="Odendi"><i class="fas fa-money-bill-wave"></i></a>' +
-                                    '<a href="/Reservations/Edit/' + data + '" class="btn btn-sm btn-warning" title="Duzenle"><i class="fas fa-edit"></i></a>' +
+                                if (row.isPaymentDone === true) {
+                                    buttons += '<button onclick="confirmPrompt(' + data + ')" class="btn btn-sm btn-success" title="Onayla"><i class="fas fa-check-circle"></i></button>';
+                                } else {
+                                    buttons += `<button onclick="payPrompt('${data}', '${row.price - row.deposit} ${row.currencyName}')" class="btn btn-sm btn-info" title="Ödeme"><i class="fas fa-money-bill-wave"></i></button>`;
+                                }
+                                buttons += '<a href="/Reservations/Edit/' + data + '" class="btn btn-sm btn-warning" title="Duzenle"><i class="fas fa-edit"></i></a>' +
                                     '<button onclick="deletePrompt(' + data + ')" class="btn btn-sm btn-danger" title="Iptal"><i class="fas fa-window-close"></i></button>';
                             }
 
@@ -131,7 +139,7 @@
                                 $('#datatable').DataTable().ajax.reload();
                             } else {
                                 alertify.error("İşlem Başarısız");
-                                console.log(res);
+                                console.log(res.message);
                             }
                         }
                     })
@@ -159,8 +167,8 @@
                     })
                 }, null)
         }
-        function payPrompt(id) {
-            alertify.confirm("Onay", "Ödemeyi onaylıyor musunuz?",
+        function payPrompt(id, price) {
+            alertify.confirm("Ödeme", price + " Ödemeyi onaylıyor musunuz?",
                 function () {
                     let model = { id: id }
                     $.ajax({

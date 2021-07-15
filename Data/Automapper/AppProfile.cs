@@ -41,7 +41,7 @@ namespace Data.Automapper
                 .ForMember(a => a.CustomerFullName, s => s.MapFrom(o => o.CustomerName + " " + o.CustomerSurname))
                 .ForMember(a => a.OrderTypeName, s => s.MapFrom(o => o.OrderType.Name));
 
-            CreateMap<ReservationDto, Order>();
+            CreateMap<ReservationDto, Order>().ReverseMap();
             CreateMap<TransferDto, Order>().ReverseMap();
 
             CreateMap<ApplicationUser, UserTableDto>()

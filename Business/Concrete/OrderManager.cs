@@ -90,6 +90,7 @@ namespace Business.Concrete
                 entity.Description = dto.Description;
                 entity.Date = dto.Date;
                 entity.IsCreditCard = dto.IsCreditCard;
+                entity.PersonCount = dto.PersonCount;
                 entity.Status = OrderStatus.Order;
 
                 entity.Type = dto.TypeCoverUp ? OrderTypeString.CoverUp : string.Empty;
@@ -114,8 +115,6 @@ namespace Business.Concrete
             try
             {
                 var entity = await orderDal.GetByIdAsync(dto.Id);
-                //entity.OfficeId = dto.OfficeId;
-                //entity.OrderTypeId = dto.OrderTypeId;
                 entity.CustomerCountryId = dto.CustomerCountryId;
                 entity.CustomerName = dto.CustomerName;
                 entity.CustomerSurname = dto.CustomerSurname;
@@ -124,11 +123,7 @@ namespace Business.Concrete
                 entity.CustomerPhoneNumber = dto.CustomerPhoneNumber;
                 entity.Description = dto.Description;
                 entity.Date = dto.Date;
-                //entity.Price = dto.Price;
-                //entity.Deposit = dto.Deposit;
-                //entity.CurrencyId = dto.CurrencyId;
-                //entity.CurrencyId = dto.CurrencyId;
-                //entity.IsCreditCard = dto.IsCreditCard;
+                entity.PersonCount = dto.PersonCount;
 
                 entity.UptDate = DateTime.Now;
 
@@ -197,7 +192,7 @@ namespace Business.Concrete
 
             return result;
         }
-        public async Task<Result> UpdateReservation(OrderAddDto dto)
+        public async Task<Result> UpdateReservation(ReservationDto dto)
         {
             var result = new Result();
             try
@@ -217,6 +212,7 @@ namespace Business.Concrete
                 entity.Description = dto.Description;
                 entity.Date = dto.Date;
                 entity.IsCreditCard = dto.IsCreditCard;
+                entity.IsPaymentDone = false;
 
                 entity.Type = dto.TypeCoverUp ? OrderTypeString.CoverUp : string.Empty;
                 entity.Type += dto.TypeFreeHand ? OrderTypeString.Freehand : string.Empty;
@@ -242,6 +238,22 @@ namespace Business.Concrete
             {
                 var entity = await orderDal.GetByIdAsync(id);
                 entity.IsApproved = true;
+                await orderDal.Save();
+            }
+            catch (Exception ex)
+            {
+                result.SetError(ex.ToString());
+            }
+
+            return result;
+        }
+        public async Task<Result> PayReservation(int id)
+        {
+            var result = new Result();
+            try
+            {
+                var entity = await orderDal.GetByIdAsync(id);
+                entity.IsPaymentDone = true;
                 await orderDal.Save();
             }
             catch (Exception ex)

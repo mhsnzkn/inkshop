@@ -53,12 +53,12 @@ namespace Web.Controllers
             return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> Edit(OrderViewModel vModel)
+        public async Task<IActionResult> Edit(ReservationViewModel vModel)
         {
-            if(vModel.Order.Id == 0)
+            if(vModel.Reservation.Id == 0)
                 return BadRequest();
 
-            var result = await orderManager.UpdateReservation(vModel.Order);
+            var result = await orderManager.UpdateReservation(vModel.Reservation);
 
             return Ok(result);
         }
@@ -70,6 +70,14 @@ namespace Web.Controllers
                 return BadRequest();
 
             return Ok(await orderManager.ApproveReservation(order.Id));
+        }
+        [HttpPost]
+        public async Task<IActionResult> Pay([FromBody] OrderPostDto order)
+        {
+            if (order == null || order.Id == 0)
+                return BadRequest();
+
+            return Ok(await orderManager.PayReservation(order.Id));
         }
         [HttpPost]
         public async Task<IActionResult> Cancel([FromBody] OrderPostDto dto)

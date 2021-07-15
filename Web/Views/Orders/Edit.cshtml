@@ -100,6 +100,11 @@
                 <label class="form-check-label" asp-for="Order.IsTransfer"> Transfer Var</label>
             </div>
         </div>
+        <div class="form-group col-md-4" style="display:none" id="div-personcount">
+            <label>Transfer Kişi Sayısı</label>
+            <input class="form-control" asp-for="Order.PersonCount" id="input-personcount">
+            <span class="text-danger" asp-validation-for="Order.PersonCount"></span>
+        </div>
     </div>
     <div class="form-row">
         <div class="form-group p-1">
@@ -140,6 +145,23 @@
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />
     <script>
+
+
+        $('#Order_IsTransfer').change(function () {
+            if ($('#Order_IsTransfer').is(":checked")) {
+                transferOn();
+            } else {
+                transferOff();
+            }
+        }).trigger('change');
+
+        function transferOff() {
+            $('#div-personcount').hide();
+            $('#input-personcount').val(1);
+        }
+        function transferOn() {
+            $('#div-personcount').show();
+        }
 
         var success = function (xhr) {
             ajaxSuccess(xhr, '/Orders');
