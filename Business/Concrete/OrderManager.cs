@@ -212,6 +212,7 @@ namespace Business.Concrete
                 entity.Description = dto.Description;
                 entity.Date = dto.Date;
                 entity.IsCreditCard = dto.IsCreditCard;
+                entity.PersonnelId = dto.PersonnelId;
                 entity.IsPaymentDone = false;
 
                 entity.Type = dto.TypeCoverUp ? OrderTypeString.CoverUp : string.Empty;
@@ -373,7 +374,7 @@ namespace Business.Concrete
         {
             var result = new DataTableResult();
             var query = orderDal.Get().Where(a => a.Status == OrderStatus.Reservation)
-                .Include(a => a.Office).Include(a => a.Currency).Include(a => a.CustomerCountry).Include(a => a.OrderType)
+                .Include(a => a.Office).Include(a => a.Currency).Include(a => a.CustomerCountry).Include(a => a.OrderType).Include(a=>a.Personnel)
                 .Skip(param.start).Take(param.length);
 
             // Filter

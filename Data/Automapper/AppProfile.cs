@@ -39,7 +39,8 @@ namespace Data.Automapper
                 .ForMember(a => a.CurrencyName, s => s.MapFrom(o => o.Currency.ShortName))
                 .ForMember(a => a.CustomerCountryName, s => s.MapFrom(o => o.CustomerCountry.Name))
                 .ForMember(a => a.CustomerFullName, s => s.MapFrom(o => o.CustomerName + " " + o.CustomerSurname))
-                .ForMember(a => a.OrderTypeName, s => s.MapFrom(o => o.OrderType.Name));
+                .ForMember(a => a.OrderTypeName, s => s.MapFrom(o => o.OrderType.Name))
+                .ForMember(a => a.PersonnelName, s => s.MapFrom(o => o.Personnel.Name +" "+ o.Personnel.Surname));
 
             CreateMap<ReservationDto, Order>().ReverseMap();
             CreateMap<TransferDto, Order>().ReverseMap();

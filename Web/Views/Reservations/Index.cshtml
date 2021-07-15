@@ -40,6 +40,7 @@
             <th>Kalan</th>
             <th>Kur</th>
             <th>Tarih</th>
+            <th>Artist</th>
             <th>İşlem</th>
         </tr>
     </thead>
@@ -101,6 +102,7 @@
                             return (new Date(data)).toLocaleDateString('tr-TR');
                         }
                     },
+                    { "data": "personnelName" },
                     {
                         "data": "id",
                         render: function (data, type, row) {

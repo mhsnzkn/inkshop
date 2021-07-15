@@ -15,6 +15,7 @@ namespace Data.Dtos
         public string OrderTypeName { get; set; }
         public int CurrencyId { get; set; }
         public string CurrencyName { get; set; }
+        public string PersonnelName { get; set; }
         public int CustomerCountryId { get; set; }
         public string CustomerCountryName { get; set; }
         public string CustomerFullName { get; set; }

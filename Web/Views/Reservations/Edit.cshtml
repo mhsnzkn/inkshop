@@ -3,7 +3,7 @@
 }
 
 <div class="text-danger" asp-validation-summary="All"></div>
-<form id="form-post" data-ajax-url="/Reservations/Edit" data-ajax="true" data-ajax-method="post" data-ajax-complete="success" data-ajax-failure="fail">
+<form id="form-post" data-ajax-url="/Reservations/Edit" data-ajax="true" data-ajax-method="post" data-ajax-complete="success" data-ajax-failure="ajaxFail">
     <input type="hidden" asp-for="Reservation.Id" />
     <div class="form-row">
         <div class="form-group col-md-4">
@@ -140,18 +140,9 @@
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />
     <script>
+        var success = function (xhr) {
+            ajaxSuccess(xhr, '/Reservations');
+        }
 
-        function success(xhr) {
-            if (xhr.responseJSON.error === false)
-                window.location.href = '/Reservations';
-            else {
-                alertify.error("Kayit Basarisiz");
-                console.log(xhr.responseJSON.message);
-            }
-        }
-        function fail(err) {
-            alertify.error("Baglanti Hatasi");
-            console.log(err);
-        }
     </script>
  }
