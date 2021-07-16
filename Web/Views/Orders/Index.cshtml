@@ -21,7 +21,7 @@
         <input type="checkbox" class="custom-control-input param-change" id="cancelSwitch">
         <label class="custom-control-label" for="cancelSwitch">İptal olanları göster</label>
     </div>
-    <input type="reset" class="btn btn-info m-1" value="Temizle" />
+    <input type="button" class="btn btn-info m-1" value="Temizle" onclick="clearForm()" />
 </form>
 
 <div class="d-flex justify-content-end p-3">
@@ -171,7 +171,15 @@
         }
 
         $('.param-change').change(function () {
-            $('#datatable').DataTable().ajax.reload();
+            refreshTable();
         })
+        function clearForm() {
+            $('.param-change').val(null);
+            $('#cancelSwitch').prop('checked', false);
+            refreshTable();
+        }
+        function refreshTable() {
+            $('#datatable').DataTable().ajax.reload();
+        }
     </script>
 }

@@ -27,7 +27,7 @@
             <label class="custom-control-label" for="approveSwitch">Onaylananları göster</label>
         </div>
     </div>
-    <input type="reset" class="btn btn-info m-1" value="Temizle" />
+    <input type="button" class="btn btn-info m-1" value="Temizle" onclick="clearForm()" />
 </form>
 
 <div class="d-flex justify-content-end p-3">
@@ -80,12 +80,10 @@
                         let checkResult=null;
                         let cancelCheck = $('#cancelSwitch').prop('checked');
                         let approveCheck = $('#approveSwitch').prop('checked');
-                        console.log(cancelCheck);
-                        console.log(approveCheck);
+
                         if (cancelCheck || approveCheck) {
                             checkResult = cancelCheck ? true : false;
                         }
-                        console.log(checkResult);
                         d.search.listCancelled = checkResult;
                         let date1 = $('#mindate').val();
                         let date2 = $('#maxdate').val();
@@ -204,21 +202,33 @@
         }
 
         $('.param-change').change(function () {
-            $('#datatable').DataTable().ajax.reload();
+            refreshTable();
         })
         $('#cancelSwitch').change(function () {
             var sw = $('#cancelSwitch').prop('checked');
             if (sw) {
                 $('#approveSwitch').prop('checked', false);
             }
-            $('#datatable').DataTable().ajax.reload();
+            refreshTable();
         })
         $('#approveSwitch').change(function () {
             var sw = $('#approveSwitch').prop('checked');
             if (sw) {
                 $('#cancelSwitch').prop('checked', false);
             }
-            $('#datatable').DataTable().ajax.reload();
+            refreshTable();
         })
+
+        function clearForm() {
+            $('#mindate').val(null);
+            $('#maxdate').val(null);
+            $('#cancelSwitch').prop('checked', false);
+            $('#approveSwitch').prop('checked', false);
+            refreshTable();
+        }
+
+        function refreshTable() {
+            $('#datatable').DataTable().ajax.reload();
+        }
     </script>
 }
