@@ -17,9 +17,15 @@
         </div>
     </div>
 
-    <div class="custom-control custom-switch">
-        <input type="checkbox" class="custom-control-input param-change" id="cancelSwitch">
-        <label class="custom-control-label" for="cancelSwitch">İptal olanları göster</label>
+    <div class="form-group row">
+        <div class="custom-control custom-switch col-md-4">
+            <input type="checkbox" class="custom-control-input" id="cancelSwitch">
+            <label class="custom-control-label" for="cancelSwitch">İptal olanları göster</label>
+        </div>
+        <div class="custom-control custom-switch col-md-4">
+            <input type="checkbox" class="custom-control-input" id="approveSwitch">
+            <label class="custom-control-label" for="approveSwitch">Onaylananları göster</label>
+        </div>
     </div>
     <input type="reset" class="btn btn-info m-1" value="Temizle" />
 </form>
@@ -71,10 +77,18 @@
                     type: 'POST',
                     contentType: "application/json",
                     data: function (d) {
-                        var isCancelled = $('#cancelSwitch').prop('checked') ? true : null;
-                        d.search.listCancelled = isCancelled;
-                        var date1 = $('#mindate').val();
-                        var date2 = $('#maxdate').val();
+                        let checkResult=null;
+                        let cancelCheck = $('#cancelSwitch').prop('checked');
+                        let approveCheck = $('#approveSwitch').prop('checked');
+                        console.log(cancelCheck);
+                        console.log(approveCheck);
+                        if (cancelCheck || approveCheck) {
+                            checkResult = cancelCheck ? true : false;
+                        }
+                        console.log(checkResult);
+                        d.search.listCancelled = checkResult;
+                        let date1 = $('#mindate').val();
+                        let date2 = $('#maxdate').val();
                         d.minDate = date1 ? new Date(date1) : null;
                         d.maxDate = date2 ? new Date(date2) : null;
                         return JSON.stringify(d);
@@ -190,6 +204,20 @@
         }
 
         $('.param-change').change(function () {
+            $('#datatable').DataTable().ajax.reload();
+        })
+        $('#cancelSwitch').change(function () {
+            var sw = $('#cancelSwitch').prop('checked');
+            if (sw) {
+                $('#approveSwitch').prop('checked', false);
+            }
+            $('#datatable').DataTable().ajax.reload();
+        })
+        $('#approveSwitch').change(function () {
+            var sw = $('#approveSwitch').prop('checked');
+            if (sw) {
+                $('#cancelSwitch').prop('checked', false);
+            }
             $('#datatable').DataTable().ajax.reload();
         })
     </script>
