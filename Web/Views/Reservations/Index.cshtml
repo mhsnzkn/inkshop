@@ -119,7 +119,7 @@
                             let buttons = "";
                             if (row.isApproved === null) {
                                 if (row.isPaymentDone === true) {
-                                    buttons += '<button onclick="confirmPrompt(' + data + ')" class="btn btn-sm btn-success" title="Onayla"><i class="fas fa-check-circle"></i></button>';
+                                    buttons += '<button onclick="confirmPrompt(' + data + ')" class="btn btn-sm btn-dark" title="Onayla"><i class="fas fa-check-circle"></i></button>';
                                 } else {
                                     buttons += `<button onclick="payPrompt('${data}', '${row.price - row.deposit} ${row.currencyName}')" class="btn btn-sm btn-info" title="Ödeme"><i class="fas fa-money-bill-wave"></i></button>`;
                                 }
@@ -130,7 +130,12 @@
                             return buttons;
                         }
                     }
-                ]
+                ],
+                rowCallback: function (row, data, index) {
+                    if (data.isPaymentDone === true) {
+                        $(row).addClass("bg-success");
+                    }
+                }
 
             });
         });
