@@ -1,8 +1,9 @@
 ﻿@{
+    ViewData["Title"] = "Personel";
 }
 
-@{
-}
+<h4>@ViewData["Title"]</h4>
+<hr />
 <div class="d-flex justify-content-end p-3">
     <!-- Large modal -->
     <a asp-controller="Personnel" asp-action="Edit" class="btn btn-primary"><i class="fas fa-plus"></i> Ekle</a>
@@ -31,6 +32,10 @@
                 language: {
                     url: '/lib/datatable/tr/tr.json'
                 },
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ],
                 "processing": true, // for show progress bar
                 "serverSide": true, // for process server side
                 "pagination": true,
@@ -54,7 +59,7 @@
                     { "data": "email" },
                     { "data": "commission" },
                     {
-                        "data":"id",
+                        "data": "id",
                         render: function (data, type, row) {
                             return '<a href="/Personnel/Edit/' + data + '" class="btn btn-sm btn-warning m-1"><i class="fas fa-edit"></i></button>';
                         }

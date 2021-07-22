@@ -1,5 +1,6 @@
 ﻿@model Data.Entities.Personnel
 @{
+    ViewData["Title"] = "Ekle/Düzenle";
 }
 
 <p class="text-danger">@ViewData["error"]</p>
@@ -86,7 +87,7 @@
 
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />
-<script>
+    <script>
     $(document).ready(function () {
         $.ajax({
             url: '/Offices/GetForDropDown',
@@ -100,5 +101,5 @@
             }
         })
     })
-</script>
- }
+    </script>
+}

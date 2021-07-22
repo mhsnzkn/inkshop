@@ -1,7 +1,8 @@
 ﻿@{
+    ViewData["Title"] = "Siparişler";
 }
 
-<h4>Siparişler</h4>
+<h4>@ViewData["Title"]</h4>
 <hr />
 <form>
     <div class="form-group row">
@@ -55,6 +56,10 @@
                 language: {
                     url: '/lib/datatable/tr/tr.json'
                 },
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ],
                 "processing": true, // for show progress bar
                 "serverSide": true, // for process server side
                 "pagination": true,
