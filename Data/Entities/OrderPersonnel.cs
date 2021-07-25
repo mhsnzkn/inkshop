@@ -1,9 +1,5 @@
 ﻿using Core.Data;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
+using Data.Constants;
 
 namespace Data.Entities
 {
@@ -13,6 +9,7 @@ namespace Data.Entities
         public int OrderId { get; set; }
         public Personnel Personnel { get; set; }
         public int PersonnelId { get; set; }
+        public OrderPersonnelJob Job { get; set; }
 
     }
 }

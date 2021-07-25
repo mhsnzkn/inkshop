@@ -34,5 +34,7 @@ namespace Data.Dtos
         public DateTime Date { get; set; } = DateTime.Now;
         public string Description { get; set; }
         public bool IsCreditCard { get; set; }
+        public int? InfoMenId { get; set; }
+        public int? MiddleMenId { get; set; }
     }
 }

@@ -20,5 +20,6 @@ namespace Data
         public DbSet<Country> Countries { get; set; }
         public DbSet<Currency> Currencies { get; set; }
         public DbSet<Personnel> Personnel { get; set; }
+        public DbSet<OrderPersonnel> OrderPersonnel { get; set; }
     }
 }

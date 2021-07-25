@@ -28,4 +28,11 @@ namespace Data.Constants
         public const string Supervisor = "supervisor";
         public const string Info = "info";
     }
+
+    public enum OrderPersonnelJob
+    {
+        Artist,
+        Info,
+        Hanut
+    }
 }
