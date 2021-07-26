@@ -79,7 +79,7 @@ namespace Web.Controllers
                         {
                             result.Message += error.Description + ". ";
                         }
-                        result.Error = true;
+                        result.UserMessage = result.Message;
                     }
                     
                 }
@@ -109,7 +109,7 @@ namespace Web.Controllers
             }
             catch (Exception ex)
             {
-                result.SetError(ex.ToString());
+                result.SetError(ex.ToString(), UserMessages.Fail);
             }
 
             return Ok(result);
@@ -125,7 +125,7 @@ namespace Web.Controllers
             }
             catch (Exception ex)
             {
-                result.SetError(ex.ToString());
+                result.SetError(ex.ToString(), UserMessages.Fail);
             }
 
             return Ok(result);

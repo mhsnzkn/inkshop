@@ -78,7 +78,7 @@ namespace Business.Concrete
             }
             catch (Exception ex)
             {
-                result.SetError(ex.ToString());
+                result.SetError(ex.ToString(), UserMessages.Fail);
             }
 
             return result;
@@ -119,7 +119,7 @@ namespace Business.Concrete
             }
             catch (Exception ex)
             {
-                result.SetError(ex.ToString());
+                result.SetError(ex.ToString(), UserMessages.Fail);
             }
 
             return result;
@@ -147,7 +147,7 @@ namespace Business.Concrete
             }
             catch (Exception ex)
             {
-                result.SetError(ex.ToString());
+                result.SetError(ex.ToString(), UserMessages.Fail);
             }
 
             return result;
@@ -168,7 +168,7 @@ namespace Business.Concrete
             }
             catch (Exception ex)
             {
-                result.SetError(ex.ToString());
+                result.SetError(ex.ToString(), UserMessages.Fail);
             }
 
             return result;
@@ -184,7 +184,7 @@ namespace Business.Concrete
             }
             catch (Exception ex)
             {
-                result.SetError(ex.ToString());
+                result.SetError(ex.ToString(), UserMessages.Fail);
             }
 
             return result;
@@ -202,7 +202,7 @@ namespace Business.Concrete
             }
             catch (Exception ex)
             {
-                result.SetError(ex.ToString());
+                result.SetError(ex.ToString(), UserMessages.Fail);
             }
 
             return result;
@@ -242,7 +242,7 @@ namespace Business.Concrete
             }
             catch (Exception ex)
             {
-                result.SetError(ex.ToString());
+                result.SetError(ex.ToString(), UserMessages.Fail);
             }
 
             return result;
@@ -259,7 +259,7 @@ namespace Business.Concrete
             }
             catch (Exception ex)
             {
-                result.SetError(ex.ToString());
+                result.SetError(ex.ToString(), UserMessages.Fail);
             }
 
             return result;
@@ -275,7 +275,7 @@ namespace Business.Concrete
             }
             catch (Exception ex)
             {
-                result.SetError(ex.ToString());
+                result.SetError(ex.ToString(), UserMessages.Fail);
             }
 
             return result;
@@ -293,7 +293,7 @@ namespace Business.Concrete
             }
             catch (Exception ex)
             {
-                result.SetError(ex.ToString());
+                result.SetError(ex.ToString(), UserMessages.Fail);
             }
 
             return result;
@@ -309,7 +309,7 @@ namespace Business.Concrete
             }
             catch (Exception ex)
             {
-                result.SetError(ex.ToString());
+                result.SetError(ex.ToString(), UserMessages.Fail);
             }
 
             return result;
