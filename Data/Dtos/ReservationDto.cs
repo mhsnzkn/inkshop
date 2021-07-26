@@ -17,7 +17,7 @@ namespace Data.Dtos
         public int CurrencyId { get; set; }
         [Required(ErrorMessage = "Ülke boş bırakılamaz")]
         public int CustomerCountryId { get; set; }
-        public int? PersonnelId { get; set; }
+        public int ArtistId { get; set; }
         public string CustomerName { get; set; }
         public string CustomerSurname { get; set; }
         public string CustomerHotel { get; set; }
@@ -34,7 +34,7 @@ namespace Data.Dtos
         public DateTime Date { get; set; } = DateTime.Now;
         public string Description { get; set; }
         public bool IsCreditCard { get; set; }
-        public int? InfoMenId { get; set; }
-        public int? MiddleMenId { get; set; }
+        public int InfoMenId { get; set; }
+        public int MiddleMenId { get; set; }
     }
 }

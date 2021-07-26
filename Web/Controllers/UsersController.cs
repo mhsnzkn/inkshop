@@ -65,7 +65,7 @@ namespace Web.Controllers
                     var addResult = await userManager.CreateAsync(user, userDto.Password);
                     if (addResult.Succeeded)
                     {
-                        await CheckRole(userDto.Role);
+                        await CheckRoleExist(userDto.Role);
 
                         await userManager.AddToRoleAsync(user, userDto.Role);
 
@@ -73,10 +73,15 @@ namespace Web.Controllers
                         await userManager.ConfirmEmailAsync(user, token);
 
                     }
-                    foreach (var error in addResult.Errors)
+                    else
                     {
-                        result.Message += error.Description + ". ";
+                        foreach (var error in addResult.Errors)
+                        {
+                            result.Message += error.Description + ". ";
+                        }
+                        result.Error = true;
                     }
+                    
                 }
                 else
                 {
@@ -95,7 +100,7 @@ namespace Web.Controllers
                     var currentRoles = await userManager.GetRolesAsync(currentUser);
                     if (!currentRoles.Any(a => a.Contains(userDto.Role)))
                     {
-                        await CheckRole(userDto.Role);
+                        await CheckRoleExist(userDto.Role);
 
                         await userManager.RemoveFromRoleAsync(currentUser, userDto.Role);
                         await userManager.AddToRoleAsync(currentUser, userDto.Role);
@@ -138,7 +143,7 @@ namespace Web.Controllers
             return Ok(result);
         }
 
-        private async Task CheckRole(string role)
+        private async Task CheckRoleExist(string role)
         {
             var roleExist = await roleManager.RoleExistsAsync(role);
             if (!roleExist)

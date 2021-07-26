@@ -15,8 +15,6 @@ namespace Data.Entities
         public int OfficeId { get; set; }
         public OrderType OrderType { get; set; }
         public int? OrderTypeId { get; set; }
-        public Personnel Personnel { get; set; }
-        public int? PersonnelId { get; set; }
         public Currency Currency { get; set; }
         public int? CurrencyId { get; set; }
         public Country CustomerCountry { get; set; }
@@ -53,6 +51,7 @@ namespace Data.Entities
         public DateTime? UptDate { get; set; }
         public DateTime CrtDate { get; set; }
 
+        public ICollection<OrderPersonnel> OrderPersonnel { get; set; }
 
     }
 }

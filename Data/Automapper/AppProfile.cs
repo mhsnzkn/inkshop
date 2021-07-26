@@ -40,9 +40,16 @@ namespace Data.Automapper
                 .ForMember(a => a.CustomerCountryName, s => s.MapFrom(o => o.CustomerCountry.Name))
                 .ForMember(a => a.CustomerFullName, s => s.MapFrom(o => o.CustomerName + " " + o.CustomerSurname))
                 .ForMember(a => a.OrderTypeName, s => s.MapFrom(o => o.OrderType.Name))
-                .ForMember(a => a.PersonnelName, s => s.MapFrom(o => o.Personnel.Name +" "+ o.Personnel.Surname));
+                .ForMember(a => a.PersonnelName, s => s.MapFrom(o => 
+                    o.OrderPersonnel.FirstOrDefault(d => d.Job == OrderPersonnelJob.Artist).Personnel.Name +" "+ 
+                    o.OrderPersonnel.FirstOrDefault(d => d.Job == OrderPersonnelJob.Artist).Personnel.Surname));
 
-            CreateMap<ReservationDto, Order>().ReverseMap();
+            CreateMap<ReservationDto, Order>();
+            CreateMap<Order, ReservationDto>()
+                .ForMember(a => a.ArtistId, s => s.MapFrom(o => o.OrderPersonnel.FirstOrDefault(d => d.Job == OrderPersonnelJob.Artist).PersonnelId))
+                .ForMember(a => a.InfoMenId, s => s.MapFrom(o => o.OrderPersonnel.FirstOrDefault(d => d.Job == OrderPersonnelJob.Info).PersonnelId))
+                .ForMember(a => a.MiddleMenId, s => s.MapFrom(o => o.OrderPersonnel.FirstOrDefault(d => d.Job == OrderPersonnelJob.Hanut).PersonnelId));
+
             CreateMap<TransferDto, Order>().ReverseMap();
 
             CreateMap<ApplicationUser, UserTableDto>()

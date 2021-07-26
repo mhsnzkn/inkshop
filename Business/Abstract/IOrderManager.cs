@@ -14,6 +14,7 @@ namespace Business.Abstract
     public interface IOrderManager
     {
         Task<Order> GetByIdAsync(int id);
+        Task<Order> GetReservationByIdAsync(int id);
         Task<List<Order>> Get(Expression<Func<Order, bool>> expression = null);
         Task<DataTableResult> GetOrderDataTable(DataTableParams param);
         Task<DataTableResult> GetReservationDataTable(DataTableParams param);

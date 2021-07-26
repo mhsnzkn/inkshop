@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Business.Abstract;
 using Core.Utility.Datatables;
+using Data.Constants;
 using Data.Dtos;
 using Data.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -48,7 +49,17 @@ namespace Web.Controllers
                 Currency = await currencyManager.GetForDropDown(),
                 Personnel = await personnelManager.GetForDropDown()
             };
-            model.Reservation = id == 0 ? new ReservationDto() : mapper.Map<ReservationDto>(await orderManager.GetByIdAsync(id));
+            if(id != 0)
+            {
+                var order = await orderManager.GetReservationByIdAsync(id);
+                model.Reservation = mapper.Map<ReservationDto>(order);
+                //model.Reservation.ArtistId = order.OrderPersonnel.FirstOrDefault(a =>a.Job == OrderPersonnelJob.Artist)?.Id;
+                //model.Reservation.InfoMenId = order.OrderPersonnel.FirstOrDefault(a =>a.Job == OrderPersonnelJob.Info)?.Id;
+                //model.Reservation.MiddleMenId = order.OrderPersonnel.FirstOrDefault(a =>a.Job == OrderPersonnelJob.Hanut)?.Id;
+            }else
+            {
+                model.Reservation = new ReservationDto();
+            }
 
             return View(model);
         }

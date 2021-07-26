@@ -20,11 +20,13 @@ namespace Business.Concrete
     {
         private readonly IOrderDal orderDal;
         private readonly IMapper mapper;
+        private readonly IOrderPersonnelDal orderPersonnelDal;
 
-        public OrderManager(IOrderDal orderDal, IMapper mapper)
+        public OrderManager(IOrderDal orderDal, IMapper mapper, IOrderPersonnelDal orderPersonnelDal)
         {
             this.orderDal = orderDal;
             this.mapper = mapper;
+            this.orderPersonnelDal = orderPersonnelDal;
         }
 
         public async Task<List<Order>> Get(System.Linq.Expressions.Expression<Func<Order, bool>> expression = null)
@@ -38,6 +40,19 @@ namespace Business.Concrete
             try
             {
                 result = await orderDal.GetByIdAsync(id);
+            }
+            catch (Exception)
+            {
+            }
+            return result;
+        }
+
+        public async Task<Order> GetReservationByIdAsync(int id)
+        {
+            Order result = null;
+            try
+            {
+                result = await orderDal.Get(a => a.Id == id).Include(a => a.OrderPersonnel).FirstOrDefaultAsync();
             }
             catch (Exception)
             {
@@ -212,7 +227,6 @@ namespace Business.Concrete
                 entity.Description = dto.Description;
                 entity.Date = dto.Date;
                 entity.IsCreditCard = dto.IsCreditCard;
-                entity.PersonnelId = dto.PersonnelId;
                 entity.IsPaymentDone = false;
 
                 entity.Type = dto.TypeCoverUp ? OrderTypeString.CoverUp : string.Empty;
@@ -220,6 +234,8 @@ namespace Business.Concrete
                 entity.Type += dto.TypeRefresh ? OrderTypeString.Refresh : string.Empty;
                 entity.Type += dto.TypeTouchUp ? OrderTypeString.TouchUp : string.Empty;
                 entity.UptDate = DateTime.Now;
+
+                await orderPersonnelDal.Upsert(entity.Id, dto.ArtistId, dto.InfoMenId, dto.MiddleMenId);
 
                 orderDal.Update(entity);
                 await orderDal.Save();
@@ -302,31 +318,14 @@ namespace Business.Concrete
         public async Task<DataTableResult> GetOrderDataTable(DataTableParams param)
         {
             var result = new DataTableResult();
-            var query = orderDal.Get().Where(a=>a.Status == OrderStatus.Order)
+            var rawQuery = orderDal.Get(a => a.Status == OrderStatus.Order).OrderByDescending(a => a.Date)
                 .Include(a => a.Office).Include(a => a.Currency).Include(a => a.CustomerCountry).Include(a => a.OrderType)
-                .Skip(param.start).Take(param.length);
+                .AsQueryable();
 
-            // Filter
-            if (!string.IsNullOrEmpty(param.search.value))
-            {
-                query = query.Where(a => a.CustomerName.Contains(param.search.value) || a.CustomerSurname.Contains(param.search.value) || a.Description.Contains(param.search.value));
-            }
-
-            if(param.search.listCancelled != null)
-                query = query.Where(a => a.IsApproved == !param.search.listCancelled);
-            else
-                query = query.Where(a => a.IsApproved == null);
-
-            if (param.minDate != null)
-                query = query.Where(a => a.Date.Date >= param.minDate);
-            if (param.maxDate != null)
-                query = query.Where(a => a.Date.Date <= param.maxDate);
-
-            
+            QueryFilter(rawQuery, param, out var query, out var paginatedQuery);
 
             // DataTableModel
-            // TODO: Orderbydescending datatable'a gore duzenlenecek
-            result.Data = mapper.Map<List<OrderTableDto>>(await query.OrderByDescending(a => a.Date).ToListAsync());
+            result.Data = await mapper.ProjectTo<OrderTableDto>(paginatedQuery).ToListAsync();
             result.Draw = param.draw;
             result.RecordsTotal = await query.CountAsync();
             result.RecordsFiltered = result.RecordsTotal;
@@ -336,34 +335,14 @@ namespace Business.Concrete
         public async Task<DataTableResult> GetTransferDataTable(DataTableParams param)
         {
             var result = new DataTableResult();
-            var query = orderDal.Get().Where(a => a.IsTransfer)
-                .Include(a => a.Office).Include(a => a.Currency).Include(a => a.CustomerCountry).Include(a => a.OrderType)
-                .Skip(param.start).Take(param.length);
+            var rawQuery = orderDal.Get(a => a.IsTransfer).OrderByDescending(a => a.Date)
+                .Include(a => a.Office).Include(a => a.CustomerCountry)
+                .AsQueryable();
 
-            // Filter
-            if (!string.IsNullOrEmpty(param.search.value))
-            {
-                query = query.Where(a => a.CustomerName.Contains(param.search.value) || a.CustomerSurname.Contains(param.search.value) || a.Description.Contains(param.search.value));
-            }
-
-            if(param.search.listCancelled != null)
-                query = query.Where(a => a.IsApproved == !param.search.listCancelled);
-            else
-                query = query.Where(a => a.IsApproved != false);
-
-            if (param.minDate != null)
-                query = query.Where(a => a.Date >= param.minDate);
-            if (param.maxDate != null)
-                query = query.Where(a => a.Date <= param.maxDate);
-            if (param.maxDate == null && param.minDate == null )
-                query = query.Where(a => a.Date.Date == DateTime.Today);
-
-
-            
+            QueryFilter(rawQuery, param, out var query, out var paginatedQuery);
 
             // DataTableModel
-            // TODO: Orderbydescending datatable'a gore duzenlenecek
-            result.Data = await mapper.ProjectTo<TransferTableDto>(query.OrderByDescending(a => a.Date)).ToListAsync();
+            result.Data = await mapper.ProjectTo<TransferTableDto>(paginatedQuery).ToListAsync();
             result.Draw = param.draw;
             result.RecordsTotal = await query.CountAsync();
             result.RecordsFiltered = result.RecordsTotal;
@@ -373,35 +352,42 @@ namespace Business.Concrete
         public async Task<DataTableResult> GetReservationDataTable(DataTableParams param)
         {
             var result = new DataTableResult();
-            var query = orderDal.Get().Where(a => a.Status == OrderStatus.Reservation)
-                .Include(a => a.Office).Include(a => a.Currency).Include(a => a.CustomerCountry).Include(a => a.OrderType).Include(a=>a.Personnel)
-                .Skip(param.start).Take(param.length);
+            var rawQuery = orderDal.Get(a => a.Status == OrderStatus.Reservation).OrderByDescending(a => a.Date)
+                .Include(a => a.Office).Include(a => a.Currency).Include(a => a.CustomerCountry).Include(a => a.OrderType)
+                .Include(a => a.OrderPersonnel).ThenInclude(a => a.Personnel)
+                .AsQueryable();
 
+            QueryFilter(rawQuery, param, out var query, out var paginatedQuery);
+
+            // DataTableModel
+            result.Data = await mapper.ProjectTo<ReservationTableDto>(paginatedQuery).ToListAsync();
+            result.Draw = param.draw;
+            result.RecordsTotal = await query.CountAsync();
+            result.RecordsFiltered = result.RecordsTotal;
+
+            return result;
+        }
+
+        private void QueryFilter(IQueryable<Order> query, DataTableParams param, out IQueryable<Order> outQuery, out IQueryable<Order> paginatedQuery)
+        {
             // Filter
             if (!string.IsNullOrEmpty(param.search?.value))
             {
                 query = query.Where(a => a.CustomerName.Contains(param.search.value) || a.CustomerSurname.Contains(param.search.value) || a.Description.Contains(param.search.value));
             }
 
-            if(param.search.listCancelled != null)
+            if (param.search.listCancelled != null)
                 query = query.Where(a => a.IsApproved == !param.search.listCancelled);
             else
                 query = query.Where(a => a.IsApproved == null);
 
             if (param.minDate != null)
-                query = query.Where(a => a.Date >= param.minDate);
+                query = query.Where(a => a.Date.Date >= param.minDate);
             if (param.maxDate != null)
-                query = query.Where(a => a.Date <= param.maxDate);
+                query = query.Where(a => a.Date.Date <= param.maxDate);
 
-            
-
-            // DataTableModel
-            result.Data = await mapper.ProjectTo<ReservationTableDto>(query).ToListAsync();
-            result.Draw = param.draw;
-            result.RecordsTotal = await query.CountAsync();
-            result.RecordsFiltered = result.RecordsTotal;
-
-            return result;
+            outQuery = query;
+            paginatedQuery = query.Skip(param.start).Take(param.length);
         }
     }
 }

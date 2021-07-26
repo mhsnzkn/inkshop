@@ -22,10 +22,10 @@
         </div>
         <div class="form-group col-md-4">
             <label>Artist</label>
-            <select class="form-control" asp-for="Reservation.PersonnelId" asp-items="Model.Personnel">
+            <select class="form-control" asp-for="Reservation.ArtistId" asp-items="Model.Personnel">
                 <option value="">--Seçiniz--</option>
             </select>
-            <span class="text-danger" asp-validation-for="Reservation.PersonnelId"></span>
+            <span class="text-danger" asp-validation-for="Reservation.ArtistId"></span>
         </div>
     </div>
     <div class="form-row">
@@ -103,32 +103,16 @@
         </div>
     </div>
     <div class="form-row">
-        <div class="form-group offset-md-2 col-md-4">
-            <div class="form-check">
-                <br />
-                <input type="checkbox" class="form-check-input" id="chc_info">
-                <label class="form-check-label" for="chc_info"> İnfocu var </label>
-            </div>
-        </div>
-        <div class="form-group col-md-6" id="div_info" style="display:none">
-            <label>Info</label>
+        <div class="form-group col-md-6">
+            <label>Infocu</label>
             <select class="form-control" asp-for="Reservation.InfoMenId" asp-items="Model.Personnel" id="slc_info">
-                <option value="">--Seçiniz--</option>
+                <option value="0">--Yok--</option>
             </select>
         </div>
-    </div>
-    <div class="form-row">
-        <div class="form-group offset-md-2 col-md-4">
-            <div class="form-check">
-                <br />
-                <input type="checkbox" class="form-check-input" id="chc_hanut">
-                <label class="form-check-label" for="chc_hanut"> Hanutçu var </label>
-            </div>
-        </div>
-        <div class="form-group col-md-6" id="div_hanut" style="display:none">
+        <div class="form-group col-md-6">
             <label>Hanutçu</label>
             <select class="form-control" asp-for="Reservation.MiddleMenId" asp-items="Model.Personnel" id="slc_hanut">
-                <option value="">--Seçiniz--</option>
+                <option value="0">--Yok--</option>
             </select>
         </div>
     </div>
@@ -174,23 +158,5 @@
         var success = function (xhr) {
             ajaxSuccess(xhr, '/Reservations');
         }
-
-        $('#chc_info').change( () => {
-            if ($('#chc_info').is(':checked')) {
-                $('#div_info').show();
-            } else {
-                $('#div_info').hide();
-                $('#slc_info').val('');
-            }
-        })
-
-        $('#chc_hanut').change(() => {
-            if ($('#chc_hanut').is(':checked')) {
-                $('#div_hanut').show();
-            } else {
-                $('#div_hanut').hide();
-                $('#slc_hanut').val('');
-            }
-        })
     </script>
 }

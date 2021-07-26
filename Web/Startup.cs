@@ -35,7 +35,7 @@ namespace Web
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<AppDbContext>();
             services.AddControllersWithViews();
@@ -55,6 +55,8 @@ namespace Web
             services.AddScoped<ICurrencyDal, CurrencyDal>();
             services.AddScoped<IPersonnelManager, PersonnelManager>();
             services.AddScoped<IPersonnelDal, PersonnelDal>();
+
+            services.AddScoped<IOrderPersonnelDal, OrderPersonnelDal>();
             #endregion
 
         }
