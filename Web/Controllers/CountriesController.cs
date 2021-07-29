@@ -13,7 +13,7 @@ using Web.Models;
 
 namespace Web.Controllers
 {
-    //[Authorize(Roles = UserRoles.Info)]
+    [Authorize(Roles = UserRoles.Admin)]
     public class CountriesController : Controller
     {
         private readonly ICountryManager countryManager;

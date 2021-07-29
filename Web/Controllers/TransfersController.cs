@@ -3,6 +3,7 @@ using Business.Abstract;
 using Core.Utility.Datatables;
 using Data.Dtos;
 using Data.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ using Web.Models;
 
 namespace Web.Controllers
 {
+    [Authorize]
     public class TransfersController : Controller
     {
         private readonly IOrderManager orderManager;

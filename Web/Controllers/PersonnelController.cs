@@ -1,6 +1,8 @@
 ﻿using Business.Abstract;
 using Core.Utility.Datatables;
+using Data.Constants;
 using Data.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,6 +13,7 @@ using Web.Models;
 
 namespace Web.Controllers
 {
+    [Authorize(Roles = UserRoles.Admin)]
     public class PersonnelController : Controller
     {
         private readonly IPersonnelManager personnelManager;

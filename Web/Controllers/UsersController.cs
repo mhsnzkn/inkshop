@@ -17,6 +17,7 @@ using Web.Models;
 
 namespace Web.Controllers
 {
+    [Authorize(Roles = UserRoles.Admin)]
     public class UsersController : Controller
     {
         private readonly UserManager<ApplicationUser> userManager;
@@ -75,11 +76,13 @@ namespace Web.Controllers
                     }
                     else
                     {
+                        var message = string.Empty;
                         foreach (var error in addResult.Errors)
                         {
-                            result.Message += error.Description + ". ";
+                            message += error.Description;
                         }
-                        result.UserMessage = result.Message;
+                        if (!string.IsNullOrEmpty(message))
+                            result.SetError(message, message);
                     }
                     
                 }

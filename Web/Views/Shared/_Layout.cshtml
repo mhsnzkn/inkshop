@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Data.Constants
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -28,12 +29,15 @@
                 <li>
                     <a asp-controller="Transfers" asp-action="Index">Transfer</a>
                 </li>
-                <li>
-                    <a asp-controller="Orders" asp-action="Index">Siparis</a>
-                </li>
-                <li>
-                    <a asp-controller="Reservations" asp-action="Index">Rezervasyon</a>
-                </li>
+                @if (!User.IsInRole(UserRoles.Info))
+                {
+                    <li>
+                        <a asp-controller="Orders" asp-action="Index">Siparis</a>
+                    </li>
+                    <li>
+                        <a asp-controller="Reservations" asp-action="Index">Rezervasyon</a>
+                    </li>
+                }
                 @*<li class="active">
             <a href="homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
             <ul class="collapse list-unstyled" id="homeSubmenu">
@@ -48,34 +52,39 @@
                 </li>
             </ul>
         </li>*@
-                <li>
-                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Ayarlar</a>
-                    <ul class="collapse list-unstyled" id="pageSubmenu">
-                        <li>
-                            <a asp-controller="Offices" asp-action="Index">Şube</a>
-                        </li>
-                        <li>
-                            <a asp-controller="Countries" asp-action="Index">Ülke</a>
-                        </li>
-                        <li>
-                            <a asp-controller="Currencies" asp-action="Index">Kur</a>
-                        </li>
-                        <li>
-                            <a asp-controller="OrderTypes" asp-action="Index">Sipariş Türü</a>
-                        </li>
-                        <li>
-                            <a asp-controller="Personnel" asp-action="Index">Personel</a>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#userSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Kullanıcı Ayarları</a>
-                    <ul class="collapse list-unstyled" id="userSubmenu">
-                        <li>
-                            <a asp-controller="Users" asp-action="Index">Kullanıcılar</a>
-                        </li>
-                    </ul>
-                </li>
+                @if (User.IsInRole(UserRoles.Admin))
+                {
+                    <li>
+                        <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Ayarlar</a>
+                        <ul class="collapse list-unstyled" id="pageSubmenu">
+                            <li>
+                                <a asp-controller="Offices" asp-action="Index">Şube</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Countries" asp-action="Index">Ülke</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Currencies" asp-action="Index">Kur</a>
+                            </li>
+                            <li>
+                                <a asp-controller="OrderTypes" asp-action="Index">Sipariş Türü</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Personnel" asp-action="Index">Personel</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#userSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Kullanıcı Ayarları</a>
+                        <ul class="collapse list-unstyled" id="userSubmenu">
+                            <li>
+                                <a asp-controller="Users" asp-action="Index">Kullanıcılar</a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+
+
             </ul>
 
             @*<ul class="list-unstyled CTAs">
