@@ -31,12 +31,12 @@
     <div class="form-row">
         <div class="form-group col-md-4">
             <label>İsim</label>
-            <input type="text" class="form-control" asp-for="Reservation.CustomerName">
+            <input type="text" class="form-control" oninput="toUpper(this)" asp-for="Reservation.CustomerName">
             <span class="text-danger" asp-validation-for="Reservation.CustomerName"></span>
         </div>
         <div class="form-group col-md-4">
             <label>Soyisim</label>
-            <input type="text" class="form-control" asp-for="Reservation.CustomerSurname">
+            <input type="text" class="form-control" oninput="toUpper(this)" asp-for="Reservation.CustomerSurname">
             <span class="text-danger" asp-validation-for="Reservation.CustomerSurname"></span>
         </div>
         <div class="form-group col-md-4">
@@ -50,7 +50,7 @@
     <div class="form-row">
         <div class="form-group col-md-5">
             <label>Hotel</label>
-            <input class="form-control" asp-for="Reservation.CustomerHotel">
+            <input class="form-control" oninput="toUpper(this)" asp-for="Reservation.CustomerHotel">
             <span class="text-danger" asp-validation-for="Reservation.CustomerHotel"></span>
         </div>
         <div class="form-group col-md-3">
@@ -85,7 +85,7 @@
     </div>
     <div class="form-group">
         <label>Açıklama</label>
-        <input class="form-control" asp-for="Reservation.Description">
+        <input class="form-control" oninput="toUpper(this)" asp-for="Reservation.Description">
         <span class="text-danger" asp-validation-for="Reservation.Description"></span>
     </div>
     <div class="form-row">

@@ -31,19 +31,19 @@
     <div class="form-row">
         <div class="form-group col-md-6">
             <label>İsim</label>
-            <input type="text" class="form-control" asp-for="Order.CustomerName">
+            <input type="text" class="form-control" oninput="toUpper(this)" asp-for="Order.CustomerName">
             <span class="text-danger" asp-validation-for="Order.CustomerName"></span>
         </div>
         <div class="form-group col-md-6">
             <label>Soyisim</label>
-            <input type="text" class="form-control" asp-for="Order.CustomerSurname">
+            <input type="text" class="form-control" oninput="toUpper(this)" asp-for="Order.CustomerSurname">
             <span class="text-danger" asp-validation-for="Order.CustomerSurname"></span>
         </div>
     </div>
     <div class="form-row">
         <div class="form-group col-md-5">
             <label>Hotel</label>
-            <input class="form-control" asp-for="Order.CustomerHotel">
+            <input class="form-control" oninput="toUpper(this)" asp-for="Order.CustomerHotel">
             <span class="text-danger" asp-validation-for="Order.CustomerHotel"></span>
         </div>
         <div class="form-group col-md-3">
@@ -78,7 +78,7 @@
     </div>
     <div class="form-group">
         <label>Açıklama</label>
-        <input class="form-control" asp-for="Order.Description">
+        <input class="form-control" oninput="toUpper(this)" asp-for="Order.Description">
         <span class="text-danger" asp-validation-for="Order.Description"></span>
     </div>
     <div class="form-row">

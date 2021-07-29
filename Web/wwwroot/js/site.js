@@ -4,7 +4,7 @@
     });
 });
 
-function ajaxSuccess(xhr, returnUrl) {
+const ajaxSuccess = (xhr, returnUrl) => {
     if (xhr.responseJSON.error === false)
         window.location.href = returnUrl;
     else {
@@ -12,7 +12,11 @@ function ajaxSuccess(xhr, returnUrl) {
         console.log(xhr.responseJSON.message);
     }
 }
-function ajaxFail(err) {
+const ajaxFail = (err) => {
     alertify.error("Bağlantı Hatası");
     console.log(err);
+}
+
+const toUpper = (a) => {
+    a.value = a.value.toLocaleUpperCase('tr-TR');
 }

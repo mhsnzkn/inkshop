@@ -9,12 +9,12 @@
     <div class="form-row">
         <div class="form-group col-md-4">
             <label>İsim</label>
-            <input type="text" class="form-control" asp-for="Transfer.CustomerName">
+            <input type="text" class="form-control" oninput="toUpper(this)" asp-for="Transfer.CustomerName">
             <span class="text-danger" asp-validation-for="Transfer.CustomerName"></span>
         </div>
         <div class="form-group col-md-4">
             <label>Soyisim</label>
-            <input type="text" class="form-control" asp-for="Transfer.CustomerSurname">
+            <input type="text" class="form-control" oninput="toUpper(this)" asp-for="Transfer.CustomerSurname">
             <span class="text-danger" asp-validation-for="Transfer.CustomerSurname"></span>
         </div>
         <div class="form-group col-md-4">
@@ -28,7 +28,7 @@
     <div class="form-row">
         <div class="form-group col-md-5">
             <label>Hotel</label>
-            <input class="form-control" asp-for="Transfer.CustomerHotel">
+            <input class="form-control" oninput="toUpper(this)" asp-for="Transfer.CustomerHotel">
             <span class="text-danger" asp-validation-for="Transfer.CustomerHotel"></span>
         </div>
         <div class="form-group col-md-3">
@@ -62,7 +62,7 @@
     </div>
     <div class="form-group">
         <label>Açıklama</label>
-        <input class="form-control" asp-for="Transfer.Description">
+        <input class="form-control" oninput="toUpper(this)" asp-for="Transfer.Description">
         <span class="text-danger" asp-validation-for="Transfer.Description"></span>
     </div>
     <div class="d-flex justify-content-between">
@@ -92,13 +92,8 @@
             })
         });
 
-        function success(xhr) {
-            if (xhr.responseJSON.error === false)
-                window.location.href = '/Transfers';
-            else {
-                alertify.error("Kayit Basarisiz");
-                console.log(xhr.responseJSON.message);
-            }
+        var success = function (xhr) {
+            ajaxSuccess(xhr, '/Transfers');
         }
         function fail(err) {
             alertify.error("Baglanti Hatasi");
