@@ -102,7 +102,11 @@
                         render: function (data, type, row) {
                             let buttons = null;
                             if (row.status === 0 && row.isApproved === null) {
-                                buttons = '<button onclick="confirmPrompt(' + data + ')" class="btn btn-sm btn-success m-1" title="Sipariş Ekle"><i class="fas fa-check-circle"></i></button>' +
+                                buttons =
+                                    @if (!User.IsInRole(Data.Constants.UserRoles.Info))
+                                    {
+                                    <text> '<button onclick="confirmPrompt(' + data + ')" class="btn btn-sm btn-success m-1" title="Sipariş Ekle"><i class="fas fa-check-circle"></i></button>' + </text>
+                                    }
                                     '<a href="/Transfers/Edit/' + data + '" class="btn btn-sm btn-warning m-1" title="Duzenle"><i class="fas fa-edit"></i></a>' +
                                     '<button onclick="deletePrompt(' + data + ')" class="btn btn-sm btn-danger m-1" title="Iptal"><i class="fas fa-window-close"></i></button>';
                             } else if(row.isApproved === false) {

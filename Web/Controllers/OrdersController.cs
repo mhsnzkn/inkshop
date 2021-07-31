@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Business.Abstract;
 using Core.Utility.Datatables;
+using Data.Constants;
 using Data.Dtos;
 using Data.Entities;
 using Microsoft.AspNetCore.Authorization;
@@ -13,7 +14,7 @@ using Web.Models;
 
 namespace Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = UserRoles.Admin+","+UserRoles.Accountant+","+UserRoles.Supervisor)]
     public class OrdersController : Controller
     {
         private readonly IOrderManager orderManager;

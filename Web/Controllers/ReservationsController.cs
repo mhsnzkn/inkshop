@@ -14,7 +14,7 @@ using Web.Models;
 
 namespace Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = UserRoles.Admin + "," + UserRoles.Accountant + "," + UserRoles.Supervisor)]
     public class ReservationsController : Controller
     {
         private readonly IOrderManager orderManager;
