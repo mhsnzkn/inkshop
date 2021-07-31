@@ -91,7 +91,7 @@ namespace Business.Concrete
         }
         public async Task<List<SelectListItem>> GetForDropDown()
         {
-            return await entityDal.Get().Select(a => new SelectListItem
+            return await entityDal.Get().OrderBy(a => a.Name).Select(a => new SelectListItem
             {
                 Text = a.Name+" "+a.Surname+"-"+a.job,
                 Value = a.Id.ToString()
@@ -110,11 +110,11 @@ namespace Business.Concrete
             IQueryable<Personnel> paginatedQuery = null;
             if (param.length > 0)
             {
-                paginatedQuery = query.Skip(param.start).Take(param.length);
+                paginatedQuery = query.OrderBy(a => a.Name).Skip(param.start).Take(param.length);
             }
             else
             {
-                paginatedQuery = query;
+                paginatedQuery = query.OrderBy(a => a.Name);
             }
 
             // DataTableModel

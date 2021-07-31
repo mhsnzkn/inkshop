@@ -91,7 +91,7 @@ namespace Business.Concrete
         }
         public async Task<List<SelectListItem>> GetForDropDown()
         {
-            return await currencyDal.Get().Select(a => new SelectListItem
+            return await currencyDal.Get().OrderBy(a => a.Name).Select(a => new SelectListItem
             {
                 Text = a.Name,
                 Value = a.Id.ToString()
@@ -111,7 +111,7 @@ namespace Business.Concrete
             {
                 query = query.Skip(param.start).Take(param.length);
             }
-            var list = await query.ToListAsync();
+            var list = await query.OrderBy(a => a.Name).ToListAsync();
 
             // DataTableModel
             result.Data = list;
