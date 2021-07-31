@@ -101,15 +101,24 @@ namespace Business.Concrete
         public async Task<DataTableResult> GetForDataTable(DataTableParams param)
         {
             var result = new DataTableResult();
-            var query = entityDal.Get().Skip(param.start).Take(param.length);
+            var query = entityDal.Get();
             // Filter
             if (!string.IsNullOrEmpty(param.search.value))
             {
                 query = query.Where(a => a.Name.Contains(param.search.value) || a.Surname.Contains(param.search.value));
             }
+            IQueryable<Personnel> paginatedQuery = null;
+            if (param.length > 0)
+            {
+                paginatedQuery = query.Skip(param.start).Take(param.length);
+            }
+            else
+            {
+                paginatedQuery = query;
+            }
 
             // DataTableModel
-            result.Data = await query.ToListAsync();
+            result.Data = await paginatedQuery.ToListAsync();
             result.Draw = param.draw;
             result.RecordsTotal = await query.CountAsync();
             result.RecordsFiltered = result.RecordsTotal;

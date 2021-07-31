@@ -101,17 +101,22 @@ namespace Business.Concrete
         public async Task<DataTableResult> GetForDataTable(DataTableParams param)
         {
             var result = new DataTableResult();
+            var query = officeDal.Get();
             // Filter
-            Expression<Func<Office, bool>> exp = null;
             if (!string.IsNullOrEmpty(param.search.value))
             {
-                exp = a => a.Name.Contains(param.search.value) || a.City.Contains(param.search.value) || a.Description.Contains(param.search.value);
+                query = query.Where(a => a.Name.Contains(param.search.value) || a.City.Contains(param.search.value) || a.Description.Contains(param.search.value));
             }
+            if (param.length > 0)
+            {
+                query = query.Skip(param.start).Take(param.length);
+            }
+            var list = await query.ToListAsync();
 
             // DataTableModel
-            result.Data = await officeDal.Get(exp).Skip(param.start).Take(param.length).ToListAsync();
+            result.Data = list;
             result.Draw = param.draw;
-            result.RecordsTotal = await officeDal.Get(exp).CountAsync();
+            result.RecordsTotal = list.Count;
             result.RecordsFiltered = result.RecordsTotal;
 
             return result;

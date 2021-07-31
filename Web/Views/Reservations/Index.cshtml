@@ -69,12 +69,13 @@
                 "serverSide": true, // for process server side
                 "pagination": true,
                 "filter": true, // this is for filter (search box)
+                "ordering": false,
                 //"orderMulti": false, // for disable multiple column at once
                 "pageLength": 10,
                 "createdRow": function (row, data, dataIndex) {
-                    //if (data[2] == `someVal`) {
-                    //    $(row).addClass('redClass');
-                    //}
+                    if (data.isPaymentDone === true) {
+                        $(row).addClass("bg-success");
+                    }
                 },
 
                 "ajax": {
@@ -136,11 +137,11 @@
                         }
                     }
                 ],
-                rowCallback: function (row, data, index) {
-                    if (data.isPaymentDone === true) {
-                        $(row).addClass("bg-success");
-                    }
-                }
+                //rowCallback: function (row, data, index) {
+                //    if (data.isPaymentDone === true) {
+                //        $(row).addClass("bg-success");
+                //    }
+                //}
 
             });
         });
