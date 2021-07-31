@@ -55,9 +55,6 @@ namespace Web.Controllers
             {
                 var order = await orderManager.GetReservationByIdAsync(id);
                 model.Reservation = mapper.Map<ReservationDto>(order);
-                //model.Reservation.ArtistId = order.OrderPersonnel.FirstOrDefault(a =>a.Job == OrderPersonnelJob.Artist)?.Id;
-                //model.Reservation.InfoMenId = order.OrderPersonnel.FirstOrDefault(a =>a.Job == OrderPersonnelJob.Info)?.Id;
-                //model.Reservation.MiddleMenId = order.OrderPersonnel.FirstOrDefault(a =>a.Job == OrderPersonnelJob.Hanut)?.Id;
             }else
             {
                 model.Reservation = new ReservationDto();

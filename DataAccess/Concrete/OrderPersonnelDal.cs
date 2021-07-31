@@ -43,7 +43,7 @@ namespace DataAccess.Concrete
 
         private void CheckOrderPersonel(List<OrderPersonnel> list, int personnelId, int orderId, OrderPersonnelJob job)
         {
-            var artist = list.FirstOrDefault(a => a.Job == job);
+            var artist = list.Where(a => a.Job == job).FirstOrDefault();
             if (artist != null)
             {
                 if (personnelId == 0)

@@ -55,6 +55,9 @@
                 @if (User.IsInRole(UserRoles.Admin))
                 {
                     <li>
+                        <a asp-controller="Users" asp-action="Index">Kullanıcılar</a>
+                    </li>
+                    <li>
                         <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Ayarlar</a>
                         <ul class="collapse list-unstyled" id="pageSubmenu">
                             <li>
@@ -71,14 +74,6 @@
                             </li>
                             <li>
                                 <a asp-controller="Personnel" asp-action="Index">Personel</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#userSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Kullanıcı Ayarları</a>
-                        <ul class="collapse list-unstyled" id="userSubmenu">
-                            <li>
-                                <a asp-controller="Users" asp-action="Index">Kullanıcılar</a>
                             </li>
                         </ul>
                     </li>
