@@ -99,7 +99,7 @@
                     {
                         "data": "date",
                         render: function (data, type, row) {
-                            return (new Date(data)).toLocaleDateString('tr-TR');
+                            return (new Date(data)).toLocaleString('tr-TR', { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' });
                         }
                     },
                     {

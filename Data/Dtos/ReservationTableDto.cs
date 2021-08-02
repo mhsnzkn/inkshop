@@ -27,6 +27,7 @@ namespace Data.Dtos
         public bool TypeFreeHand { get; set; }
         public bool TypeTouchUp { get; set; }
         public DateTime Date { get; set; }
+        public DateTime CrtDate { get; set; }
         public string Description { get; set; }
         public string CancellationReason { get; set; }
         public bool IsCreditCard { get; set; }

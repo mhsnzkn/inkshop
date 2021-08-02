@@ -46,8 +46,9 @@
             <th>Depozito</th>
             <th>Kalan</th>
             <th>Kur</th>
-            <th>Tarih</th>
             <th>Artist</th>
+            <th>Tarih</th>
+            <th>Kayıt Tarihi</th>
             <th>İşlem</th>
         </tr>
     </thead>
@@ -112,13 +113,19 @@
                         }
                     },
                     { "data": "currencyName" },
+                    { "data": "personnelName" },
                     {
                         "data": "date",
+                        render: function (data, type, row) {
+                            return (new Date(data)).toLocaleString('tr-TR', { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+                        }
+                    },
+                    {
+                        "data": "crtDate",
                         render: function (data, type, row) {
                             return (new Date(data)).toLocaleDateString('tr-TR');
                         }
                     },
-                    { "data": "personnelName" },
                     {
                         "data": "id",
                         render: function (data, type, row) {
