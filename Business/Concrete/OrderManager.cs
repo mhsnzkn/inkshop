@@ -197,7 +197,7 @@ namespace Business.Concrete
             {
                 var entity = await orderDal.GetByIdAsync(id);
                 entity.IsApproved = false;
-                entity.OrderCancellationReason = message;
+                entity.CancellationReason = message;
                 await orderDal.Save();
             }
             catch (Exception ex)
@@ -288,7 +288,7 @@ namespace Business.Concrete
             {
                 var entity = await orderDal.GetByIdAsync(id);
                 entity.IsApproved = false;
-                entity.ReservationCancellationReason = message;
+                entity.CancellationReason = message;
                 await orderDal.Save();
             }
             catch (Exception ex)

@@ -28,7 +28,7 @@ namespace Data.Dtos
         public DateTime Date { get; set; }
         public DateTime CrtDate { get; set; }
         public string Description { get; set; }
-        public string OrderCancellationReason { get; set; }
+        public string CancellationReason { get; set; }
         public bool IsCreditCard { get; set; }
         public bool? IsApproved { get; set; }
     }

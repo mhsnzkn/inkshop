@@ -28,6 +28,7 @@ namespace Data.Dtos
         public bool TypeTouchUp { get; set; }
         public DateTime Date { get; set; }
         public string Description { get; set; }
+        public string CancellationReason { get; set; }
         public bool IsCreditCard { get; set; }
         public bool? IsApproved { get; set; }
         public bool? IsReservationApproved { get; set; }

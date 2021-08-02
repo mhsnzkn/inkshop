@@ -39,9 +39,7 @@ namespace Data.Entities
         [StringLength(500)]
         public string Description { get; set; }
         [StringLength(100)]
-        public string OrderCancellationReason { get; set; }
-        [StringLength(100)]
-        public string ReservationCancellationReason { get; set; }
+        public string CancellationReason { get; set; }
         public OrderStatus Status { get; set; }
         public bool? IsApproved { get; set; }
         public bool IsPaymentDone { get; set; }
