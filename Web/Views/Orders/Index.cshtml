@@ -117,7 +117,7 @@
                                     '<a href="/Orders/Edit/' + data + '" class="btn btn-sm btn-warning m-1" title="Duzenle"><i class="fas fa-edit"></i></a>' +
                                     '<button onclick="deletePrompt(' + data + ')" class="btn btn-sm btn-danger m-1" title="Iptal"><i class="fas fa-window-close"></i></button>';
                             } else if (row.isApproved === false) {
-                                buttons = '<button onclick="showPrompt(\'' + row.orderCancellationReason + '\')" class="btn btn-sm btn-secondary m-1" title="Iptal"><i class="fas fa-question-circle"></i></button>';
+                                buttons = '<button onclick="showPrompt(\'' + row.cancellationReason + '\')" class="btn btn-sm btn-secondary m-1" title="Iptal"><i class="fas fa-question-circle"></i></button>';
                             }
 
                             return buttons;

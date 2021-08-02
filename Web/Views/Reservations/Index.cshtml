@@ -131,6 +131,8 @@
                                 }
                                 buttons += '<a href="/Reservations/Edit/' + data + '" class="btn btn-sm btn-warning" title="Duzenle"><i class="fas fa-edit"></i></a>' +
                                     '<button onclick="deletePrompt(' + data + ')" class="btn btn-sm btn-danger" title="Iptal"><i class="fas fa-window-close"></i></button>';
+                            } else if (row.isApproved === false) {
+                                buttons = '<button onclick="showPrompt(\'' + row.cancellationReason + '\')" class="btn btn-sm btn-secondary m-1" title="Iptal"><i class="fas fa-question-circle"></i></button>';
                             }
 
                             return buttons;
@@ -210,6 +212,10 @@
                         }
                     })
                 }, null)
+        }
+
+        function showPrompt(message) {
+            alertify.alert("İptal Sebebi", message);
         }
 
         $('.param-change').change(function () {
