@@ -29,7 +29,7 @@
                 <li>
                     <a asp-controller="Transfers" asp-action="Index">Transfer</a>
                 </li>
-                @if (!User.IsInRole(UserRoles.Info))
+                @if (User.IsInRole(UserRoles.Admin) || User.IsInRole(UserRoles.Supervisor) || User.IsInRole(UserRoles.Accountant))
                 {
                     <li>
                         <a asp-controller="Orders" asp-action="Index">Siparis</a>
