@@ -1,4 +1,5 @@
 ﻿using Core.Data;
+using Data.Constants;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -19,6 +20,7 @@ namespace Data.Entities
         public string Phone { get; set; }
         [StringLength(100)]
         public string job { get; set; }
+        public PersonnelCategories Category { get; set; }
         public Office Office { get; set; }
         public int? OfficeId { get; set; }
         [Column(TypeName = "decimal(5,2)")]

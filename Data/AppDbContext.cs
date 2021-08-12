@@ -1,4 +1,5 @@
-﻿using Data.Entities;
+﻿using Data.Constants;
+using Data.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -21,5 +22,16 @@ namespace Data
         public DbSet<Currency> Currencies { get; set; }
         public DbSet<Personnel> Personnel { get; set; }
         public DbSet<OrderPersonnel> OrderPersonnel { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder
+                .Entity<OrderType>()
+                .HasData(
+                    new OrderType { Id = OrderTypeId.Dovme.GetHashCode(), Name = "Dövme", CrtDate = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Local) },
+                    new OrderType { Id = OrderTypeId.MakePiercing.GetHashCode(), Name = "Make Piercing", CrtDate = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Local) });
+        }
     }
 }
