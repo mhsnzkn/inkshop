@@ -1,0 +1,191 @@
+﻿@{
+    ViewData["Title"] = "Siparişler";
+}
+
+<h4>@ViewData["Title"]</h4>
+<hr />
+<form>
+    <div class="form-group row">
+        <label for="mindate" class="col-sm-2 col-form-label">Başlangıç Tarihi</label>
+        <div class="col-sm-6">
+            <input type="date" class="form-control param-change" id="mindate" value="@DateTime.Today.ToString("yyyy-MM-dd")">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="maxdate" class="col-sm-2 col-form-label">Bitiş Tarihi</label>
+        <div class="col-sm-6">
+            <input type="date" class="form-control param-change" id="maxdate" value="@DateTime.Today.ToString("yyyy-MM-dd")">
+        </div>
+    </div>
+
+    <div class="custom-control custom-switch">
+        <input type="checkbox" class="custom-control-input param-change" id="cancelSwitch">
+        <label class="custom-control-label" for="cancelSwitch">İptal olanları göster</label>
+    </div>
+    <input type="button" class="btn btn-info m-1" value="Temizle" onclick="clearForm()" />
+</form>
+
+<div class="d-flex justify-content-end p-3">
+    <!-- Large modal -->
+    <a asp-controller="Orders" asp-action="Edit" class="btn btn-primary"><i class="fas fa-plus"></i> Ekle</a>
+</div>
+
+<table id="datatable" class="table stripe display" width="100%">
+    <thead>
+        <tr>
+            <th>Şube</th>
+            <th>Sipariş No</th>
+            <th>Tür</th>
+            <th>Müşteri</th>
+            <th>Tutar</th>
+            <th>Depozito</th>
+            <th>Kalan</th>
+            <th>Kur</th>
+            <th>Tarih</th>
+            <th>Kayıt Tarihi</th>
+            <th>İşlem</th>
+        </tr>
+    </thead>
+</table>
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#datatable').DataTable({
+                language: {
+                    url: '/lib/datatable/tr/tr.json'
+                },
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print', 'pageLength'
+                ],
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                "pagination": true,
+                "filter": true, // this is for filter (search box)
+                "ordering": false,
+                //"orderMulti": false, // for disable multiple column at once
+                "pageLength": 10,
+
+                "ajax": {
+                    url: "/Orders/GetDataTable",
+                    type: 'POST',
+                    contentType: "application/json",
+                    data: function (d) {
+                        var isCancelled = $('#cancelSwitch').prop('checked') ? true : null;
+                        d.search.listCancelled = isCancelled;
+                        var date1 = $('#mindate').val();
+                        var date2 = $('#maxdate').val();
+                        d.minDate = date1 ? new Date(date1) : null;
+                        d.maxDate = date2 ? new Date(date2) : null;
+                        return JSON.stringify(d);
+                    }
+                },
+                "columns": [
+                    { "data": "officeName", },
+                    { "data": "id", },
+                    { "data": "orderTypeName", },
+                    { "data": "customerFullName", },
+                    { "data": "price" },
+                    { "data": "deposit" },
+                    {
+                        "data": "null",
+                        render: function (data, type, row) {
+                            return row.price - row.deposit;
+                        }
+                    },
+                    { "data": "currencyName" },
+                    {
+                        "data": "date",
+                        render: function (data, type, row) {
+                            return (new Date(data)).toLocaleString('tr-TR', { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+                        }
+                    },
+                    {
+                        "data": "crtDate",
+                        render: function (data, type, row) {
+                            return (new Date(data)).toLocaleDateString('tr-TR');
+                        }
+                    },
+                    {
+                        "data": "id",
+                        render: function (data, type, row) {
+                            let buttons = null;
+                            if (row.isApproved === null) {
+                                buttons = '<button onclick="confirmPrompt(' + data + ')" class="btn btn-sm btn-success m-1" title="Onayla"><i class="fas fa-check-circle"></i></button>' +
+                                    '<a href="/Orders/Edit/' + data + '" class="btn btn-sm btn-warning m-1" title="Duzenle"><i class="fas fa-edit"></i></a>' +
+                                    '<button onclick="deletePrompt(' + data + ')" class="btn btn-sm btn-danger m-1" title="Iptal"><i class="fas fa-window-close"></i></button>';
+                            } else if (row.isApproved === false) {
+                                buttons = '<button onclick="showPrompt(\'' + row.cancellationReason + '\')" class="btn btn-sm btn-secondary m-1" title="Iptal"><i class="fas fa-question-circle"></i></button>';
+                            }
+
+                            return buttons;
+                        }
+                    }
+                ]
+
+            });
+        });
+
+
+        function confirmPrompt(id) {
+            alertify.confirm("Onay", "Siparişi onaylıyor musunuz?",
+                function () {
+                    let model = { id: id }
+                    $.ajax({
+                        url: '/Orders/Approve',
+                        type: 'post',
+                        contentType: "application/json",
+                        data: JSON.stringify(model),
+                        success: function (res) {
+                            if (res.error === false) {
+                                alertify.success("İşlem Başarılı");
+                                $('#datatable').DataTable().ajax.reload();
+                            } else {
+                                alertify.error("İşlem Başarısız");
+                                console.log(res);
+                            }
+                        }
+                    })
+                }, null)
+        }
+        function deletePrompt(id) {
+            alertify.prompt("İptal işlemi", "Sipariş iptal sebebi:", null,
+                function (evt, value) {
+                    let model = { id: id, message: value };
+                    $.ajax({
+                        url: '/Orders/Cancel',
+                        type: 'post',
+                        contentType: "application/json",
+                        data: JSON.stringify(model),
+                        success: function (res) {
+                            if (res.error === false) {
+                                alertify.success("İşlem Başarılı");
+                                $('#datatable').DataTable().ajax.reload();
+                            } else {
+                                alertify.error("İşlem Başarısız");
+                                console.log(res);
+                            }
+                        }
+                    })
+                }, null)
+        }
+
+        function showPrompt(message) {
+            alertify.alert("İptal Sebebi", message);
+        }
+
+        $('.param-change').change(function () {
+            refreshTable();
+        })
+        function clearForm() {
+            $('.param-change').val(null);
+            $('#cancelSwitch').prop('checked', false);
+            refreshTable();
+        }
+        function refreshTable() {
+            $('#datatable').DataTable().ajax.reload();
+        }
+    </script>
+}

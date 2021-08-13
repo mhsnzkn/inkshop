@@ -66,6 +66,7 @@ namespace Web
             services.AddScoped<IPersonnelManager, PersonnelManager>();
             services.AddScoped<IPersonnelDal, PersonnelDal>();
 
+            services.AddScoped<IVaultManager, VaultManager>();
             services.AddScoped<IOrderPersonnelDal, OrderPersonnelDal>();
             #endregion
 

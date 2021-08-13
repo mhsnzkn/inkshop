@@ -44,6 +44,12 @@ namespace Data.Automapper
                     o.OrderPersonnel.Where(d => d.Job == OrderPersonnelJob.Artist).FirstOrDefault().Personnel.Name +" "+ 
                     o.OrderPersonnel.Where(d => d.Job == OrderPersonnelJob.Artist).FirstOrDefault().Personnel.Surname));
 
+            CreateMap<Order, VaultIncomeDto>()
+                .ForMember(a => a.OfficeName, s => s.MapFrom(o => o.Office.Name))
+                .ForMember(a => a.CurrencyName, s => s.MapFrom(o => o.Currency.ShortName))
+                .ForMember(a => a.CustomerFullName, s => s.MapFrom(o => o.CustomerName + " " + o.CustomerSurname))
+                .ForMember(a => a.Price, s => s.MapFrom(o => o.IsPaymentDone ? o.Price - o.Deposit : o.Deposit));
+
             CreateMap<ReservationDto, Order>();
             CreateMap<Order, ReservationDto>()
                 .ForMember(a => a.ArtistId, s => s.MapFrom(o => o.OrderPersonnel.Where(d => d.Job == OrderPersonnelJob.Artist).FirstOrDefault().PersonnelId))
