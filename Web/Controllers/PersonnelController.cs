@@ -37,21 +37,23 @@ namespace Web.Controllers
         public async Task<IActionResult> Edit(Personnel personnel)
         {
             Core.Utility.Result result = null;
-            if (personnel.Id == 0)
+            try
             {
-                result = await personnelManager.Add(personnel);
+                if (personnel.Id == 0)
+                {
+                    result = await personnelManager.Add(personnel);
+                }
+                else
+                {
+                    result = await personnelManager.Update(personnel);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                result = await personnelManager.Update(personnel);
+                result.SetError(ex.ToString(), UserMessages.Fail);
             }
-            if (result.Error)
-            {
-                ViewData["error"] = result.Message;
-                return View(personnel);
-            }
-            else
-                return RedirectToAction(nameof(Index));
+
+            return Ok(result);
         }
 
         public async Task<IActionResult> Delete(Personnel personnel)

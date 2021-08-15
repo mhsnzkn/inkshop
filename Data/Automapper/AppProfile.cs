@@ -64,6 +64,9 @@ namespace Data.Automapper
             CreateMap<ApplicationUser, UserEditDto>()
                 .ForMember(a => a.Password, o => o.Ignore())
                 .ForMember(a => a.ConfirmPassword, o => o.Ignore());
+
+            CreateMap<Personnel, PersonnelTableDto>()
+                .ForMember(a => a.CategoryName, o => o.MapFrom(s => s.Category.ToString()));
         }
     }
 }

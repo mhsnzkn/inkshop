@@ -1,5 +1,6 @@
 ﻿using Core.Data;
 using Data.Constants;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Data.Entities
 {
@@ -10,6 +11,8 @@ namespace Data.Entities
         public Personnel Personnel { get; set; }
         public int PersonnelId { get; set; }
         public OrderPersonnelJob Job { get; set; }
+        [Column(TypeName = "decimal(6,2)")]
+        public decimal Price { get; set; }
 
     }
 }

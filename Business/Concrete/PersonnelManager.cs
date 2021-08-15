@@ -1,7 +1,9 @@
-﻿using Business.Abstract;
+﻿using AutoMapper;
+using Business.Abstract;
 using Core.Utility;
 using Core.Utility.Datatables;
 using Data.Constants;
+using Data.Dtos;
 using Data.Entities;
 using DataAccess.Abstract;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -18,10 +20,12 @@ namespace Business.Concrete
     public class PersonnelManager : IPersonnelManager
     {
         private readonly IPersonnelDal entityDal;
+        private readonly IMapper mapper;
 
-        public PersonnelManager(IPersonnelDal entityDal)
+        public PersonnelManager(IPersonnelDal entityDal, IMapper mapper)
         {
             this.entityDal = entityDal;
+            this.mapper = mapper;
         }
         
         public async Task<List<Personnel>> Get(System.Linq.Expressions.Expression<Func<Personnel, bool>> expression = null)
@@ -89,6 +93,22 @@ namespace Business.Concrete
 
             return result;
         }
+        public async Task<List<SelectListItem>> GetInfoPersonnelForDropDown()
+        {
+            return await entityDal.Get().OrderBy(a => a.Name).Select(a => new SelectListItem
+            {
+                Text = a.Name+" "+a.Surname+"-"+a.job,
+                Value = a.Id.ToString()
+            }).ToListAsync();
+        }
+        public async Task<List<SelectListItem>> GetMiddlePersonnelForDropDown()
+        {
+            return await entityDal.Get().OrderBy(a => a.Name).Select(a => new SelectListItem
+            {
+                Text = a.Name+" "+a.Surname+"-"+a.job,
+                Value = a.Id.ToString()
+            }).ToListAsync();
+        }
         public async Task<List<SelectListItem>> GetForDropDown()
         {
             return await entityDal.Get().OrderBy(a => a.Name).Select(a => new SelectListItem
@@ -118,7 +138,7 @@ namespace Business.Concrete
             }
 
             // DataTableModel
-            result.Data = await paginatedQuery.ToListAsync();
+            result.Data = await mapper.ProjectTo<PersonnelTableDto>(paginatedQuery).ToListAsync();
             result.Draw = param.draw;
             result.RecordsTotal = await query.CountAsync();
             result.RecordsFiltered = result.RecordsTotal;

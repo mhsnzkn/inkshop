@@ -21,11 +21,13 @@ namespace Business.Concrete
     {
         private readonly IOrderDal orderDal;
         private readonly IMapper mapper;
+        private readonly IOrderPersonnelDal orderPersonnelDal;
 
-        public VaultManager(IOrderDal orderDal, IMapper mapper)
+        public VaultManager(IOrderDal orderDal, IMapper mapper, IOrderPersonnelDal orderPersonnelDal)
         {
             this.orderDal = orderDal;
             this.mapper = mapper;
+            this.orderPersonnelDal = orderPersonnelDal;
         }
 
         public async Task<DataTableResult> GetIncomeDataTable(DataTableParams param)

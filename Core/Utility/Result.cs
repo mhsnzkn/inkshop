@@ -10,7 +10,7 @@ namespace Core.Utility
     {
         public bool Error { get; set; } = false;
         public string Message { get; set; }
-        public string UserMessage { get; set; }
+        public string UserMessage { get; set; } = "İşlem başarılı";
 
         public void SetError(string message, string userMessage)
         {

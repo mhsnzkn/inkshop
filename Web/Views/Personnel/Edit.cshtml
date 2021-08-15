@@ -6,7 +6,7 @@
 
 <p class="text-danger">@ViewData["error"]</p>
 <div class="text-danger" asp-validation-summary="ModelOnly"></div>
-<form method="post">
+<form data-ajax-url="/Personnel/Edit" data-ajax="true" data-ajax-method="post" data-ajax-complete="success" data-ajax-failure="ajaxFail">
     <input type="hidden" asp-for="Id" />
     <div class="form-row">
         <div class="form-group col-md-4">
@@ -38,7 +38,7 @@
         </div>
         <div class="form-group col-md-4">
             <label>Komisyon</label>
-            <input class="form-control" asp-for="Commission">
+            <input class="form-control" asp-for="Commission" max="1">
             <span class="text-danger" asp-validation-for="Commission"></span>
         </div>
     </div>
@@ -107,5 +107,9 @@
             }
         })
     })
+
+        var success = function (xhr) {
+            ajaxSuccess(xhr, '/Personnel');
+        }
     </script>
 }
