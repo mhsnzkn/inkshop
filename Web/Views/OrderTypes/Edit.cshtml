@@ -4,7 +4,7 @@
 }
 
 <div class="text-danger" asp-validation-summary="ModelOnly"></div>
-<form method="post">
+<form data-ajax-url="/OrderTypes/Edit" data-ajax="true" data-ajax-method="post" data-ajax-complete="success" data-ajax-failure="ajaxFail">
     <input type="hidden" asp-for="Id" />
     <div class="form-row">
         <div class="form-group col-md-3">
@@ -51,4 +51,9 @@
 
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />
+<script>
+    var success = function (xhr) {
+        ajaxSuccess(xhr, '/OrderTypes');
+    }
+</script>
 }

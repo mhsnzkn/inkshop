@@ -36,6 +36,7 @@
         <tr>
             <th>Şube</th>
             <th>Sipariş No</th>
+            <th>Isim</th>
             <th>Aciklama</th>
             <th>Tarih</th>
             <th>Tutar</th>
@@ -80,7 +81,7 @@
 
                         return $('<tr/>')
 
-                            .append('<td colspan="3"></td><td>TOPLAM:</td><td>' + ageAvg + ' ' + group + '</td><td colspan="3"></td>');
+                            .append('<td colspan="4"></td><td>TOPLAM:</td><td>' + ageAvg + ' ' + group + '</td><td colspan="3"></td>');
 
                     }
                 },
@@ -108,6 +109,7 @@
                     { "data": "officeName", },
                     { "data": "id", },
                     { "data": "customerFullName", },
+                    { "data": "description", },
                     {
                         "data": "date",
                         render: function (data, type, row) {

@@ -15,6 +15,7 @@ namespace Data.Dtos
         public string CurrencyName { get; set; }
         public string CustomerFullName { get; set; }
         public decimal Price { get; set; }
+        public string Description { get; set; }
         public DateTime Date { get; set; }
         public bool IsCreditCard { get; set; }
         public bool IsPaymentDone { get; set; }

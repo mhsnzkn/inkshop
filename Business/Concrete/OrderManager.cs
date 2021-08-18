@@ -21,12 +21,15 @@ namespace Business.Concrete
         private readonly IOrderDal orderDal;
         private readonly IMapper mapper;
         private readonly IOrderPersonnelDal orderPersonnelDal;
+        private readonly IPersonnelDal personnelDal;
 
-        public OrderManager(IOrderDal orderDal, IMapper mapper, IOrderPersonnelDal orderPersonnelDal)
+        public OrderManager(IOrderDal orderDal, IMapper mapper, IOrderPersonnelDal orderPersonnelDal,
+            IPersonnelDal personnelDal)
         {
             this.orderDal = orderDal;
             this.mapper = mapper;
             this.orderPersonnelDal = orderPersonnelDal;
+            this.personnelDal = personnelDal;
         }
 
         public async Task<List<Order>> Get(System.Linq.Expressions.Expression<Func<Order, bool>> expression = null)
@@ -255,6 +258,32 @@ namespace Business.Concrete
             {
                 var entity = await orderDal.GetByIdAsync(id);
                 entity.IsApproved = true;
+
+                var personnelList = await orderPersonnelDal.Get(a => a.OrderId == entity.Id).Include(a=>a.Personnel).ToListAsync();
+                #region Franchising Kontrolu ve Ekleme
+                if (entity.OrderTypeId == OrderTypeId.Dovme.GetHashCode() || entity.OrderTypeId == OrderTypeId.MakePiercing.GetHashCode())
+                {
+                    var franchising = await personnelDal.GetFranchising();
+                    if(franchising is not null)
+                    {
+                        var franchisingShare = new OrderPersonnel()
+                        {
+                            Order = entity,
+                            Personnel = franchising,
+                            Price = entity.Price * franchising.Commission
+                        };
+                        orderPersonnelDal.Add(franchisingShare);
+                    }
+                }
+                #endregion
+                
+                var maxShare = 0;
+                foreach (var item in personnelList)
+                {
+                      
+                }
+
+
                 await orderDal.Save();
             }
             catch (Exception ex)

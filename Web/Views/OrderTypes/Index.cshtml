@@ -10,7 +10,7 @@
 </div>
 
 
-<table id="datatable" class="table stripe display">
+<table id="datatable" class="table stripe display" width="75%">
     <thead>
         <tr>
             <th>Ad</th>
@@ -51,8 +51,13 @@
                     {
                         "data": "id",
                         render: function (data, type, row) {
-                            return '<a href="/OrderTypes/Edit/' + data + '" class="btn btn-sm btn-warning m-1"><i class="fas fa-edit"></i></button>';
-                        }
+
+                            let buttons =null;
+                            if (!(data === @Data.Constants.OrderTypeId.Dovme.GetHashCode() || data === @Data.Constants.OrderTypeId.MakePiercing.GetHashCode())) {
+                                buttons = '<a href="/OrderTypes/Edit/' + data + '" class="btn btn-sm btn-warning m-1"><i class="fas fa-edit"></i></button>';
+                            }
+                            return buttons;
+                        },
                     }
                 ]
 

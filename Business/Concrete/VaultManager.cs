@@ -44,13 +44,6 @@ namespace Business.Concrete
 
             var paginatedQuery = query.Skip(param.start).Take(param.length);
             var list = await mapper.ProjectTo<VaultIncomeDto>(paginatedQuery).ToListAsync();
-            //List<VaultIncomeDto> resultList = new();
-            //foreach (var currency in list.Select(a=>a.CurrencyId).Distinct())
-            //{
-            //    var currencyList = list.Where(a => a.CurrencyId == currency);
-            //    resultList.AddRange(currencyList);
-            //    resultList.Add(new VaultIncomeDto { CurrencyId = 0, CustomerFullName = "TOPLAM", Price = currencyList.Sum(a => a.Deposit) });
-            //}
 
             // DataTableModel
             result.Data = list;

@@ -37,18 +37,19 @@ namespace Web.Controllers
         public async Task<IActionResult> Edit(OrderType orderType)
         {
             Core.Utility.Result result = null;
+            if(orderType.Id == OrderTypeId.Dovme.GetHashCode() || orderType.Id == OrderTypeId.MakePiercing.GetHashCode())
+            {
+                result = new Core.Utility.Result();
+                result.SetError(UserMessages.CannotChange, UserMessages.CannotChange);
+                return Ok(result);
+            }
+
             if (orderType.Id == 0)
-            {
                 result = await orderTypeManager.Add(orderType);
-            }
             else
-            {
                 result = await orderTypeManager.Update(orderType);
-            }
-            if (result.Error)
-                return View(orderType);
-            else
-                return RedirectToAction(nameof(Index));
+
+            return Ok(result);
         }
 
         public async Task<IActionResult> Delete(OrderType orderType)

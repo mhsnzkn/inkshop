@@ -111,7 +111,7 @@ namespace Business.Concrete
             {
                 query = query.Skip(param.start).Take(param.length);
             }
-            var list = await query.OrderBy(a => a.Name).ToListAsync();
+            var list = await query.ToListAsync();
 
             // DataTableModel
             result.Data = list;

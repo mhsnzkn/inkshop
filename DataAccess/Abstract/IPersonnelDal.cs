@@ -10,5 +10,6 @@ namespace DataAccess.Abstract
 {
     public interface IPersonnelDal : IRepositoryBase<Personnel>
     {
+        Task<Personnel> GetFranchising();
     }
 }
