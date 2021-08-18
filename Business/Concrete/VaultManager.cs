@@ -58,19 +58,23 @@ namespace Business.Concrete
         public async Task<DataTableResult> GetExpenseDataTable(DataTableParams param)
         {
             var result = new DataTableResult();
-            var query = orderDal.Get().OrderBy(a => a.Date)
-                .Include(a => a.Office).Include(a => a.Currency)
+            var query = orderPersonnelDal.Get(a => a.Order.IsApproved == true).OrderBy(a => a.Order.CurrencyId)
+                .Include(a=>a.Personnel).Include(a=>a.Order).Include(a => a.Order.Office).Include(a => a.Order.Currency)
                 .AsQueryable();
 
+            //var query = orderDal.Get(a=>a.IsApproved == true).OrderBy(a => a.CurrencyId)
+            //    .Include(a => a.Office).Include(a => a.Currency)
+            //    .AsQueryable();
+
             if (param.minDate != null)
-                query = query.Where(a => a.Date.Date >= param.minDate);
+                query = query.Where(a => a.Order.ApproveDate.Value.Date >= param.minDate);
             if (param.maxDate != null)
-                query = query.Where(a => a.Date.Date <= param.maxDate);
+                query = query.Where(a => a.Order.ApproveDate.Value.Date <= param.maxDate);
 
             var paginatedQuery = query.Skip(param.start).Take(param.length);
 
             // DataTableModel
-            result.Data = await mapper.ProjectTo<ReservationTableDto>(paginatedQuery).ToListAsync();
+            result.Data = await mapper.ProjectTo<VaultExpenseDto>(paginatedQuery).ToListAsync();
             result.Draw = param.draw;
             result.RecordsTotal = await query.CountAsync();
             result.RecordsFiltered = result.RecordsTotal;

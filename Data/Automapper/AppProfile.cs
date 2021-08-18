@@ -51,6 +51,16 @@ namespace Data.Automapper
                 .ForMember(a => a.Price, s => s.MapFrom(o => o.IsPaymentDone ? o.Price - o.Deposit : o.Deposit))
                 .ForMember(a => a.Description, s => s.MapFrom(o => o.IsPaymentDone ? "Rest" : "Depozito"));
 
+            CreateMap<OrderPersonnel, VaultExpenseDto>()
+                .ForMember(a => a.OfficeName, s => s.MapFrom(o => o.Order.Office.Name))
+                .ForMember(a => a.CurrencyName, s => s.MapFrom(o => o.Order.Currency.ShortName))
+                .ForMember(a => a.OrderId, s => s.MapFrom(o => o.Order.Id))
+                .ForMember(a => a.PersonnelFullName, s => s.MapFrom(o => o.Personnel.Name + " " + o.Personnel.Surname))
+                .ForMember(a => a.PersonnelJob, s => s.MapFrom(o => o.Personnel.job))
+                .ForMember(a => a.ApproveDate, s => s.MapFrom(o => o.Order.ApproveDate))
+                .ForMember(a => a.IsCreditCard, s => s.MapFrom(o => o.Order.IsCreditCard))
+                .ForMember(a => a.IsPaymentDone, s => s.MapFrom(o => o.Order.IsPaymentDone));
+
             CreateMap<ReservationDto, Order>();
             CreateMap<Order, ReservationDto>()
                 .ForMember(a => a.ArtistId, s => s.MapFrom(o => o.OrderPersonnel.Where(d => d.Job == OrderPersonnelJob.Artist).FirstOrDefault().PersonnelId))

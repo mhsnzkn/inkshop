@@ -65,6 +65,7 @@ namespace DataAccess.Concrete
                 var orderPrice = price ?? order.Price;
                 orderPersonnel.Price = orderPrice * orderPersonnel.Personnel.Commission;
                 maxPrice = maxPrice < orderPersonnel.Price ? orderPersonnel.Price : maxPrice;
+                context.Update(orderPersonnel);
             }
         }
 

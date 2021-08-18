@@ -95,7 +95,7 @@ namespace Business.Concrete
         }
         public async Task<List<SelectListItem>> GetInfoPersonnelForDropDown()
         {
-            return await entityDal.Get().OrderBy(a => a.Name).Select(a => new SelectListItem
+            return await entityDal.Get(a=>a.Category == PersonnelCategories.DisInfo).OrderBy(a => a.Name).Select(a => new SelectListItem
             {
                 Text = a.Name+" "+a.Surname+"-"+a.job,
                 Value = a.Id.ToString()
@@ -103,7 +103,15 @@ namespace Business.Concrete
         }
         public async Task<List<SelectListItem>> GetMiddlePersonnelForDropDown()
         {
-            return await entityDal.Get().OrderBy(a => a.Name).Select(a => new SelectListItem
+            return await entityDal.Get(a => a.Category == PersonnelCategories.Hanutcu).OrderBy(a => a.Name).Select(a => new SelectListItem
+            {
+                Text = a.Name+" "+a.Surname+"-"+a.job,
+                Value = a.Id.ToString()
+            }).ToListAsync();
+        }
+        public async Task<List<SelectListItem>> GetArtistPersonnelForDropDown()
+        {
+            return await entityDal.Get(a => a.Category == PersonnelCategories.Artist).OrderBy(a => a.Name).Select(a => new SelectListItem
             {
                 Text = a.Name+" "+a.Surname+"-"+a.job,
                 Value = a.Id.ToString()

@@ -15,6 +15,8 @@ namespace Web.Models
         public List<SelectListItem> Office { get; set; }
         public List<SelectListItem> Country { get; set; }
         public List<SelectListItem> Currency { get; set; }
-        public List<SelectListItem> Personnel { get; set; }
+        public List<SelectListItem> ArtistPersonnel { get; set; }
+        public List<SelectListItem> InfoPersonnel { get; set; }
+        public List<SelectListItem> HanutPersonnel { get; set; }
     }
 }

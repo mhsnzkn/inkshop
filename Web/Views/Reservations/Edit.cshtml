@@ -22,7 +22,7 @@
         </div>
         <div class="form-group col-md-4">
             <label>Artist</label>
-            <select class="form-control" asp-for="Reservation.ArtistId" asp-items="Model.Personnel">
+            <select class="form-control" asp-for="Reservation.ArtistId" asp-items="Model.ArtistPersonnel">
                 <option value="">--Seçiniz--</option>
             </select>
             <span class="text-danger" asp-validation-for="Reservation.ArtistId"></span>
@@ -105,13 +105,13 @@
     <div class="form-row">
         <div class="form-group col-md-6">
             <label>Infocu</label>
-            <select class="form-control" asp-for="Reservation.InfoMenId" asp-items="Model.Personnel" id="slc_info">
+            <select class="form-control" asp-for="Reservation.InfoMenId" asp-items="Model.InfoPersonnel" id="slc_info">
                 <option value="0">--Yok--</option>
             </select>
         </div>
         <div class="form-group col-md-6">
             <label>Hanutçu</label>
-            <select class="form-control" asp-for="Reservation.MiddleMenId" asp-items="Model.Personnel" id="slc_hanut">
+            <select class="form-control" asp-for="Reservation.MiddleMenId" asp-items="Model.HanutPersonnel" id="slc_hanut">
                 <option value="0">--Yok--</option>
             </select>
         </div>

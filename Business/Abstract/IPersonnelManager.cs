@@ -20,5 +20,8 @@ namespace Business.Abstract
         Task<Result> Update(Personnel entity);
         Task<Result> Delete(Personnel entity);
         Task<List<SelectListItem>> GetForDropDown();
+        Task<List<SelectListItem>> GetArtistPersonnelForDropDown();
+        Task<List<SelectListItem>> GetMiddlePersonnelForDropDown();
+        Task<List<SelectListItem>> GetInfoPersonnelForDropDown();
     }
 }

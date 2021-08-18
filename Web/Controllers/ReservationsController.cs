@@ -49,7 +49,9 @@ namespace Web.Controllers
                 Office = await officeManager.GetForDropDown(),
                 Country = await countryManager.GetForDropDown(),
                 Currency = await currencyManager.GetForDropDown(),
-                Personnel = await personnelManager.GetForDropDown()
+                ArtistPersonnel = await personnelManager.GetArtistPersonnelForDropDown(),
+                InfoPersonnel = await personnelManager.GetInfoPersonnelForDropDown(),
+                HanutPersonnel = await personnelManager.GetMiddlePersonnelForDropDown(),
             };
             if(id != 0)
             {

@@ -270,7 +270,7 @@ namespace Business.Concrete
 
                 // Infocu ucret hesaplama
                 var infocu = personnelList.Where(a => a.Job == OrderPersonnelJob.Info).FirstOrDefault();
-                orderPersonnelDal.SetPersonnelPrice(hanutcu, order, null, ref maxPrice);
+                orderPersonnelDal.SetPersonnelPrice(infocu, order, null, ref maxPrice);
                 // artist ucret hesaplama
                 var orderPrice = order.Price - maxPrice;
                 var artist = personnelList.Where(a => a.Job == OrderPersonnelJob.Artist).FirstOrDefault();
