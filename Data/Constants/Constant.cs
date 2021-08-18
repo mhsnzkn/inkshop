@@ -40,7 +40,8 @@ namespace Data.Constants
     {
         Artist,
         Info,
-        Hanut
+        Hanut,
+        IcInfo
     }
 
     public enum PersonnelCategories

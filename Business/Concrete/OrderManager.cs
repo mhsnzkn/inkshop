@@ -256,32 +256,27 @@ namespace Business.Concrete
             var result = new Result();
             try
             {
-                var entity = await orderDal.GetByIdAsync(id);
-                entity.IsApproved = true;
+                var order = await orderDal.GetByIdAsync(id);
+                order.IsApproved = true;
 
-                var personnelList = await orderPersonnelDal.Get(a => a.OrderId == entity.Id).Include(a=>a.Personnel).ToListAsync();
-                #region Franchising Kontrolu ve Ekleme
-                if (entity.OrderTypeId == OrderTypeId.Dovme.GetHashCode() || entity.OrderTypeId == OrderTypeId.MakePiercing.GetHashCode())
-                {
-                    var franchising = await personnelDal.GetFranchising();
-                    if(franchising is not null)
-                    {
-                        var franchisingShare = new OrderPersonnel()
-                        {
-                            Order = entity,
-                            Personnel = franchising,
-                            Price = entity.Price * franchising.Commission
-                        };
-                        orderPersonnelDal.Add(franchisingShare);
-                    }
-                }
-                #endregion
-                
-                var maxShare = 0;
-                foreach (var item in personnelList)
-                {
-                      
-                }
+                var personnelList = await orderPersonnelDal.Get(a => a.OrderId == order.Id).Include(a=>a.Personnel).ToListAsync();
+                // Franchising Kontrolu ve Ekleme
+                await orderPersonnelDal.AddFranchising(order);
+                var maxPrice = 0M;
+                //Hanutcu ucret hesaplama
+                var hanutcu = personnelList.Where(a => a.Job == OrderPersonnelJob.Hanut).FirstOrDefault();
+                orderPersonnelDal.SetPersonnelPrice(hanutcu, order, null, ref maxPrice);
+
+                // Infocu ucret hesaplama
+                var infocu = personnelList.Where(a => a.Job == OrderPersonnelJob.Info).FirstOrDefault();
+                orderPersonnelDal.SetPersonnelPrice(hanutcu, order, null, ref maxPrice);
+                // artist ucret hesaplama
+                var orderPrice = order.Price - maxPrice;
+                var artist = personnelList.Where(a => a.Job == OrderPersonnelJob.Artist).FirstOrDefault();
+                orderPersonnelDal.SetPersonnelPrice(artist, order, orderPrice, ref maxPrice);
+
+                // Ic Personnel ucret hesaplama
+                await orderPersonnelDal.AddInternalPersonnel(order, orderPrice);
 
 
                 await orderDal.Save();
