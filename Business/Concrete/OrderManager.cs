@@ -258,6 +258,7 @@ namespace Business.Concrete
             {
                 var order = await orderDal.GetByIdAsync(id);
                 order.IsApproved = true;
+                order.ApproveDate = DateTime.Now;
 
                 var personnelList = await orderPersonnelDal.Get(a => a.OrderId == order.Id).Include(a=>a.Personnel).ToListAsync();
                 // Franchising Kontrolu ve Ekleme
@@ -295,6 +296,7 @@ namespace Business.Concrete
             {
                 var entity = await orderDal.GetByIdAsync(id);
                 entity.IsPaymentDone = true;
+                entity.PaymentDate = DateTime.Now;
                 await orderDal.Save();
             }
             catch (Exception ex)

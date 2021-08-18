@@ -46,6 +46,8 @@ namespace Data.Entities
         public bool IsCreditCard { get; set; }
         public bool IsTransfer { get; set; }
         public int PersonCount { get; set; }
+        public DateTime? PaymentDate { get; set; }
+        public DateTime? ApproveDate { get; set; }
         public DateTime? UptDate { get; set; }
         public DateTime CrtDate { get; set; }
 
