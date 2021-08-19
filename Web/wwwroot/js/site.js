@@ -2,6 +2,8 @@
     $('#sidebarCollapse').on('click', function () {
         $('#sidebar').toggleClass('active');
     });
+
+    $('select').select2();
 });
 
 const ajaxSuccess = (xhr, returnUrl) => {
