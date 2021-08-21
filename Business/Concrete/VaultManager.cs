@@ -30,7 +30,7 @@ namespace Business.Concrete
             this.orderPersonnelDal = orderPersonnelDal;
         }
 
-        public async Task<DataTableResult> GetIncomeDataTable(DataTableParams param)
+        public async Task<DataTableResult> GetIncomeDataTable(VaultIncomeParamsDto param)
         {
             var result = new DataTableResult();
             var query = orderDal.Get(a=>a.Deposit > 0).OrderBy(a => a.CurrencyId)
@@ -41,6 +41,10 @@ namespace Business.Concrete
                 query = query.Where(a => a.Date.Date >= param.minDate);
             if (param.maxDate != null)
                 query = query.Where(a => a.Date.Date <= param.maxDate);
+            if (param.OrderTypeId > 0)
+                query = query.Where(a => a.OrderTypeId == param.OrderTypeId);
+            if (param.IsPaymentDone != null)
+                query = query.Where(a => a.IsPaymentDone == param.IsPaymentDone);
 
             var paginatedQuery = query.Skip(param.start).Take(param.length);
             var list = await mapper.ProjectTo<VaultIncomeDto>(paginatedQuery).ToListAsync();

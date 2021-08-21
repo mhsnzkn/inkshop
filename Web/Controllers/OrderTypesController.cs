@@ -65,5 +65,11 @@ namespace Web.Controllers
         {
             return Ok(await orderTypeManager.GetForDataTable(param));
         }
+
+        public async Task<IActionResult> GetForDropDown()
+        {
+            var items = await orderTypeManager.GetForDropDown();
+            return Ok(items);
+        }
     }
 }

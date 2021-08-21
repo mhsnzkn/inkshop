@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Core.Utility.Datatables;
 using Data.Constants;
+using Data.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -33,7 +34,7 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> GetIncomeDataTable([FromBody] DataTableParams param)
+        public async Task<IActionResult> GetIncomeDataTable([FromBody] VaultIncomeParamsDto param)
         {
             DataTableResult result = new DataTableResult();
             try

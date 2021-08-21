@@ -1,5 +1,6 @@
 ﻿using Core.Utility;
 using Core.Utility.Datatables;
+using Data.Dtos;
 using Data.Entities;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -13,7 +14,7 @@ namespace Business.Abstract
 {
     public interface IVaultManager
     {
-        Task<DataTableResult> GetIncomeDataTable(DataTableParams param);
+        Task<DataTableResult> GetIncomeDataTable(VaultIncomeParamsDto param);
         Task<DataTableResult> GetExpenseDataTable(DataTableParams param);
     }
 }
