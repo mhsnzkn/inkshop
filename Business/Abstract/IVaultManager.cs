@@ -15,6 +15,6 @@ namespace Business.Abstract
     public interface IVaultManager
     {
         Task<DataTableResult> GetIncomeDataTable(VaultIncomeParamsDto param);
-        Task<DataTableResult> GetExpenseDataTable(DataTableParams param);
+        Task<DataTableResult> GetExpenseDataTable(VaultExpenseParamsDto param);
     }
 }

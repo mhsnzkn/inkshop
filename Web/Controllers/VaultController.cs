@@ -49,7 +49,7 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> GetExpenseDataTable([FromBody] DataTableParams param)
+        public async Task<IActionResult> GetExpenseDataTable([FromBody] VaultExpenseParamsDto param)
         {
             DataTableResult result = new DataTableResult();
             try

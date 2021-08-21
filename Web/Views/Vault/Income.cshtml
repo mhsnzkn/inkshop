@@ -61,8 +61,8 @@
 
 
 @section Scripts{
-<script src="~/lib/datatable/js/dataTables.rowGroup.min.js"></script>
-<script>
+    <script src="~/lib/datatable/js/dataTables.rowGroup.min.js"></script>
+    <script>
         $(document).ready(function () {
             $('#datatable').DataTable({
                 language: {
@@ -152,15 +152,15 @@
             });
 
             $.ajax({
-            url: '/OrderTypes/GetForDropDown',
-            success: function (res) {
-                var s = '<option value="0">--Hepsi--</option>';
-                for (var i = 0; i < res.length; i++) {
-                    s += '<option value="' + res[i].value + '">' + res[i].text + '</option>';
+                url: '/OrderTypes/GetForDropDown',
+                success: function (res) {
+                    var s = '<option value="0">--Hepsi--</option>';
+                    for (var i = 0; i < res.length; i++) {
+                        s += '<option value="' + res[i].value + '">' + res[i].text + '</option>';
+                    }
+                    $("#slc-order-type").html(s);
                 }
-                $("#slc-order-type").html(s);
-            }
-        })
+            })
         });
 
         $('.param-change').change(function () {
@@ -189,5 +189,5 @@
         $('#btn-print').on('click', function () {
             printData();
         })
-</script>
+    </script>
 }
