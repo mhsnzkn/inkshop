@@ -51,7 +51,8 @@
             <th>Isim</th>
             <th>Aciklama</th>
             <th>Tarih</th>
-            <th>Tutar</th>
+            <th>Rest</th>
+            <th>Depozito</th>
             <th>Kur</th>
             <th>Kredi Karti</th>
             <th>Odendi</th>
@@ -84,16 +85,25 @@
                     className: "bg-secondary text-white",
                     endRender: function (rows, group) {
 
-                        var ageAvg = rows
+                        var priceSum = rows
                             .data()
                             .pluck('price')
                             .reduce(function (a, b) {
                                 return a + b;
                             }, 0);
 
+                        var depositSum = rows
+                            .data()
+                            .pluck('deposit')
+                            .reduce(function (a, b) {
+                                return a + b;
+                            }, 0);
+
+                        var sum = priceSum + depositSum;
+
                         return $('<tr/>')
 
-                            .append('<td colspan="4"></td><td>TOPLAM:</td><td>' + ageAvg + ' ' + group + '</td><td colspan="3"></td>');
+                            .append('<td colspan="5"></td><td>TOPLAM:</td><td>' + sum + ' ' + group + '</td><td colspan="3"></td>');
 
                     }
                 },
@@ -132,6 +142,7 @@
                         }
                     },
                     { "data": "price" },
+                    { "data": "deposit" },
                     { "data": "currencyName" },
                     {
                         "data": null,

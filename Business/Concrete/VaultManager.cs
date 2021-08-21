@@ -33,7 +33,7 @@ namespace Business.Concrete
         public async Task<DataTableResult> GetIncomeDataTable(VaultIncomeParamsDto param)
         {
             var result = new DataTableResult();
-            var query = orderDal.Get().OrderBy(a => a.CurrencyId)
+            var query = orderDal.Get(a=>a.Status > OrderStatus.Transfer).OrderBy(a => a.CurrencyId)
                 .Include(a => a.Office).Include(a => a.Currency)
                 .AsQueryable();
 
