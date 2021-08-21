@@ -62,7 +62,7 @@ namespace Business.Concrete
         public async Task<DataTableResult> GetExpenseDataTable(VaultExpenseParamsDto param)
         {
             var result = new DataTableResult();
-            var query = orderPersonnelDal.Get(a => a.Order.IsApproved == true).OrderBy(a => a.Order.CurrencyId)
+            var query = orderPersonnelDal.Get(a => a.Order.IsApproved == true && a.Price>0).OrderBy(a => a.Order.CurrencyId)
                 .Include(a=>a.Personnel).Include(a=>a.Order).Include(a => a.Order.Office).Include(a => a.Order.Currency)
                 .AsQueryable();
 
@@ -74,6 +74,8 @@ namespace Business.Concrete
                 query = query.Where(a => a.Order.OrderTypeId == param.OrderTypeId);
             if (param.PersonnelCategory > 0)
                 query = query.Where(a => a.Personnel.Category == param.PersonnelCategory);
+            if (param.PersonnelId > 0)
+                query = query.Where(a => a.PersonnelId == param.PersonnelId);
 
             var paginatedQuery = query.Skip(param.start).Take(param.length);
 

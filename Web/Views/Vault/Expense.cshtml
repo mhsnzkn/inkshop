@@ -19,7 +19,7 @@
         </div>
     </div>
     <div class="form-group row">
-        <label for="maxdate" class="col-sm-2 col-form-label">Sipariş Türü</label>
+        <label for="slc-order-type" class="col-sm-2 col-form-label">Sipariş Türü</label>
         <div class="col-sm-6">
             <select id="slc-order-type" class="form-control param-change col-form-label"></select>
         </div>
@@ -28,8 +28,14 @@
         <label class="col-sm-2 col-form-label">Personel Kategori</label>
         <div class="col-sm-6">
             <select class="form-control param-change" id="slc-personnel-category" asp-items="Html.GetEnumSelectList<PersonnelCategories>()">
-                <option value="0">Hepsi</option>
+                <option value="0">--Hepsi--</option>
             </select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="slc-personnel" class="col-sm-2 col-form-label">Personel</label>
+        <div class="col-sm-6">
+            <select id="slc-personnel" class="form-control param-change col-form-label"></select>
         </div>
     </div>
 
@@ -99,12 +105,12 @@
                     contentType: "application/json",
                     data: function (d) {
                         var orderType = $("#slc-order-type").val() || 0;
-                        d.orderTypeId = orderType;
-                        console.log(d)
+                        d.orderTypeId = parseInt(orderType);
                         var category = $("#slc-personnel-category").val() || 0;
-                        d.personnelCategory = category;
+                        d.personnelCategory = parseInt(category);
+                        var personnel = $("#slc-personnel").val() || 0;
+                        d.personnelId = parseInt(personnel);
 
-                        console.log(d)
                         var date1 = $('#mindate').val();
                         var date2 = $('#maxdate').val();
                         d.minDate = date1 ? new Date(date1) : null;
@@ -153,6 +159,17 @@
                     $("#slc-order-type").html(s);
                 }
             })
+
+            $.ajax({
+                url: '/Personnel/GetForDropDown',
+                success: function (res) {
+                    var s = '<option value="0">--Hepsi--</option>';
+                    for (var i = 0; i < res.length; i++) {
+                        s += '<option value="' + res[i].value + '">' + res[i].text + '</option>';
+                    }
+                    $("#slc-personnel").html(s);
+                }
+            })
         });
 
 
@@ -163,6 +180,7 @@
             $('.param-change').val(null);
             $("#slc-order-type").val("0").change();
             $("#slc-personnel-category").val(0).change();
+            $("#slc-personnel").val(0).change();
             refreshTable();
         }
         function refreshTable() {

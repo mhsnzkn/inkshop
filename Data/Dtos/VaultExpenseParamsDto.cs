@@ -12,6 +12,7 @@ namespace Data.Dtos
     {
         public int OrderTypeId { get; set; }
         public PersonnelCategories PersonnelCategory { get; set; }
+        public int PersonnelId { get; set; }
 
     }
 }
