@@ -1,4 +1,4 @@
-﻿using Core.Data;
+﻿using Data.Constants;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -6,10 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Data.Entities
+namespace Data.Dtos
 {
-    public class AccountEntity : Entity, IDatedEntity
+    public class AccountEntityDto
     {
+        public int Id { get; set; }
+        [Required(ErrorMessage = "Ad"+UserMessages.Required)]
         [StringLength(100)]
         public string Name { get; set; }
         [StringLength(100)]
@@ -22,7 +24,5 @@ namespace Data.Entities
         public string City { get; set; }
         [StringLength(500)]
         public string Description { get; set; }
-        public DateTime? UptDate { get; set; }
-        public DateTime CrtDate { get; set; }
     }
 }

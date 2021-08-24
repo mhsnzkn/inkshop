@@ -65,6 +65,12 @@ namespace Web
             services.AddScoped<ICurrencyDal, CurrencyDal>();
             services.AddScoped<IPersonnelManager, PersonnelManager>();
             services.AddScoped<IPersonnelDal, PersonnelDal>();
+            services.AddScoped<IAccountEntityManager, AccountEntityManager>();
+            services.AddScoped<IAccountEntityDal, AccountEntityDal>();
+            services.AddScoped<IAccountTypeManager, AccountTypeManager>();
+            services.AddScoped<IAccountTypeDal, AccountTypeDal>();
+            services.AddScoped<IAccountMovementManager, AccountMovementManager>();
+            services.AddScoped<IAccountMovementDal, AccountMovementDal>();
 
             services.AddScoped<IVaultManager, VaultManager>();
             services.AddScoped<IOrderPersonnelDal, OrderPersonnelDal>();

@@ -1,12 +1,12 @@
 ﻿@{
-    ViewData["Title"] = "Personel";
+    ViewData["Title"] = "Cariler";
 }
 
 <h4>@ViewData["Title"]</h4>
 <hr />
 <div class="d-flex justify-content-end p-3">
     <!-- Large modal -->
-    <a asp-controller="Personnel" asp-action="Edit" class="btn btn-primary"><i class="fas fa-plus"></i> Ekle</a>
+    <a asp-controller="AccountEntities" asp-action="Edit" class="btn btn-primary"><i class="fas fa-plus"></i> Ekle</a>
 </div>
 
 
@@ -14,12 +14,10 @@
     <thead>
         <tr>
             <th>Ad</th>
-            <th>Soyad</th>
-            <th>Gorev</th>
-            <th>Kategori</th>
+            <th>Şehir</th>
             <th>Telefon</th>
             <th>Mail</th>
-            <th>Komisyon</th>
+            <th>Açıklama</th>
             <th>İşlem</th>
         </tr>
     </thead>
@@ -35,7 +33,7 @@
                 },
                 dom: 'Bfrtip',
                 buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
+                    'copy', 'csv', 'excel', 'pdf', 'print', 'pageLength'
                 ],
                 "processing": true, // for show progress bar
                 "serverSide": true, // for process server side
@@ -45,7 +43,7 @@
                 //"orderMulti": false, // for disable multiple column at once
 
                 "ajax": {
-                    url: "/Personnel/GetDataTable",
+                    url: "/AccountEntities/GetDataTable",
                     type: 'POST',
                     contentType: "application/json",
                     data: function (d) {
@@ -54,16 +52,15 @@
                 },
                 "columns": [
                     { "data": "name", },
-                    { "data": "surname" },
-                    { "data": "job" },
-                    { "data": "categoryName" },
+                    { "data": "city" },
                     { "data": "phone" },
-                    { "data": "email" },
-                    { "data": "commission" },
+                    { "data": "mail" },
+                    { "data": "description" },
                     {
                         "data": "id",
                         render: function (data, type, row) {
-                            return '<a href="/Personnel/Edit/' + data + '" class="btn btn-sm btn-warning m-1"><i class="fas fa-edit"></i></button>';
+                            return '<a href="/AccountEntities/Edit/' + data + '" class="btn btn-sm btn-warning m-1"><i class="fas fa-edit"></i></button>' +
+                                '<a onclick="deletePrompt('+data+')" class="btn btn-sm btn-danger m-1"><i class="fas fa-trash"></i></button>';
                         }
                     }
                 ]
@@ -71,5 +68,26 @@
             });
         });
 
+        function deletePrompt(id) {
+            alertify.confirm("Sil", "Silme işlemini onaylıyor musunuz?",
+                function () {
+                    let model = { id: id }
+                    $.ajax({
+                        url: '/AccountEntities/Delete',
+                        type: 'post',
+                        contentType: "application/json",
+                        data: JSON.stringify(model),
+                        success: function (res) {
+                            if (res.error === false) {
+                                alertify.success("İşlem Başarılı");
+                                $('#datatable').DataTable().ajax.reload();
+                            } else {
+                                alertify.error("İşlem Başarısız");
+                                console.log(res);
+                            }
+                        }
+                    })
+                }, null)
+        }
     </script>
 }

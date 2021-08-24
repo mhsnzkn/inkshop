@@ -53,6 +53,20 @@
                             </li>
                         </ul>
                     </li>
+                    <li>
+                        <a href="#accountSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Muhasebe</a>
+                        <ul class="collapse list-unstyled" id="accountSubmenu">
+                            <li>
+                                <a asp-controller="AccountEntities" asp-action="Index">Cariler</a>
+                            </li>
+                            <li>
+                                <a asp-controller="AccountTypes" asp-action="Index">Kalemler</a>
+                            </li>
+                            <li>
+                                <a asp-controller="AccountMovements" asp-action="Index">Cari Hareketler</a>
+                            </li>
+                        </ul>
+                    </li>
                 }
 
                 @if (User.IsInRole(UserRoles.Admin))

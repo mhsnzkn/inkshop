@@ -11,5 +11,7 @@ namespace Data.Constants
         public const string Success = "İşlem başarılı";
         public const string Fail = "İşlem başarısız";
         public const string CannotChange = "Bu kayıt sabittir. Değiştirilemez";
+        public const string Required = " boş bırakılamaz";
+
     }
 }

@@ -105,18 +105,15 @@ namespace Business.Concrete
             // Filter
             if (!string.IsNullOrEmpty(param.search?.value))
             {
-                query = query.Where(a => a.Name.Contains(param.search.value) || a.City.Contains(param.search.value));
+                query = query.Where(a => a.Name.Contains(param.search.value) || a.City.Contains(param.search.value) || a.Description.Contains(param.search.value));
             }
-            if (param.length > 0)
-            {
-                query = query.Skip(param.start).Take(param.length);
-            }
-            var list = await query.OrderBy(a => a.Name).ToListAsync();
+
+            var list = await query.OrderBy(a => a.Name).Skip(param.start).Take(param.length).ToListAsync();
 
             // DataTableModel
             result.Data = list;
             result.Draw = param.draw;
-            result.RecordsTotal = list.Count;
+            result.RecordsTotal = await query.CountAsync();
             result.RecordsFiltered = result.RecordsTotal;
 
             return result;

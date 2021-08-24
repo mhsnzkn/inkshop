@@ -1,6 +1,8 @@
-﻿using Business.Abstract;
+﻿using AutoMapper;
+using Business.Abstract;
 using Core.Utility.Datatables;
 using Data.Constants;
+using Data.Dtos;
 using Data.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -17,10 +19,12 @@ namespace Web.Controllers
     public class AccountEntitiesController : Controller
     {
         private readonly IAccountEntityManager accountEntityManager;
+        private readonly IMapper mapper;
 
-        public AccountEntitiesController(IAccountEntityManager accountEntityManager)
+        public AccountEntitiesController(IAccountEntityManager accountEntityManager, IMapper mapper)
         {
             this.accountEntityManager = accountEntityManager;
+            this.mapper = mapper;
         }
         public IActionResult Index()
         {
@@ -28,7 +32,7 @@ namespace Web.Controllers
         }
         public async Task<IActionResult> Edit(int id)
         {
-            var model = id == 0 ? new AccountEntity() : await accountEntityManager.GetByIdAsync(id);
+            var model = id == 0 ? new AccountEntityDto() : mapper.Map<AccountEntityDto>(await accountEntityManager.GetByIdAsync(id));
 
             return View(model);
         }
@@ -49,7 +53,8 @@ namespace Web.Controllers
             return Ok(result);
         }
 
-        public async Task<IActionResult> Delete(AccountEntity accountEntity)
+        [HttpPost]
+        public async Task<IActionResult> Delete([FromBody]AccountEntity accountEntity)
         {
             var result = await accountEntityManager.Delete(accountEntity);
 
