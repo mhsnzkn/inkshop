@@ -61,6 +61,12 @@ namespace Web.Controllers
 
             return Ok(result);
         }
+        public async Task<IActionResult> GetForDropDown()
+        {
+            var items = await accountEntityManager.GetForDropDown();
+            return Ok(items);
+        }
+
         [HttpPost]
         public async Task<IActionResult> GetDataTable([FromBody] DataTableParams param)
         {

@@ -49,13 +49,19 @@ namespace Web.Controllers
 
             return Ok(result);
         }
-
-        public async Task<IActionResult> Delete(AccountType accountType)
+        [HttpPost]
+        public async Task<IActionResult> Delete([FromBody]AccountType accountType)
         {
             var result = await accountTypeManager.Delete(accountType);
 
             return Ok(result);
         }
+        public async Task<IActionResult> GetForDropDown()
+        {
+            var items = await accountTypeManager.GetForDropDown();
+            return Ok(items);
+        }
+
         [HttpPost]
         public async Task<IActionResult> GetDataTable([FromBody] DataTableParams param)
         {

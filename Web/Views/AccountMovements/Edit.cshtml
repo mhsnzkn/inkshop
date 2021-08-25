@@ -4,7 +4,6 @@
     ViewData["Title"] = "Ekle/Düzenle";
 }
 
-<p class="text-danger">@ViewData["error"]</p>
 <div class="text-danger" asp-validation-summary="ModelOnly"></div>
 <form data-ajax-url="/Personnel/Edit" data-ajax="true" data-ajax-method="post" data-ajax-complete="success" data-ajax-failure="ajaxFail">
     <input type="hidden" asp-for="Id" />
