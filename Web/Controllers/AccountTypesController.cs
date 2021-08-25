@@ -2,6 +2,7 @@
 using Core.Utility.Datatables;
 using Data.Constants;
 using Data.Entities;
+using Data.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -28,7 +29,7 @@ namespace Web.Controllers
         }
         public async Task<IActionResult> Edit(int id)
         {
-            var model = id == 0 ? new AccountType() : await accountTypeManager.GetByIdAsync(id);
+            var model = id == 0 ? new AccountTypeModel() : await accountTypeManager.GetModelByIdAsync(id);
 
             return View(model);
         }
@@ -36,7 +37,7 @@ namespace Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(AccountType accountType)
         {
-            Core.Utility.Result result = null;
+            Core.Utility.Result result;
             if (accountType.Id == 0)
             {
                 result = await accountTypeManager.Add(accountType);

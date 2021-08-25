@@ -4,6 +4,7 @@ using Core.Utility.Datatables;
 using Data.Constants;
 using Data.Dtos;
 using Data.Entities;
+using Data.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -38,15 +39,15 @@ namespace Web.Controllers
         }
         public async Task<IActionResult> Edit(string id)
         {
-            UserEditDto model = null;
+            UserModel model;
             if (string.IsNullOrEmpty(id))
             {
-                model = new UserEditDto();
+                model = new UserModel();
             }
             else
             {
                 var user = await userManager.FindByIdAsync(id);
-                model = mapper.Map<UserEditDto>(user);
+                model = mapper.Map<UserModel>(user);
                 var roles = await userManager.GetRolesAsync(user);
                 model.Role = roles.FirstOrDefault();
             }
@@ -55,7 +56,7 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(UserEditDto userDto)
+        public async Task<IActionResult> Edit(UserModel userDto)
         {
             Core.Utility.Result result = new();
             try

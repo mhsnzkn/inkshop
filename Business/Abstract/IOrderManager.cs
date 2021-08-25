@@ -8,6 +8,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Core.Utility.Datatables;
+using Data.ViewModels;
 
 namespace Business.Abstract
 {
@@ -19,10 +20,10 @@ namespace Business.Abstract
         Task<DataTableResult> GetOrderDataTable(DataTableParams param);
         Task<DataTableResult> GetReservationDataTable(DataTableParams param);
         Task<DataTableResult> GetTransferDataTable(DataTableParams param);
-        Task<Result> AddOrder(OrderAddDto dto);
+        Task<Result> AddOrder(OrderModel dto);
         Task<Result> ApproveOrder(int id);
         Task<Result> CancelOrder(int id, string message);
-        Task<Result> UpdateOrder(OrderAddDto dto);
+        Task<Result> UpdateOrder(OrderModel dto);
         Task<Result> PayReservation(int id);
         Task<Result> ApproveReservation(int id);
         Task<Result> CancelReservation(int id, string message);

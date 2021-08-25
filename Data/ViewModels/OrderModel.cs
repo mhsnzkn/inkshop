@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Data.Dtos
+namespace Data.ViewModels
 {
-    public class OrderAddDto
+    public class OrderModel
     {
         public int Id { get; set; }
         public int OfficeId { get; set; }

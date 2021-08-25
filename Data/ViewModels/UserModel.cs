@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Data.Dtos
+namespace Data.ViewModels
 {
-    public class UserEditDto
+    public class UserModel
     {
         public string Id { get; set; }
         [Required(ErrorMessage = "Kullanıcı adı boş bırakılamaz")]

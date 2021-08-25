@@ -1,6 +1,7 @@
 ﻿using Core.Utility;
 using Core.Utility.Datatables;
 using Data.Entities;
+using Data.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace Business.Abstract
     public interface IAccountEntityManager
     {
         Task<AccountEntity> GetByIdAsync(int id);
+        Task<AccountEntityModel> GetModelByIdAsync(int id);
         Task<List<AccountEntity>> Get(Expression<Func<AccountEntity, bool>> expression = null);
         Task<DataTableResult> GetForDataTable(DataTableParams param);
         Task<Result> Add(AccountEntity entity);

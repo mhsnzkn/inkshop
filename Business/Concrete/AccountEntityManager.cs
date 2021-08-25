@@ -1,8 +1,10 @@
-﻿using Business.Abstract;
+﻿using AutoMapper;
+using Business.Abstract;
 using Core.Utility;
 using Core.Utility.Datatables;
 using Data.Constants;
 using Data.Entities;
+using Data.ViewModels;
 using DataAccess.Abstract;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -18,10 +20,12 @@ namespace Business.Concrete
     public class AccountEntityManager : IAccountEntityManager
     {
         private readonly IAccountEntityDal entityDal;
+        private readonly IMapper mapper;
 
-        public AccountEntityManager(IAccountEntityDal entityDal)
+        public AccountEntityManager(IAccountEntityDal entityDal, IMapper mapper)
         {
             this.entityDal = entityDal;
+            this.mapper = mapper;
         }
         
         public async Task<List<AccountEntity>> Get(System.Linq.Expressions.Expression<Func<AccountEntity, bool>> expression = null)
@@ -35,6 +39,18 @@ namespace Business.Concrete
             try
             {
                 result = await entityDal.GetByIdAsync(id);
+            }
+            catch (Exception)
+            {
+            }
+            return result;
+        }
+        public async Task<AccountEntityModel> GetModelByIdAsync(int id)
+        {
+            AccountEntityModel result = null;
+            try
+            {
+                result = mapper.Map<AccountEntityModel>(await entityDal.GetByIdAsync(id));
             }
             catch (Exception)
             {

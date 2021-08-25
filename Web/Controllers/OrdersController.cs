@@ -4,6 +4,7 @@ using Core.Utility.Datatables;
 using Data.Constants;
 using Data.Dtos;
 using Data.Entities;
+using Data.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -48,14 +49,14 @@ namespace Web.Controllers
                 Country = await countryManager.GetForDropDown(),
                 Currency = await currencyManager.GetForDropDown(),
             };
-            model.Order = id == 0 ? new OrderAddDto() : mapper.Map<OrderAddDto>(await orderManager.GetByIdAsync(id));
+            model.Order = id == 0 ? new OrderModel() : mapper.Map<OrderModel>(await orderManager.GetByIdAsync(id));
 
             return View(model);
         }
         [HttpPost]
         public async Task<IActionResult> Edit(OrderViewModel vModel)
         {
-            Core.Utility.Result result = null;
+            Core.Utility.Result result;
             if(vModel.Order.Id == 0)
             {
                 result = await orderManager.AddOrder(vModel.Order);

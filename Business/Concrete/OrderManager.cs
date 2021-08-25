@@ -13,6 +13,7 @@ using AutoMapper;
 using Data.Constants;
 using Core.Utility.Datatables;
 using System.Linq.Expressions;
+using Data.ViewModels;
 
 namespace Business.Concrete
 {
@@ -63,7 +64,7 @@ namespace Business.Concrete
             return result;
         }
 
-        public async Task<Result> AddOrder(OrderAddDto dto)
+        public async Task<Result> AddOrder(OrderModel dto)
         {
             var result = new Result();
             try
@@ -87,7 +88,7 @@ namespace Business.Concrete
             return result;
         }
 
-        public async Task<Result> UpdateOrder(OrderAddDto dto)
+        public async Task<Result> UpdateOrder(OrderModel dto)
         {
             var result = new Result();
             try

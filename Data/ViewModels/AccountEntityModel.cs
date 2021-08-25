@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Data.Dtos
+namespace Data.ViewModels
 {
-    public class AccountEntityDto
+    public class AccountEntityModel
     {
         public int Id { get; set; }
         [Required(ErrorMessage = "Ad"+UserMessages.Required)]

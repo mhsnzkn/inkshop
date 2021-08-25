@@ -4,6 +4,7 @@ using Core.Utility.Datatables;
 using Data.Constants;
 using Data.Dtos;
 using Data.Entities;
+using Data.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -32,7 +33,7 @@ namespace Web.Controllers
         }
         public async Task<IActionResult> Edit(int id)
         {
-            var model = id == 0 ? new AccountEntityDto() : mapper.Map<AccountEntityDto>(await accountEntityManager.GetByIdAsync(id));
+            var model = id == 0 ? new AccountEntityModel() : await accountEntityManager.GetModelByIdAsync(id);
 
             return View(model);
         }

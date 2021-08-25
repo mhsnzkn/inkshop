@@ -36,7 +36,7 @@ namespace Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(AccountMovement accountMovement)
         {
-            Core.Utility.Result result = null;
+            Core.Utility.Result result;
             if (accountMovement.Id == 0)
             {
                 result = await accountMovementManager.Add(accountMovement);

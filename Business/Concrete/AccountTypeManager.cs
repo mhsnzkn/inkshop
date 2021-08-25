@@ -1,8 +1,10 @@
-﻿using Business.Abstract;
+﻿using AutoMapper;
+using Business.Abstract;
 using Core.Utility;
 using Core.Utility.Datatables;
 using Data.Constants;
 using Data.Entities;
+using Data.ViewModels;
 using DataAccess.Abstract;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -18,10 +20,12 @@ namespace Business.Concrete
     public class AccountTypeManager : IAccountTypeManager
     {
         private readonly IAccountTypeDal entityDal;
+        private readonly IMapper mapper;
 
-        public AccountTypeManager(IAccountTypeDal entityDal)
+        public AccountTypeManager(IAccountTypeDal entityDal, IMapper mapper)
         {
             this.entityDal = entityDal;
+            this.mapper = mapper;
         }
         
         public async Task<List<AccountType>> Get(System.Linq.Expressions.Expression<Func<AccountType, bool>> expression = null)
@@ -35,6 +39,18 @@ namespace Business.Concrete
             try
             {
                 result = await entityDal.GetByIdAsync(id);
+            }
+            catch (Exception)
+            {
+            }
+            return result;
+        }
+        public async Task<AccountTypeModel> GetModelByIdAsync(int id)
+        {
+            AccountTypeModel result = null;
+            try
+            {
+                result = mapper.Map<AccountTypeModel>(await entityDal.GetByIdAsync(id));
             }
             catch (Exception)
             {
@@ -105,18 +121,15 @@ namespace Business.Concrete
             // Filter
             if (!string.IsNullOrEmpty(param.search?.value))
             {
-                query = query.Where(a => a.Name.Contains(param.search.value));
+                query = query.Where(a => a.Name.Contains(param.search.value) || a.Description.Contains(param.search.value));
             }
-            if (param.length > 0)
-            {
-                query = query.Skip(param.start).Take(param.length);
-            }
-            var list = await query.OrderBy(a => a.Name).ToListAsync();
+
+            var list = await query.OrderBy(a => a.Name).Skip(param.start).Take(param.length).ToListAsync();
 
             // DataTableModel
             result.Data = list;
             result.Draw = param.draw;
-            result.RecordsTotal = list.Count;
+            result.RecordsTotal = await query.CountAsync();
             result.RecordsFiltered = result.RecordsTotal;
 
             return result;

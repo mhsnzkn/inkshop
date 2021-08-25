@@ -2,6 +2,7 @@
 using Data.Constants;
 using Data.Dtos;
 using Data.Entities;
+using Data.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +15,8 @@ namespace Data.Automapper
     {
         public AppProfile()
         {
-            CreateMap<OrderAddDto, Order>();
-            CreateMap<Order, OrderAddDto>()
+            CreateMap<OrderModel, Order>();
+            CreateMap<Order, OrderModel>()
                 .ForMember(a => a.TypeCoverUp, s => s.MapFrom(o => o.Type.Contains(OrderTypeString.CoverUp)))
                 .ForMember(a => a.TypeFreeHand, s => s.MapFrom(o => o.Type.Contains(OrderTypeString.Freehand)))
                 .ForMember(a => a.TypeRefresh, s => s.MapFrom(o => o.Type.Contains(OrderTypeString.Refresh)))
@@ -72,14 +73,16 @@ namespace Data.Automapper
             CreateMap<ApplicationUser, UserTableDto>()
                 .ForMember(a => a.PersonnelName, o => o.MapFrom(a => a.Personnel.Name + " " + a.Personnel.Surname));
 
-            CreateMap<ApplicationUser, UserEditDto>()
+            CreateMap<ApplicationUser, UserModel>()
                 .ForMember(a => a.Password, o => o.Ignore())
                 .ForMember(a => a.ConfirmPassword, o => o.Ignore());
 
             CreateMap<Personnel, PersonnelTableDto>()
                 .ForMember(a => a.CategoryName, o => o.MapFrom(s => s.Category.ToString()));
 
-            CreateMap<AccountEntity, AccountEntityDto>().ReverseMap();
+            CreateMap<AccountEntity, AccountEntityModel>().ReverseMap();
+            CreateMap<AccountType, AccountTypeModel>().ReverseMap();
+            CreateMap<AccountMovement, AccountMovementModel>().ReverseMap();
         }
     }
 }
