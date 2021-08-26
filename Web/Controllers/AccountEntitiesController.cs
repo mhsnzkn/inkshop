@@ -39,7 +39,7 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(AccountEntity accountEntity)
+        public async Task<IActionResult> Edit(AccountEntityModel accountEntity)
         {
             Core.Utility.Result result = null;
             if (accountEntity.Id == 0)

@@ -1,61 +1,68 @@
-﻿@model Data.Entities.Personnel
-@using Data.Constants
+﻿@model Data.ViewModels.AccountMovementModel
 @{
     ViewData["Title"] = "Ekle/Düzenle";
+    var controllerName = ViewContext.RouteData.Values["controller"].ToString();
 }
+<link rel="stylesheet" href="~/css/loading-page.css" />
+<div style="display:none" id="loader" class="loading"></div>
 
-<div class="text-danger" asp-validation-summary="ModelOnly"></div>
-<form data-ajax-url="/Personnel/Edit" data-ajax="true" data-ajax-method="post" data-ajax-complete="success" data-ajax-failure="ajaxFail">
+<div class="text-danger" asp-validation-summary="All"></div>
+<form data-ajax-url="/@controllerName/Edit" data-ajax="true" data-ajax-method="post" data-ajax-complete="success" data-ajax-failure="ajaxFail" data-ajax-loading="#loader">
     <input type="hidden" asp-for="Id" />
     <div class="form-row">
         <div class="form-group col-md-4">
-            <label>Şube</label>
-            <select id="officeSelect" class="form-control" asp-for="OfficeId"></select>
+            <label asp-for="OfficeId"></label>
+            <select id="slc-office" class="form-control" asp-for="OfficeId"></select>
             <span class="text-danger" asp-validation-for="OfficeId"></span>
         </div>
         <div class="form-group col-md-4">
-            <label>İsim</label>
-            <input class="form-control" asp-for="Name">
-            <span class="text-danger" asp-validation-for="Name"></span>
+            <label asp-for="EntityId"></label>
+            <select id="slc-entity" class="form-control" asp-for="EntityId"></select>
+            <span class="text-danger" asp-validation-for="EntityId"></span>
         </div>
         <div class="form-group col-md-4">
-            <label>Soyisim</label>
-            <input class="form-control" asp-for="Surname">
-            <span class="text-danger" asp-validation-for="Surname"></span>
+            <label asp-for="TypeId"></label>
+            <select id="slc-type" class="form-control" asp-for="TypeId"></select>
+            <span class="text-danger" asp-validation-for="TypeId"></span>
         </div>
     </div>
     <div class="form-row">
         <div class="form-group col-md-4">
-            <label>Kategori</label>
-            <select class="form-control" asp-for="Category" asp-items="Html.GetEnumSelectList<PersonnelCategories>()"></select>
-            <span class="text-danger" asp-validation-for="Category"></span>
+            <label asp-for="CurrencyId"></label>
+            <select id="slc-currency" class="form-control" asp-for="CurrencyId"></select>
+            <span class="text-danger" asp-validation-for="CurrencyId"></span>
         </div>
-        <div class="form-group col-md-4">
-            <label>Gorevi</label>
-            <input class="form-control" asp-for="job">
-            <span class="text-danger" asp-validation-for="job"></span>
+        <div class="form-group col-md-4" id="div-income">
+            <label asp-for="Income"></label>
+            <input class="form-control" asp-for="Income" />
+            <span class="text-danger" asp-validation-for="Income"></span>
         </div>
-        <div class="form-group col-md-4">
-            <label>Komisyon</label>
-            <input class="form-control" asp-for="Commission">
-            <span class="text-danger" asp-validation-for="Commission"></span>
+        <div class="form-group col-md-4" id="div-expense">
+            <label asp-for="Expense"></label>
+            <input class="form-control" asp-for="Expense">
+            <span class="text-danger" asp-validation-for="Expense"></span>
         </div>
     </div>
     <div class="form-row">
-        <div class="form-group col-md-6">
-            <label>Email</label>
-            <input class="form-control" asp-for="Email">
-            <span class="text-danger" asp-validation-for="Email"></span>
+        <div class="form-group col-md-4">
+            <label asp-for="Date"></label>
+            <input class="form-control" asp-for="Date">
+            <span class="text-danger" asp-validation-for="Date"></span>
         </div>
-        <div class="form-group col-md-6">
-            <label>Telefon</label>
-            <input class="form-control" asp-for="Phone">
-            <span class="text-danger" asp-validation-for="Phone"></span>
+        <div class="form-group col-md-4">
+            <label asp-for="DueDate"></label>
+            <input class="form-control" asp-for="DueDate">
+            <span class="text-danger" asp-validation-for="DueDate"></span>
+        </div>
+        <div class="form-group col-md-4">
+            <label asp-for="Description"></label>
+            <input class="form-control" asp-for="Description">
+            <span class="text-danger" asp-validation-for="Description"></span>
         </div>
     </div>
 
     <div class="d-flex justify-content-between">
-        <a asp-controller="Personnel" asp-action="Index" class="btn btn-secondary m-1"><i class="fas fa-undo-alt"></i> Geri Don</a>
+        <a asp-controller="@controllerName" asp-action="Index" class="btn btn-secondary m-1"><i class="fas fa-undo-alt"></i> Geri Don</a>
         <div>
             @if (Model.Id != 0)
             {
@@ -64,6 +71,7 @@
             <button type="submit" class="btn btn-success m-1"><i class="fas fa-save"></i> Kaydet</button>
         </div>
     </div>
+</form>
 
     <!-- Modal -->
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -80,12 +88,14 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Vazgeç</button>
-                    <button asp-controller="Personnel" asp-action="Delete" type="submit" class="btn btn-danger">Sil</button>
+                    <form data-ajax-url="/@controllerName/Edit" data-ajax="true" data-ajax-method="post" data-ajax-complete="success" data-ajax-failure="ajaxFail">
+                        <input type="hidden" asp-for="Id" />
+                        <button asp-controller="@controllerName" asp-action="Delete" type="submit" class="btn btn-danger">Sil</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-</form>
 
 
 
@@ -94,21 +104,70 @@
     <partial name="_ValidationScriptsPartial" />
     <script>
     $(document).ready(function () {
-        $.ajax({
+        @*$.ajax({
             url: '/Offices/GetForDropDown',
             success: function (res) {
                 var s = '<option value="">--Seçiniz--</option>';
                 for (var i = 0; i < res.length; i++) {
                     s += '<option value="' + res[i].value + '">' + res[i].text + '</option>';
                 }
-                $("#officeSelect").html(s);
-                $("#officeSelect").val("@Model.OfficeId").change();
+                $("#slc-office").html(s);
+                if(@Model.OfficeId)
+                    $("#slc-office").val("@Model.OfficeId").change();
             }
-        })
+        })*@
+        
+        @*$.ajax({
+            url: '/AccountEntities/GetForDropDown',
+            success: function (res) {
+                var s = '<option value="">--Seçiniz--</option>';
+                for (var i = 0; i < res.length; i++) {
+                    s += '<option value="' + res[i].value + '">' + res[i].text + '</option>';
+                }
+                $("#slc-entity").html(s);
+                if(@Model.EntityId)
+                    $("#slc-entity").val("@Model.EntityId").change();
+            }
+        })*@
+        @*$.ajax({
+            url: '/AccountTypes/GetForDropDown',
+            success: function (res) {
+                var s = '<option value="">--Seçiniz--</option>';
+                for (var i = 0; i < res.length; i++) {
+                    s += '<option value="' + res[i].value + '">' + res[i].text + '</option>';
+                }
+                $("#slc-type").html(s);
+                if(@Model.TypeId)
+                    $("#slc-type").val("@Model.TypeId").change();
+            }
+        })*@
+        setSelect('/Offices/GetForDropDown', 'slc-office', @Model.OfficeId)
+        setSelect('/AccountEntities/GetForDropDown', 'slc-entity', @Model.EntityId)
+        setSelect('/AccountTypes/GetForDropDown', 'slc-type', @Model.TypeId)
+        setSelect('/Currencies/GetForDropDown', 'slc-currency', @Model.CurrencyId)
     })
 
+        $('#chc-income').change(function () {
+            if ($(this).is(':checked')) {
+                $('#div-income').show();
+            } else {
+                $('#div-income').hide();
+                $('#Income').val(0);
+
+            }
+        })
+
+        $('#chc-expense').change(function () {
+            if ($(this).is(':checked')) {
+                $('#div-expense').show();
+            } else {
+                $('#div-expense').hide();
+                $('#Expense').val(0);
+            }
+        })
+
         var success = function (xhr) {
-            ajaxSuccess(xhr, '/Personnel');
+            ajaxSuccess(xhr, '/@controllerName');
         }
     </script>
 }

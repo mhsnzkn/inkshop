@@ -2,6 +2,7 @@
 using Core.Utility.Datatables;
 using Data.Constants;
 using Data.Entities;
+using Data.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -28,15 +29,21 @@ namespace Web.Controllers
         }
         public async Task<IActionResult> Edit(int id)
         {
-            var model = id == 0 ? new AccountMovement() : await accountMovementManager.GetByIdAsync(id);
+            var model = id == 0 ? new AccountMovementModel() : await accountMovementManager.GetModelByIdAsync(id);
 
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(AccountMovement accountMovement)
+        public async Task<IActionResult> Edit(AccountMovementModel accountMovement)
         {
             Core.Utility.Result result;
+            if(accountMovement.Income == 0 && accountMovement.Expense == 0)
+            {
+                result = new Core.Utility.Result();
+                result.SetError("Gelir ve Gider 0 olamaz", "Gelir ve Gider 0 olamaz");
+                return Ok(result);
+            }
             if (accountMovement.Id == 0)
             {
                 result = await accountMovementManager.Add(accountMovement);

@@ -58,11 +58,13 @@ namespace Business.Concrete
             return result;
         }
 
-        public async Task<Result> Add(AccountEntity entity)
+        public async Task<Result> Add(AccountEntityModel model)
         {
             var result = new Result();
             try
             {
+                var entity = mapper.Map<AccountEntity>(model);
+                entity.CrtDate = DateTime.Now;
                 entityDal.Add(entity);
                 await entityDal.Save();
             }
@@ -90,12 +92,21 @@ namespace Business.Concrete
             return result;
         }
 
-        public async Task<Result> Update(AccountEntity entity)
+        public async Task<Result> Update(AccountEntityModel model)
         {
             var result = new Result();
             try
             {
-                entityDal.Update(entity);
+                var entityFromDb = await entityDal.GetByIdAsync(model.Id);
+                entityFromDb.Name = model.Name;
+                entityFromDb.Mail = model.Mail;
+                entityFromDb.Address = model.Address;
+                entityFromDb.City = model.City;
+                entityFromDb.Description = model.Description;
+                entityFromDb.Phone = model.Phone;
+
+                entityFromDb.UptDate = DateTime.Now;
+                entityDal.Update(entityFromDb);
                 await entityDal.Save();
             }
             catch (Exception ex)

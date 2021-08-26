@@ -62,6 +62,12 @@ namespace Web.Controllers
             else
                 return RedirectToAction("Index");
         }
+
+        public async Task<IActionResult> GetForDropDown()
+        {
+            var items = await currencyManager.GetForDropDown();
+            return Ok(items);
+        }
         [HttpPost]
         public async Task<IActionResult> GetDataTable([FromBody] DataTableParams param)
         {

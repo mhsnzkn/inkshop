@@ -22,3 +22,19 @@ const ajaxFail = (err) => {
 const toUpper = (a) => {
     a.value = a.value.toLocaleUpperCase('tr-TR');
 }
+
+const setSelect = (url, elementId, defaultValue, placeHolder = "--Seçiniz--") => {
+    $.ajax({
+        url: url,
+        success: function (res) {
+            var s = '<option value="">' + placeHolder + '</option>';
+            for (var i = 0; i < res.length; i++) {
+                s += '<option value="' + res[i].value + '">' + res[i].text + '</option>';
+            }
+            $("#" + elementId).html(s);
+            if (defaultValue) {
+                $("#" + elementId).val(defaultValue).change();
+            }
+        }
+    })
+}

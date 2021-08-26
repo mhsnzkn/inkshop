@@ -1,25 +1,27 @@
 ﻿@{
-    ViewData["Title"] = "Personel";
+    ViewData["Title"] = "Cari Hareketler";
+    var controllerName = ViewContext.RouteData.Values["controller"].ToString();
 }
 
 <h4>@ViewData["Title"]</h4>
 <hr />
 <div class="d-flex justify-content-end p-3">
     <!-- Large modal -->
-    <a asp-controller="Personnel" asp-action="Edit" class="btn btn-primary"><i class="fas fa-plus"></i> Ekle</a>
+    <a asp-controller="@controllerName" asp-action="Edit" class="btn btn-primary"><i class="fas fa-plus"></i> Ekle</a>
 </div>
 
 
 <table id="datatable" class="table stripe display" width="100%">
     <thead>
         <tr>
-            <th>Ad</th>
-            <th>Soyad</th>
-            <th>Gorev</th>
-            <th>Kategori</th>
-            <th>Telefon</th>
-            <th>Mail</th>
-            <th>Komisyon</th>
+            <th>Şube</th>
+            <th>Cari</th>
+            <th>Kalem</th>
+            <th>Gelir</th>
+            <th>Gider</th>
+            <th>Kur</th>
+            <th>Açıklama</th>
+            <th>Tarih</th>
             <th>İşlem</th>
         </tr>
     </thead>
@@ -45,7 +47,7 @@
                 //"orderMulti": false, // for disable multiple column at once
 
                 "ajax": {
-                    url: "/Personnel/GetDataTable",
+                    url: "/@controllerName/GetDataTable",
                     type: 'POST',
                     contentType: "application/json",
                     data: function (d) {
@@ -53,17 +55,22 @@
                     }
                 },
                 "columns": [
-                    { "data": "name", },
-                    { "data": "surname" },
-                    { "data": "job" },
-                    { "data": "categoryName" },
-                    { "data": "phone" },
-                    { "data": "email" },
-                    { "data": "commission" },
+                    { "data": "officeName", },
+                    { "data": "entityName" },
+                    { "data": "typeName" },
+                    { "data": "income" },
+                    { "data": "expense" },
+                    { "data": "currencyName" },
+                    { "data": "description" },
+                    {
+                        "data": "date",
+                        render: function (data, type, row) {
+                            return (new Date(data)).toLocaleDateString('tr-TR');
+                        } },
                     {
                         "data": "id",
                         render: function (data, type, row) {
-                            return '<a href="/Personnel/Edit/' + data + '" class="btn btn-sm btn-warning m-1"><i class="fas fa-edit"></i></button>';
+                            return '<a href="/@controllerName/Edit/' + data + '" class="btn btn-sm btn-warning m-1"><i class="fas fa-edit"></i></button>';
                         }
                     }
                 ]

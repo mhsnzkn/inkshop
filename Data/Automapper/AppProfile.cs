@@ -80,6 +80,12 @@ namespace Data.Automapper
             CreateMap<Personnel, PersonnelTableDto>()
                 .ForMember(a => a.CategoryName, o => o.MapFrom(s => s.Category.ToString()));
 
+            CreateMap<AccountMovement, AccountMovementTableDto>()
+                .ForMember(a => a.OfficeName, o => o.MapFrom(s => s.Office.Name))
+                .ForMember(a => a.EntityName, o => o.MapFrom(s => s.Entity.Name))
+                .ForMember(a => a.TypeName, o => o.MapFrom(s => s.Type.Name))
+                .ForMember(a => a.CurrencyName, o => o.MapFrom(s => s.Currency.ShortName));
+
             CreateMap<AccountEntity, AccountEntityModel>().ReverseMap();
             CreateMap<AccountType, AccountTypeModel>().ReverseMap();
             CreateMap<AccountMovement, AccountMovementModel>().ReverseMap();
