@@ -3,6 +3,7 @@ using Business.Abstract;
 using Core.Utility;
 using Core.Utility.Datatables;
 using Data.Constants;
+using Data.Dtos;
 using Data.Entities;
 using Data.ViewModels;
 using DataAccess.Abstract;
@@ -106,6 +107,7 @@ namespace Business.Concrete
                 entity.Expense = model.Expense;
                 entity.Date = model.Date;
                 entity.DueDate = model.DueDate;
+                entity.Description = model.Description;
 
                 entity.UptDate = DateTime.Now;
                 await entityDal.Save();
@@ -118,7 +120,7 @@ namespace Business.Concrete
             return result;
         }
 
-        public async Task<DataTableResult> GetForDataTable(DataTableParams param)
+        public async Task<DataTableResult> GetForDataTable(AccountParamsDto param)
         {
             var result = new DataTableResult();
             var query = entityDal.Get();
@@ -127,6 +129,18 @@ namespace Business.Concrete
             {
                 query = query.Where(a => a.Entity.Name.Contains(param.search.value) || a.Description.Contains(param.search.value));
             }
+            if (param.OfficeId > 0)
+                query = query.Where(a => a.OfficeId == param.OfficeId);
+            if (param.EntityId > 0)
+                query = query.Where(a => a.EntityId == param.EntityId);
+            if (param.TypeId > 0)
+                query = query.Where(a => a.TypeId == param.TypeId);
+
+            if (param.minDate != null)
+                query = query.Where(a => a.Date.Date >= param.minDate);
+            if (param.maxDate != null)
+                query = query.Where(a => a.Date.Date <= param.maxDate);
+
             var paginatedQuery = query.OrderByDescending(a => a.Date).Skip(param.start).Take(param.length);
 
             // DataTableModel

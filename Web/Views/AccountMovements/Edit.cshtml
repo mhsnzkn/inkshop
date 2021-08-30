@@ -104,43 +104,7 @@
     <partial name="_ValidationScriptsPartial" />
     <script>
     $(document).ready(function () {
-        @*$.ajax({
-            url: '/Offices/GetForDropDown',
-            success: function (res) {
-                var s = '<option value="">--Seçiniz--</option>';
-                for (var i = 0; i < res.length; i++) {
-                    s += '<option value="' + res[i].value + '">' + res[i].text + '</option>';
-                }
-                $("#slc-office").html(s);
-                if(@Model.OfficeId)
-                    $("#slc-office").val("@Model.OfficeId").change();
-            }
-        })*@
-        
-        @*$.ajax({
-            url: '/AccountEntities/GetForDropDown',
-            success: function (res) {
-                var s = '<option value="">--Seçiniz--</option>';
-                for (var i = 0; i < res.length; i++) {
-                    s += '<option value="' + res[i].value + '">' + res[i].text + '</option>';
-                }
-                $("#slc-entity").html(s);
-                if(@Model.EntityId)
-                    $("#slc-entity").val("@Model.EntityId").change();
-            }
-        })*@
-        @*$.ajax({
-            url: '/AccountTypes/GetForDropDown',
-            success: function (res) {
-                var s = '<option value="">--Seçiniz--</option>';
-                for (var i = 0; i < res.length; i++) {
-                    s += '<option value="' + res[i].value + '">' + res[i].text + '</option>';
-                }
-                $("#slc-type").html(s);
-                if(@Model.TypeId)
-                    $("#slc-type").val("@Model.TypeId").change();
-            }
-        })*@
+       
         setSelect('/Offices/GetForDropDown', 'slc-office', @Model.OfficeId)
         setSelect('/AccountEntities/GetForDropDown', 'slc-entity', @Model.EntityId)
         setSelect('/AccountTypes/GetForDropDown', 'slc-type', @Model.TypeId)

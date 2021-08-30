@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Core.Utility.Datatables;
 using Data.Constants;
+using Data.Dtos;
 using Data.Entities;
 using Data.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -63,7 +64,7 @@ namespace Web.Controllers
             return Ok(result);
         }
         [HttpPost]
-        public async Task<IActionResult> GetDataTable([FromBody] DataTableParams param)
+        public async Task<IActionResult> GetDataTable([FromBody] AccountParamsDto param)
         {
             return Ok(await accountMovementManager.GetForDataTable(param));
         }

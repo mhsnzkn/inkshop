@@ -11,6 +11,7 @@ namespace Data.ViewModels
 {
     public class AccountMovementTableDto
     {
+        public int Id { get; set; }
         public int OfficeId { get; set; }
         public string OfficeName { get; set; }
         public int EntityId { get; set; }
@@ -22,7 +23,6 @@ namespace Data.ViewModels
         public decimal Expense { get; set; }
         public int CurrencyId { get; set; }
         public string CurrencyName { get; set; }
-        [StringLength(500)]
         public string Description { get; set; }
         public DateTime Date { get; set; }
         public DateTime DueDate { get; set; }

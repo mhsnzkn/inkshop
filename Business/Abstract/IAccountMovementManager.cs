@@ -1,5 +1,6 @@
 ﻿using Core.Utility;
 using Core.Utility.Datatables;
+using Data.Dtos;
 using Data.Entities;
 using Data.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -17,7 +18,7 @@ namespace Business.Abstract
         Task<AccountMovement> GetByIdAsync(int id);
         Task<AccountMovementModel> GetModelByIdAsync(int id);
         Task<List<AccountMovement>> Get(Expression<Func<AccountMovement, bool>> expression = null);
-        Task<DataTableResult> GetForDataTable(DataTableParams param);
+        Task<DataTableResult> GetForDataTable(AccountParamsDto param);
         Task<Result> Add(AccountMovementModel model);
         Task<Result> Update(AccountMovementModel model);
         Task<Result> Delete(AccountMovement entity);
