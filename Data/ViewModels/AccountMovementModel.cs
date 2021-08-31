@@ -22,9 +22,9 @@ namespace Data.ViewModels
         [Display(Name = "Kalem")]
         [Required(ErrorMessage = "{0}" + UserMessages.Required)]
         public int TypeId { get; set; }
-        [Display(Name = "Gelir")]
+        [Display(Name = "Alacak")]
         public decimal Income { get; set; }
-        [Display(Name = "Gider")]
+        [Display(Name = "Borç")]
         public decimal Expense { get; set; }
         [Display(Name = "Kur")]
         [Required(ErrorMessage = "{0}" + UserMessages.Required)]
