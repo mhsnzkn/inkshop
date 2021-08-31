@@ -1,13 +1,15 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Data.Dtos
+namespace Data.ViewModels
 {
-    public class TransferDto
+    public class TransferModel
     {
         public int Id { get; set; }
         [Required(ErrorMessage ="Şube boş bırakılamaz")]
         public int? OfficeId { get; set; }
+        [Required(ErrorMessage ="Sipariş türü boş bırakılamaz")]
+        public int OrderTypeId { get; set; }
         [Required(ErrorMessage = "Ülke boş bırakılamaz")]
         public int CustomerCountryId { get; set; }
         [Required(ErrorMessage = "Müşteri adı boş bırakılamaz")]
@@ -20,7 +22,7 @@ namespace Data.Dtos
         [Required(ErrorMessage = "Tarih boş bırakılamaz")]
         public DateTime Date { get; set; } = DateTime.Now;
         public string Description { get; set; }
-        [Required(ErrorMessage ="Kişi sayısı boş bırakılamaz")]
-        public int PersonCount { get; set; }
+        [Required(ErrorMessage = "Kişi sayısı boş bırakılamaz")]
+        public int PersonCount { get; set; } = 1;
     }
 }

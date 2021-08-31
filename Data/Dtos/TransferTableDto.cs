@@ -10,9 +10,8 @@ namespace Data.Dtos
     public class TransferTableDto
     {
         public int Id { get; set; }
-        public int OfficeId { get; set; }
         public string OfficeName { get; set; }
-        public int CustomerCountryId { get; set; }
+        public string OrderTypeName { get; set; }
         public string CustomerCountryName { get; set; }
         public string CustomerFullName { get; set; }
         public string CustomerAddress { get; set; }

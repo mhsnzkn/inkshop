@@ -18,7 +18,6 @@ namespace Data.ViewModels
         public string EntityName { get; set; }
         public int TypeId { get; set; }
         public string TypeName { get; set; }
-
         public decimal Income { get; set; }
         public decimal Expense { get; set; }
         public int CurrencyId { get; set; }

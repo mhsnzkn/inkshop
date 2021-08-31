@@ -4,13 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Data.Dtos;
+using Data.ViewModels;
 
 namespace Web.Models
 {
     public class TransferViewModel
     {
-        public TransferDto Transfer { get; set; }
+        public TransferModel Transfer { get; set; }
         public List<SelectListItem> Country { get; set; }
     }
 }

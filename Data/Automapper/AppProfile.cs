@@ -26,7 +26,8 @@ namespace Data.Automapper
                 .ForMember(a => a.OfficeName, s => s.MapFrom(o => o.Office.Name))
                 .ForMember(a => a.CustomerCountryName, s => s.MapFrom(o => o.CustomerCountry.Name))
                 .ForMember(a => a.CustomerFullName, s => s.MapFrom(o => o.CustomerName + " " + o.CustomerSurname))
-                .ForMember(a => a.CustomerAddress, s => s.MapFrom(o => o.CustomerHotel+ " - " + o.CustomerRoomNumber))                ;
+                .ForMember(a => a.CustomerAddress, s => s.MapFrom(o => o.CustomerHotel + " - " + o.CustomerRoomNumber))
+                .ForMember(a => a.OrderTypeName, s => s.MapFrom(o => o.OrderType.Name));
 
             CreateMap<Order, OrderTableDto>()
                 .ForMember(a => a.OfficeName, s => s.MapFrom(o => o.Office.Name))
@@ -68,7 +69,7 @@ namespace Data.Automapper
                 .ForMember(a => a.InfoMenId, s => s.MapFrom(o => o.OrderPersonnel.Where(d => d.Job == OrderPersonnelJob.Info).FirstOrDefault().PersonnelId))
                 .ForMember(a => a.MiddleMenId, s => s.MapFrom(o => o.OrderPersonnel.Where(d => d.Job == OrderPersonnelJob.Hanut).FirstOrDefault().PersonnelId));
 
-            CreateMap<TransferDto, Order>().ReverseMap();
+            CreateMap<TransferModel, Order>().ReverseMap();
 
             CreateMap<ApplicationUser, UserTableDto>()
                 .ForMember(a => a.PersonnelName, o => o.MapFrom(a => a.Personnel.Name + " " + a.Personnel.Surname));

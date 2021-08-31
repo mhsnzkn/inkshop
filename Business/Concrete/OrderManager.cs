@@ -128,7 +128,7 @@ namespace Business.Concrete
 
             return result;
         }
-        public async Task<Result> UpdateTransfer(TransferDto dto)
+        public async Task<Result> UpdateTransfer(TransferModel dto)
         {
             var result = new Result();
             try
@@ -143,6 +143,7 @@ namespace Business.Concrete
                 entity.Description = dto.Description;
                 entity.Date = dto.Date;
                 entity.PersonCount = dto.PersonCount;
+                entity.OrderTypeId = dto.OrderTypeId;
 
                 entity.UptDate = DateTime.Now;
 
@@ -157,7 +158,7 @@ namespace Business.Concrete
             return result;
         }
 
-        public async Task<Result> AddTransfer(TransferDto dto)
+        public async Task<Result> AddTransfer(TransferModel dto)
         {
             var result = new Result();
             try

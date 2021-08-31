@@ -3,6 +3,7 @@ using Business.Abstract;
 using Core.Utility.Datatables;
 using Data.Dtos;
 using Data.Entities;
+using Data.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -40,7 +41,7 @@ namespace Web.Controllers
             {
                 Country = await countryManager.GetForDropDown()
             };
-            model.Transfer = id == 0 ? new TransferDto() : mapper.Map<TransferDto>(await orderManager.GetByIdAsync(id));
+            model.Transfer = id == 0 ? new TransferModel() : mapper.Map<TransferModel>(await orderManager.GetByIdAsync(id));
 
             return View(model);
         }

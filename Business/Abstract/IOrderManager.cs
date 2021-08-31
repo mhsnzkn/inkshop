@@ -28,8 +28,8 @@ namespace Business.Abstract
         Task<Result> ApproveReservation(int id);
         Task<Result> CancelReservation(int id, string message);
         Task<Result> UpdateReservation(ReservationDto dto);
-        Task<Result> AddTransfer(TransferDto dto);
-        Task<Result> UpdateTransfer(TransferDto dto);
+        Task<Result> AddTransfer(TransferModel dto);
+        Task<Result> UpdateTransfer(TransferModel dto);
         Task<Result> Delete(Order entity);
     }
 }
