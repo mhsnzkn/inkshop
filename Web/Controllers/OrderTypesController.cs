@@ -65,7 +65,7 @@ namespace Web.Controllers
         {
             return Ok(await orderTypeManager.GetForDataTable(param));
         }
-
+        [AllowAnonymous]
         public async Task<IActionResult> GetForDropDown()
         {
             var items = await orderTypeManager.GetForDropDown();

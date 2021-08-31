@@ -62,7 +62,7 @@ namespace Web.Controllers
             else
                 return RedirectToAction("Index");
         }
-
+        [AllowAnonymous]
         public async Task<IActionResult> GetForDropDown()
         {
             var items = await currencyManager.GetForDropDown();
