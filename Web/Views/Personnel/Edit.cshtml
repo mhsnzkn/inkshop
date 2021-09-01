@@ -38,7 +38,7 @@
         </div>
         <div class="form-group col-md-4">
             <label>Komisyon</label>
-            <input class="form-control" asp-for="Commission">
+            <input class="form-control" asp-for="Commission" asp-format="{0:N3}">
             <span class="text-danger" asp-validation-for="Commission"></span>
         </div>
     </div>
