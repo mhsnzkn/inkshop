@@ -59,7 +59,7 @@
         "pageLength": {
             "-1": "Bütün satırları göster",
             "1": "-",
-            "_": "%d satır göster"
+            "_": "%d satır göster &#x25BC;"
         },
         "pdf": "PDF",
         "print": "Yazdır",
