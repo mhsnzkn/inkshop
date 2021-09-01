@@ -23,7 +23,7 @@ namespace Data.Entities
         public PersonnelCategories Category { get; set; }
         public Office Office { get; set; }
         public int? OfficeId { get; set; }
-        [Column(TypeName = "decimal(5,2)")]
+        [Column(TypeName = "decimal(7,4)")]
         public decimal Commission { get; set; }
         public DateTime? UptDate { get; set; }
         public DateTime CrtDate { get; set; }
