@@ -1,5 +1,8 @@
+using Data;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
@@ -13,7 +16,9 @@ namespace Web
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var host = CreateHostBuilder(args).Build();
+            Migrate(host);
+            host.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -22,5 +27,21 @@ namespace Web
                 {
                     webBuilder.UseStartup<Startup>();
                 });
+
+        public static void Migrate(IHost host)
+        {
+            try
+            {
+                using var scope = host.Services.CreateScope();
+
+                var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                db.Database.Migrate();
+                
+            }
+            catch (System.Exception)
+            {
+
+            }
+        }
     }
 }
