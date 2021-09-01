@@ -63,8 +63,8 @@ namespace Data.Automapper
                 .ForMember(a => a.IsCreditCard, s => s.MapFrom(o => o.Order.IsCreditCard))
                 .ForMember(a => a.IsPaymentDone, s => s.MapFrom(o => o.Order.IsPaymentDone));
 
-            CreateMap<ReservationDto, Order>();
-            CreateMap<Order, ReservationDto>()
+            CreateMap<ReservationModel, Order>();
+            CreateMap<Order, ReservationModel>()
                 .ForMember(a => a.ArtistId, s => s.MapFrom(o => o.OrderPersonnel.Where(d => d.Job == OrderPersonnelJob.Artist).FirstOrDefault().PersonnelId))
                 .ForMember(a => a.InfoMenId, s => s.MapFrom(o => o.OrderPersonnel.Where(d => d.Job == OrderPersonnelJob.Info).FirstOrDefault().PersonnelId))
                 .ForMember(a => a.MiddleMenId, s => s.MapFrom(o => o.OrderPersonnel.Where(d => d.Job == OrderPersonnelJob.Hanut).FirstOrDefault().PersonnelId));

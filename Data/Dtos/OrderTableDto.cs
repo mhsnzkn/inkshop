@@ -19,6 +19,7 @@ namespace Data.Dtos
         public string CustomerCountryName { get; set; }
         public string CustomerFullName { get; set; }
         public string CustomerAdress { get; set; }
+        public string TicketNumber { get; set; }
         public decimal Price { get; set; }
         public decimal Deposit { get; set; }
         public bool TypeCoverUp { get; set; }

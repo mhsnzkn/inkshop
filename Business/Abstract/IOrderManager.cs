@@ -27,7 +27,7 @@ namespace Business.Abstract
         Task<Result> PayReservation(int id);
         Task<Result> ApproveReservation(int id);
         Task<Result> CancelReservation(int id, string message);
-        Task<Result> UpdateReservation(ReservationDto dto);
+        Task<Result> UpdateReservation(ReservationModel dto);
         Task<Result> AddTransfer(TransferModel dto);
         Task<Result> UpdateTransfer(TransferModel dto);
         Task<Result> Delete(Order entity);

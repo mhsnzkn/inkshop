@@ -29,6 +29,8 @@ namespace Data.Entities
         public string CustomerRoomNumber { get; set; }
         [StringLength(50)]
         public string CustomerPhoneNumber { get; set; }
+        [StringLength(20)]
+        public string TicketNumber { get; set; }
         [Column(TypeName = "decimal(8,2)")]
         public decimal Price { get; set; }
         [Column(TypeName = "decimal(8,2)")]

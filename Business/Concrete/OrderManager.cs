@@ -110,6 +110,7 @@ namespace Business.Concrete
                 entity.Date = dto.Date;
                 entity.IsCreditCard = dto.IsCreditCard;
                 entity.PersonCount = dto.PersonCount;
+                entity.TicketNumber = dto.TicketNumber;
                 entity.Status = OrderStatus.Order;
 
                 entity.Type = dto.TypeCoverUp ? OrderTypeString.CoverUp : string.Empty;
@@ -212,7 +213,7 @@ namespace Business.Concrete
 
             return result;
         }
-        public async Task<Result> UpdateReservation(ReservationDto dto)
+        public async Task<Result> UpdateReservation(ReservationModel dto)
         {
             var result = new Result();
             try
@@ -232,6 +233,7 @@ namespace Business.Concrete
                 entity.Description = dto.Description;
                 entity.Date = dto.Date;
                 entity.IsCreditCard = dto.IsCreditCard;
+                entity.TicketNumber = dto.TicketNumber;
                 entity.IsPaymentDone = false;
 
                 entity.Type = dto.TypeCoverUp ? OrderTypeString.CoverUp : string.Empty;
@@ -363,7 +365,7 @@ namespace Business.Concrete
         public async Task<DataTableResult> GetTransferDataTable(DataTableParams param)
         {
             var result = new DataTableResult();
-            var rawQuery = orderDal.Get(a => a.IsTransfer).OrderByDescending(a => a.Date)
+            var rawQuery = orderDal.Get(a => a.IsTransfer).OrderBy(a => a.Date)
                 .Include(a => a.Office).Include(a => a.CustomerCountry)
                 .AsQueryable();
 

@@ -61,15 +61,15 @@
         </div>
     </div>
     <div class="form-row">
-        <div class="form-group col-md-2">
-            <label>Transfer Kişi Sayısı</label>
-            <input class="form-control" asp-for="Transfer.PersonCount">
-            <span class="text-danger" asp-validation-for="Transfer.PersonCount"></span>
-        </div>
         <div class="form-group col-md-10">
             <label>Açıklama</label>
             <input class="form-control" oninput="toUpper(this)" asp-for="Transfer.Description">
             <span class="text-danger" asp-validation-for="Transfer.Description"></span>
+        </div>
+        <div class="form-group col-md-2">
+            <label>Transfer Kişi Sayısı</label>
+            <input class="form-control" asp-for="Transfer.PersonCount">
+            <span class="text-danger" asp-validation-for="Transfer.PersonCount"></span>
         </div>
     </div>
     <div class="d-flex justify-content-between">

@@ -22,6 +22,7 @@ namespace Data.ViewModels
         public string CustomerHotel { get; set; }
         public string CustomerRoomNumber { get; set; }
         public string CustomerPhoneNumber { get; set; }
+        public string TicketNumber { get; set; }
         public decimal Price { get; set; }
         public decimal Deposit { get; set; }
         public bool TypeCoverUp { get; set; }

@@ -4,6 +4,7 @@ using Core.Utility.Datatables;
 using Data.Constants;
 using Data.Dtos;
 using Data.Entities;
+using Data.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -56,10 +57,10 @@ namespace Web.Controllers
             if(id != 0)
             {
                 var order = await orderManager.GetReservationByIdAsync(id);
-                model.Reservation = mapper.Map<ReservationDto>(order);
+                model.Reservation = mapper.Map<ReservationModel>(order);
             }else
             {
-                model.Reservation = new ReservationDto();
+                model.Reservation = new ReservationModel();
             }
 
             return View(model);

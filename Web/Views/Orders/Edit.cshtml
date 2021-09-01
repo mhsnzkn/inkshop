@@ -76,10 +76,17 @@
             <span class="text-danger" asp-validation-for="Order.CurrencyId"></span>
         </div>
     </div>
-    <div class="form-group">
-        <label>Açıklama</label>
-        <input class="form-control" oninput="toUpper(this)" asp-for="Order.Description">
-        <span class="text-danger" asp-validation-for="Order.Description"></span>
+    <div class="form-row">
+        <div class="form-group col-md-9">
+            <label>Açıklama</label>
+            <input class="form-control" oninput="toUpper(this)" asp-for="Order.Description">
+            <span class="text-danger" asp-validation-for="Order.Description"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label>Bilet Numarası</label>
+            <input type="text" class="form-control" asp-for="Order.TicketNumber">
+            <span class="text-danger" asp-validation-for="Order.TicketNumber"></span>
+        </div>
     </div>
     <div class="form-row">
         <div class="form-group col-md-5">

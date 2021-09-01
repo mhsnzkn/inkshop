@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Data.Dtos
+namespace Data.ViewModels
 {
-    public class ReservationDto
+    public class ReservationModel
     {
         public int Id { get; set; }
         public int OfficeId { get; set; }
@@ -23,6 +23,7 @@ namespace Data.Dtos
         public string CustomerHotel { get; set; }
         public string CustomerRoomNumber { get; set; }
         public string CustomerPhoneNumber { get; set; }
+        public string TicketNumber { get; set; }
         public decimal Price { get; set; }
         public decimal Deposit { get; set; }
         public bool TypeCoverUp { get; set; }
