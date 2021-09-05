@@ -65,7 +65,7 @@
     <script src="~/lib/datatable/js/dataTables.rowGroup.min.js"></script>
     <script>
         $(document).ready(function () {
-            $('#datatable').DataTable({
+            var table = $('#datatable').DataTable({
                 language: {
                     url: '/lib/datatable/tr/tr.json'
                 },
@@ -171,6 +171,22 @@
                     $("#slc-order-type").html(s);
                 }
             })
+
+            // Datatables Column Search fields
+            @*$('#datatable thead th').each(function () {
+                var title = $(this).text();
+                console.log(title)
+                $(this).html(title + ' <input type="text" class="col-search-input" placeholder="Ara ' + title + '" />');
+            });
+
+            table.columns().every(function () {
+                var table = this;
+                $('input', this.header()).on('change', function () {
+                    if (table.search() !== this.value) {
+                        table.search(this.value).draw();
+                    }
+                });
+            });*@
         });
 
         $('.param-change').change(function () {

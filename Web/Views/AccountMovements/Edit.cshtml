@@ -49,12 +49,7 @@
             <input class="form-control" asp-for="Date">
             <span class="text-danger" asp-validation-for="Date"></span>
         </div>
-        <div class="form-group col-md-4">
-            <label asp-for="DueDate"></label>
-            <input class="form-control" asp-for="DueDate">
-            <span class="text-danger" asp-validation-for="DueDate"></span>
-        </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-8">
             <label asp-for="Description"></label>
             <input class="form-control" asp-for="Description">
             <span class="text-danger" asp-validation-for="Description"></span>
@@ -89,7 +84,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Vazgeç</button>
                     <form data-ajax-url="/@controllerName/Edit" data-ajax="true" data-ajax-method="post" data-ajax-complete="success" data-ajax-failure="ajaxFail">
-                        <input type="hidden" asp-for="Id" />
+                        <input type="hidden" asp-for="Id" id="DelId" />
                         <button asp-controller="@controllerName" asp-action="Delete" type="submit" class="btn btn-danger">Sil</button>
                     </form>
                 </div>
@@ -97,7 +92,24 @@
         </div>
     </div>
 
-
+@if (Model.Id == 0)
+{
+    <table id="tbl-info" style="display:none" class="table table-striped m-3 col-md-11">
+        <thead>
+            <tr>
+                <th>Şube</th>
+                <th>Cari</th>
+                <th>Kalem</th>
+                <th>Alacak</th>
+                <th>Borç</th>
+                <th>Kur</th>
+                <th>Açıklama</th>
+                <th>Tarih</th>
+            </tr>
+        </thead>
+        <tbody id="tbl-body"></tbody>
+    </table>
+    }
 
 
 @section Scripts{
@@ -131,7 +143,27 @@
         })
 
         var success = function (xhr) {
-            ajaxSuccess(xhr, '/@controllerName');
+            @if (Model.Id != 0){
+                <text>ajaxSuccess(xhr, '/@controllerName');</text>
+            }else{
+                <text>addItemsToTable();</text>
+            }
+        }
+
+        function addItemsToTable(){
+            alertify.success('Islem basarili')
+            let sube = $('#slc-office option:selected').text();
+            let cari = $('#slc-entity option:selected').text();
+            let kalem = $('#slc-type option:selected').text();
+            let kur = $('#slc-currency option:selected').text();
+            let alacak = $('#Income').val();
+            let borc = $('#Expense').val();
+            let tarih = $('#Date').val();
+            let aciklama = $('#Description').val();
+
+            $('#tbl-info').show();
+            let elm = `<tr><td>${sube}</td><td>${cari}</td><td>${kalem}</td><td>${alacak}</td><td>${borc}</td><td>${kur}</td><td>${aciklama}</td><td>${tarih}</td></tr>`;
+            $('#tbl-body').append(elm);
         }
     </script>
 }

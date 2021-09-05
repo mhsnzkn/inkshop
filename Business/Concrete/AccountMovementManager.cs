@@ -123,6 +123,38 @@ namespace Business.Concrete
         public async Task<DataTableResult> GetForDataTable(AccountParamsDto param)
         {
             var result = new DataTableResult();
+            var query = GetFilteredQuery(param);
+
+            var paginatedQuery = query.OrderByDescending(a => a.Date).Skip(param.start).Take(param.length);
+
+            // DataTableModel
+            result.Data = mapper.ProjectTo<AccountMovementTableDto>(paginatedQuery);
+            result.Draw = param.draw;
+            result.RecordsTotal = await query.CountAsync();
+            result.RecordsFiltered = result.RecordsTotal;
+
+            return result;
+
+        }
+
+        public async Task<List<AccountMovementSumDto>> GetSummary(AccountParamsDto param)
+        {
+            var query = GetFilteredQuery(param);
+
+            var result = await query.GroupBy(a => a.Currency.Name)
+                .Select(a => new AccountMovementSumDto
+            {
+                CurrencyName = a.Key,
+                Income = a.Sum(s => s.Income),
+                Expense = a.Sum(s => s.Expense)
+            }).ToListAsync();
+
+            return result;
+
+        }
+
+        private IQueryable<AccountMovement> GetFilteredQuery(AccountParamsDto param)
+        {
             var query = entityDal.Get();
             // Filter
             if (!string.IsNullOrEmpty(param.search?.value))
@@ -141,16 +173,7 @@ namespace Business.Concrete
             if (param.maxDate != null)
                 query = query.Where(a => a.Date.Date <= param.maxDate);
 
-            var paginatedQuery = query.OrderByDescending(a => a.Date).Skip(param.start).Take(param.length);
-
-            // DataTableModel
-            result.Data = mapper.ProjectTo<AccountMovementTableDto>(paginatedQuery);
-            result.Draw = param.draw;
-            result.RecordsTotal = await query.CountAsync();
-            result.RecordsFiltered = result.RecordsTotal;
-
-            return result;
-
+            return query;
         }
     }
 }

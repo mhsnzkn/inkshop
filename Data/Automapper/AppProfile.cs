@@ -15,6 +15,7 @@ namespace Data.Automapper
     {
         public AppProfile()
         {
+            #region Order
             CreateMap<OrderModel, Order>();
             CreateMap<Order, OrderModel>()
                 .ForMember(a => a.TypeCoverUp, s => s.MapFrom(o => o.Type.Contains(OrderTypeString.CoverUp)))
@@ -42,8 +43,8 @@ namespace Data.Automapper
                 .ForMember(a => a.CustomerCountryName, s => s.MapFrom(o => o.CustomerCountry.Name))
                 .ForMember(a => a.CustomerFullName, s => s.MapFrom(o => o.CustomerName + " " + o.CustomerSurname))
                 .ForMember(a => a.OrderTypeName, s => s.MapFrom(o => o.OrderType.Name))
-                .ForMember(a => a.PersonnelName, s => s.MapFrom(o => 
-                    o.OrderPersonnel.Where(d => d.Job == OrderPersonnelJob.Artist).FirstOrDefault().Personnel.Name +" "+ 
+                .ForMember(a => a.PersonnelName, s => s.MapFrom(o =>
+                    o.OrderPersonnel.Where(d => d.Job == OrderPersonnelJob.Artist).FirstOrDefault().Personnel.Name + " " +
                     o.OrderPersonnel.Where(d => d.Job == OrderPersonnelJob.Artist).FirstOrDefault().Personnel.Surname));
 
             CreateMap<Order, VaultIncomeDto>()
@@ -53,6 +54,16 @@ namespace Data.Automapper
                 .ForMember(a => a.Price, s => s.MapFrom(o => o.IsPaymentDone ? o.Price - o.Deposit : 0))
                 .ForMember(a => a.Description, s => s.MapFrom(o => o.IsPaymentDone ? "Rest" : "Depozito"));
 
+            CreateMap<ReservationModel, Order>();
+            CreateMap<Order, ReservationModel>()
+                .ForMember(a => a.ArtistId, s => s.MapFrom(o => o.OrderPersonnel.Where(d => d.Job == OrderPersonnelJob.Artist).FirstOrDefault().PersonnelId))
+                .ForMember(a => a.InfoMenId, s => s.MapFrom(o => o.OrderPersonnel.Where(d => d.Job == OrderPersonnelJob.Info).FirstOrDefault().PersonnelId))
+                .ForMember(a => a.MiddleMenId, s => s.MapFrom(o => o.OrderPersonnel.Where(d => d.Job == OrderPersonnelJob.Hanut).FirstOrDefault().PersonnelId));
+
+            CreateMap<TransferModel, Order>().ReverseMap();
+            #endregion
+
+            #region OrderPersonnel
             CreateMap<OrderPersonnel, VaultExpenseDto>()
                 .ForMember(a => a.OfficeName, s => s.MapFrom(o => o.Order.Office.Name))
                 .ForMember(a => a.CurrencyName, s => s.MapFrom(o => o.Order.Currency.ShortName))
@@ -62,34 +73,41 @@ namespace Data.Automapper
                 .ForMember(a => a.ApproveDate, s => s.MapFrom(o => o.Order.ApproveDate))
                 .ForMember(a => a.IsCreditCard, s => s.MapFrom(o => o.Order.IsCreditCard))
                 .ForMember(a => a.IsPaymentDone, s => s.MapFrom(o => o.Order.IsPaymentDone));
+            #endregion
 
-            CreateMap<ReservationModel, Order>();
-            CreateMap<Order, ReservationModel>()
-                .ForMember(a => a.ArtistId, s => s.MapFrom(o => o.OrderPersonnel.Where(d => d.Job == OrderPersonnelJob.Artist).FirstOrDefault().PersonnelId))
-                .ForMember(a => a.InfoMenId, s => s.MapFrom(o => o.OrderPersonnel.Where(d => d.Job == OrderPersonnelJob.Info).FirstOrDefault().PersonnelId))
-                .ForMember(a => a.MiddleMenId, s => s.MapFrom(o => o.OrderPersonnel.Where(d => d.Job == OrderPersonnelJob.Hanut).FirstOrDefault().PersonnelId));
-
-            CreateMap<TransferModel, Order>().ReverseMap();
-
+            #region ApplicationUser
             CreateMap<ApplicationUser, UserTableDto>()
                 .ForMember(a => a.PersonnelName, o => o.MapFrom(a => a.Personnel.Name + " " + a.Personnel.Surname));
 
             CreateMap<ApplicationUser, UserModel>()
                 .ForMember(a => a.Password, o => o.Ignore())
                 .ForMember(a => a.ConfirmPassword, o => o.Ignore());
+            #endregion
 
+            #region Personnel
             CreateMap<Personnel, PersonnelTableDto>()
                 .ForMember(a => a.CategoryName, o => o.MapFrom(s => s.Category.ToString()));
+            #endregion
 
+            #region AccountEntity
+            CreateMap<AccountEntity, AccountEntityModel>().ReverseMap();
+            #endregion
+
+            #region AccountType
+            CreateMap<AccountType, AccountTypeModel>().ReverseMap();
+            #endregion
+
+            #region AccountMovement
             CreateMap<AccountMovement, AccountMovementTableDto>()
                 .ForMember(a => a.OfficeName, o => o.MapFrom(s => s.Office.Name))
                 .ForMember(a => a.EntityName, o => o.MapFrom(s => s.Entity.Name))
                 .ForMember(a => a.TypeName, o => o.MapFrom(s => s.Type.Name))
                 .ForMember(a => a.CurrencyName, o => o.MapFrom(s => s.Currency.ShortName));
+            CreateMap<AccountMovement, AccountMovementSumDto>()
+                .ForMember(a => a.CurrencyName, o => o.MapFrom(s => s.Currency.ShortName));
 
-            CreateMap<AccountEntity, AccountEntityModel>().ReverseMap();
-            CreateMap<AccountType, AccountTypeModel>().ReverseMap();
             CreateMap<AccountMovement, AccountMovementModel>().ReverseMap();
+            #endregion
         }
     }
 }

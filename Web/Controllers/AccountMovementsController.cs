@@ -68,5 +68,10 @@ namespace Web.Controllers
         {
             return Ok(await accountMovementManager.GetForDataTable(param));
         }
+        [HttpPost]
+        public async Task<IActionResult> GetSummary([FromBody] AccountParamsDto param)
+        {
+            return Ok(await accountMovementManager.GetSummary(param));
+        }
     }
 }

@@ -19,6 +19,7 @@ namespace Business.Abstract
         Task<AccountMovementModel> GetModelByIdAsync(int id);
         Task<List<AccountMovement>> Get(Expression<Func<AccountMovement, bool>> expression = null);
         Task<DataTableResult> GetForDataTable(AccountParamsDto param);
+        Task<List<AccountMovementSumDto>> GetSummary(AccountParamsDto param);
         Task<Result> Add(AccountMovementModel model);
         Task<Result> Update(AccountMovementModel model);
         Task<Result> Delete(AccountMovement entity);

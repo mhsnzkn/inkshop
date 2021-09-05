@@ -15,7 +15,7 @@
         <div class="col-sm-4">
             <input type="date" class="form-control param-change" id="maxdate" value="@DateTime.Today.ToString("yyyy-MM-dd")">
         </div>
-        </div>
+    </div>
     <div class="form-group row">
         <div class="col-sm-4">
             <select id="slc-office" class="form-control param-change"></select>
@@ -52,108 +52,140 @@
         </tr>
     </thead>
 </table>
-
+<hr />
+<h5>Toplam</h5>
+<div class="row" id="div-info"></div>
 
 @section Scripts{
-    <script>
-        $(document).ready(function () {
-            $('#datatable').DataTable({
-                language: {
-                    url: '/lib/datatable/tr/tr.json'
-                },
-                dom: 'Bfrtip',
-                buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print', 'pageLength'
-                ],
-                "processing": true, // for show progress bar
-                "serverSide": true, // for process server side
-                "pagination": true,
-                "filter": true, // this is for disable filter (search box)
-                "ordering": false,
-                //"orderMulti": false, // for disable multiple column at once
+<script>
+    $(document).ready(function () {
+        $('#datatable').DataTable({
+            language: {
+                url: '/lib/datatable/tr/tr.json'
+            },
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print', 'pageLength'
+            ],
+            "processing": true, // for show progress bar
+            "serverSide": true, // for process server side
+            "pagination": true,
+            "filter": true, // this is for disable filter (search box)
+            "ordering": false,
+            //"orderMulti": false, // for disable multiple column at once
 
-                "ajax": {
-                    url: "/@controllerName/GetDataTable",
-                    type: 'POST',
-                    contentType: "application/json",
-                    data: function (d) {
-                        let officeId = $("#slc-office").val() || 0;
-                        d.officeId = officeId;
-                        let entityId = $("#slc-entity").val() || 0;
-                        d.entityId = entityId;
-                        let typeId = $("#slc-type").val() || 0;
-                        d.typeId = typeId;
-
-                        let date1 = $('#mindate').val();
-                        let date2 = $('#maxdate').val();
-                        d.minDate = date1 ? new Date(date1) : null;
-                        d.maxDate = date2 ? new Date(date2) : null;
-                        return JSON.stringify(d);
+            "ajax": {
+                url: "/@controllerName/GetDataTable",
+                type: 'POST',
+                contentType: "application/json",
+                data: function (d) {
+                    let res = buildModel(d);
+                    return JSON.stringify(res);
+                }
+            },
+            "columns": [
+                { "data": "officeName", },
+                { "data": "entityName" },
+                { "data": "typeName" },
+                { "data": "income" },
+                { "data": "expense" },
+                { "data": "currencyName" },
+                { "data": "description" },
+                {
+                    "data": "date",
+                    render: function (data, type, row) {
+                        return (new Date(data)).toLocaleDateString('tr-TR');
+                    } },
+                {
+                    "data": "id",
+                    render: function (data, type, row) {
+                        return '<a href="/@controllerName/Edit/' + data + '" class="btn btn-sm btn-warning m-1"><i class="fas fa-edit"></i></button>' +
+                            '<a onclick="deletePrompt(' + data + ')" class="btn btn-sm btn-danger m-1"><i class="fas fa-trash"></i></button>';
                     }
-                },
-                "columns": [
-                    { "data": "officeName", },
-                    { "data": "entityName" },
-                    { "data": "typeName" },
-                    { "data": "income" },
-                    { "data": "expense" },
-                    { "data": "currencyName" },
-                    { "data": "description" },
-                    {
-                        "data": "date",
-                        render: function (data, type, row) {
-                            return (new Date(data)).toLocaleDateString('tr-TR');
-                        } },
-                    {
-                        "data": "id",
-                        render: function (data, type, row) {
-                            return '<a href="/@controllerName/Edit/' + data + '" class="btn btn-sm btn-warning m-1"><i class="fas fa-edit"></i></button>' +
-                                '<a onclick="deletePrompt(' + data + ')" class="btn btn-sm btn-danger m-1"><i class="fas fa-trash"></i></button>';
-                        }
-                    }
-                ]
+                }
+            ]
 
-            });
-
-            setSelect('/Offices/GetForDropDown', 'slc-office', null, "-Şube-")
-            setSelect('/AccountEntities/GetForDropDown', 'slc-entity', null, "-Cari-")
-            setSelect('/AccountTypes/GetForDropDown', 'slc-type', null, "-Kalem-")
         });
 
-        function deletePrompt(id) {
-            alertify.confirm("Sil", "Silme işlemini onaylıyor musunuz?",
-                function () {
-                    let model = { id: id }
-                    $.ajax({
-                        url: '/@controllerName/Delete',
-                        type: 'post',
-                        contentType: "application/json",
-                        data: JSON.stringify(model),
-                        success: function (res) {
-                            if (res.error === false) {
-                                alertify.success("İşlem Başarılı");
-                                $('#datatable').DataTable().ajax.reload();
-                            } else {
-                                alertify.error("İşlem Başarısız");
-                                console.log(res);
-                            }
-                        }
-                    })
-                }, null)
-        }
+        setSelect('/Offices/GetForDropDown', 'slc-office', null, "-Şube-")
+        setSelect('/AccountEntities/GetForDropDown', 'slc-entity', null, "-Cari-")
+        setSelect('/AccountTypes/GetForDropDown', 'slc-type', null, "-Kalem-")
 
-        $('.param-change').change(function () {
-            refreshTable();
+        buildInfoSection();
+    });
+
+    function deletePrompt(id) {
+        alertify.confirm("Sil", "Silme işlemini onaylıyor musunuz?",
+            function () {
+                let model = { id: id }
+                $.ajax({
+                    url: '/@controllerName/Delete',
+                    type: 'post',
+                    contentType: "application/json",
+                    data: JSON.stringify(model),
+                    success: function (res) {
+                        if (res.error === false) {
+                            alertify.success("İşlem Başarılı");
+                            $('#datatable').DataTable().ajax.reload();
+                        } else {
+                            alertify.error("İşlem Başarısız");
+                            console.log(res);
+                        }
+                    }
+                })
+            }, null)
+    }
+
+    $('.param-change').change(function () {
+        refreshTable();
+        buildInfoSection();
+    })
+    function clearForm() {
+        $('.param-change').val(null);
+        $("#slc-type").val("").change();
+        $("#slc-entity").val("").change();
+        $("#slc-office").val("").change();
+        refreshTable();
+    }
+    function refreshTable() {
+        $('#datatable').DataTable().ajax.reload();
+    }
+    const buildInfoSection = () => {
+        var model = {};
+        $.ajax({
+            url: '/@controllerName/GetSummary',
+            type: 'post',
+            contentType: "application/json",
+            data: JSON.stringify(buildModel(model)),
+            success: function (res) {
+                var str = ``;
+                res.map(item =>{
+                    str += `<div class="card m-2" style="width: 10rem;">
+                                <div class="card-header text-center">`+item.currencyName+`</div>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item text-success"><span class="float-right">`+item.income+`</span></li>
+                                    <li class="list-group-item text-danger"><span class="float-right">`+item.expense+`</span></li>
+                                    <li class="list-group-item float-right"><span class="float-right">`+(item.income - item.expense)+`</span></li>
+                                </ul>
+                            </div>`
+                })
+                $('#div-info').html(str);
+            }
         })
-        function clearForm() {
-            $('.param-change').val(null);
-            $("#slc-type").val("").change();
-            $("#slc-entity").val("").change();
-            $("#slc-office").val("").change();
-            refreshTable();
-        }
-        function refreshTable() {
-            $('#datatable').DataTable().ajax.reload();
-        }
-    </script>
+    }
+    const buildModel = (d) => {
+        let officeId = $("#slc-office").val() || 0;
+        d.officeId = officeId;
+        let entityId = $("#slc-entity").val() || 0;
+        d.entityId = entityId;
+        let typeId = $("#slc-type").val() || 0;
+        d.typeId = typeId;
+
+        let date1 = $('#mindate').val();
+        let date2 = $('#maxdate').val();
+        d.minDate = date1 ? new Date(date1) : null;
+        d.maxDate = date2 ? new Date(date2) : null;
+        return d;
+    }
+</script>
 }
