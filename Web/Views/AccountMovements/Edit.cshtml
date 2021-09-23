@@ -146,8 +146,15 @@
             @if (Model.Id != 0){
                 <text>ajaxSuccess(xhr, '/@controllerName');</text>
             }else{
-                <text>addItemsToTable();</text>
+                <text>addProcesses();</text>
             }
+        }
+
+        function addProcesses() {
+            addItemsToTable();
+            $('input').val('');
+            $('select').val('').change();
+            $('#slc-office').select2('focus');
         }
 
         function addItemsToTable(){

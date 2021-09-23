@@ -43,8 +43,9 @@
             <th>Şube</th>
             <th>Cari</th>
             <th>Kalem</th>
-            <th>Alacak</th>
             <th>Borç</th>
+            <th>Alacak</th>
+            <th>Bakiye</th>
             <th>Kur</th>
             <th>Açıklama</th>
             <th>Tarih</th>
@@ -87,8 +88,14 @@
                 { "data": "officeName", },
                 { "data": "entityName" },
                 { "data": "typeName" },
-                { "data": "income" },
                 { "data": "expense" },
+                { "data": "income" },
+                {
+                    "data": "null",
+                    render: function (data, type, row) {
+                        return row.income - row.expense;
+                    }
+                },
                 { "data": "currencyName" },
                 { "data": "description" },
                 {
