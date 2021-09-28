@@ -40,5 +40,9 @@ namespace Data.ViewModels
         [Display(Name = "Vade Tarihi")]
         [Required(ErrorMessage = "{0}" + UserMessages.Required)]
         public DateTime DueDate { get; set; } = DateTime.Now;
+        [Display(Name = "Kasa (Giriş)")]
+        public int? VaultInId { get; set; }
+        [Display(Name = "Kasa (Çıkış)")]
+        public int? VaultOutId { get; set; }
     }
 }

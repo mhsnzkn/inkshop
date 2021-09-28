@@ -1,4 +1,5 @@
-﻿using Core.Utility;
+﻿using Business.Generic;
+using Core.Utility;
 using Core.Utility.Datatables;
 using Data.Entities;
 using Data.ViewModels;
@@ -12,15 +13,10 @@ using System.Threading.Tasks;
 
 namespace Business.Abstract
 {
-    public interface IAccountEntityManager
+    public interface IAccountEntityManager : IDefinitionManager<AccountEntity>
     {
-        Task<AccountEntity> GetByIdAsync(int id);
         Task<AccountEntityModel> GetModelByIdAsync(int id);
-        Task<List<AccountEntity>> Get(Expression<Func<AccountEntity, bool>> expression = null);
-        Task<DataTableResult> GetForDataTable(DataTableParams param);
         Task<Result> Add(AccountEntityModel model);
         Task<Result> Update(AccountEntityModel model);
-        Task<Result> Delete(AccountEntity entity);
-        Task<List<SelectListItem>> GetForDropDown();
     }
 }

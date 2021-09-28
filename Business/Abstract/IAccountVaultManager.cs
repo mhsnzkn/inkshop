@@ -3,7 +3,7 @@ using Data.Entities;
 
 namespace Business.Abstract
 {
-    public interface ICountryManager : IDefinitionManager<Country>
+    public interface IAccountVaultManager : IDefinitionManager<AccountVault>
     {
 
     }

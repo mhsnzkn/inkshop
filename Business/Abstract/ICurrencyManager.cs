@@ -1,24 +1,10 @@
-﻿using Core.Utility;
-using Core.Utility.Datatables;
-using Data.Entities;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Data.Entities;
+using Business.Generic;
 
 namespace Business.Abstract
 {
-    public interface ICurrencyManager
+    public interface ICurrencyManager : IDefinitionManager<Currency>
     {
-        Task<Currency> GetByIdAsync(int id);
-        Task<List<Currency>> Get(Expression<Func<Currency, bool>> expression = null);
-        Task<DataTableResult> GetForDataTable(DataTableParams param);
-        Task<Result> Add(Currency entity);
-        Task<Result> Update(Currency entity);
-        Task<Result> Delete(Currency entity);
-        Task<List<SelectListItem>> GetForDropDown();
+
     }
 }

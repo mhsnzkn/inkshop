@@ -49,7 +49,19 @@
             <input class="form-control" asp-for="Date">
             <span class="text-danger" asp-validation-for="Date"></span>
         </div>
-        <div class="form-group col-md-8">
+        <div class="form-group col-md-4">
+            <label asp-for="VaultInId"></label>
+            <select id="slc-vaultin" class="form-control" asp-for="VaultInId"></select>
+            <span class="text-danger" asp-validation-for="VaultInId"></span>
+        </div>
+        <div class="form-group col-md-4">
+            <label asp-for="VaultOutId"></label>
+            <select id="slc-vaultout" class="form-control" asp-for="VaultOutId"></select>
+            <span class="text-danger" asp-validation-for="VaultOutId"></span>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-12">
             <label asp-for="Description"></label>
             <input class="form-control" asp-for="Description">
             <span class="text-danger" asp-validation-for="Description"></span>
@@ -116,11 +128,12 @@
     <partial name="_ValidationScriptsPartial" />
     <script>
     $(document).ready(function () {
-       
+
         setSelect('/Offices/GetForDropDown', 'slc-office', @Model.OfficeId)
         setSelect('/AccountEntities/GetForDropDown', 'slc-entity', @Model.EntityId)
         setSelect('/AccountTypes/GetForDropDown', 'slc-type', @Model.TypeId)
         setSelect('/Currencies/GetForDropDown', 'slc-currency', @Model.CurrencyId)
+        setSelect('/AccountVault/GetForDropDown', ['slc-vaultin', 'slc-vaultout'], [@Model.VaultInId,@Model.VaultOutId])
     })
 
         $('#chc-income').change(function () {

@@ -1,0 +1,88 @@
+﻿@{
+    ViewData["Title"] = "Kasalar";
+    var controllerName = ViewContext.RouteData.Values["controller"].ToString();
+}
+
+<h4>@ViewData["Title"]</h4>
+<hr />
+<div class="d-flex justify-content-end p-3">
+    <!-- Large modal -->
+    <a asp-controller="@controllerName" asp-action="Edit" class="btn btn-primary"><i class="fas fa-plus"></i> Ekle</a>
+</div>
+
+
+<table id="datatable" class="table stripe display" width="100%">
+    <thead>
+        <tr>
+            <th>Ad</th>
+            <th>Açıklama</th>
+            <th>İşlem</th>
+        </tr>
+    </thead>
+</table>
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#datatable').DataTable({
+                language: {
+                    url: '/lib/datatable/tr/tr.json'
+                },
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print', 'pageLength'
+                ],
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                "pagination": true,
+                "filter": true, // this is for disable filter (search box)
+                "ordering": false,
+                //"orderMulti": false, // for disable multiple column at once
+
+                "ajax": {
+                    url: "/@controllerName/GetDataTable",
+                    type: 'POST',
+                    contentType: "application/json",
+                    data: function (d) {
+                        return JSON.stringify(d);
+                    }
+                },
+                "columns": [
+                    { "data": "name", },
+                    { "data": "description" },
+                    {
+                        "data": "id",
+                        render: function (data, type, row) {
+                            return '<a href="/@controllerName/Edit/' + data + '" class="btn btn-sm btn-warning m-1"><i class="fas fa-edit"></i></button>' +
+                                '<a onclick="deletePrompt(' + data + ')" class="btn btn-sm btn-danger m-1"><i class="fas fa-trash"></i></button>';
+                        }
+                    }
+                ]
+
+            });
+        });
+
+        function deletePrompt(id) {
+            alertify.confirm("Sil", "Silme işlemini onaylıyor musunuz?",
+                function () {
+                    let model = { id: id }
+                    $.ajax({
+                        url: '/@controllerName/Delete',
+                        type: 'post',
+                        contentType: "application/json",
+                        data: JSON.stringify(model),
+                        success: function (res) {
+                            if (res.error === false) {
+                                alertify.success("İşlem Başarılı");
+                                $('#datatable').DataTable().ajax.reload();
+                            } else {
+                                alertify.error("İşlem Başarısız");
+                                console.log(res);
+                            }
+                        }
+                    })
+                }, null)
+        }
+    </script>
+}

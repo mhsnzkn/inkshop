@@ -4,14 +4,16 @@ using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210923204020_MuhasebeKasaEkleme")]
+    partial class MuhasebeKasaEkleme
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -102,12 +104,6 @@ namespace Data.Migrations
                     b.Property<DateTime?>("UptDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("VaultInId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("VaultOutId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CurrencyId");
@@ -117,10 +113,6 @@ namespace Data.Migrations
                     b.HasIndex("OfficeId");
 
                     b.HasIndex("TypeId");
-
-                    b.HasIndex("VaultInId");
-
-                    b.HasIndex("VaultOutId");
 
                     b.ToTable("AccountMovements");
                 });
@@ -694,14 +686,6 @@ namespace Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Data.Entities.AccountVault", "VaultIn")
-                        .WithMany()
-                        .HasForeignKey("VaultInId");
-
-                    b.HasOne("Data.Entities.AccountVault", "VaultOut")
-                        .WithMany()
-                        .HasForeignKey("VaultOutId");
-
                     b.Navigation("Currency");
 
                     b.Navigation("Entity");
@@ -709,10 +693,6 @@ namespace Data.Migrations
                     b.Navigation("Office");
 
                     b.Navigation("Type");
-
-                    b.Navigation("VaultIn");
-
-                    b.Navigation("VaultOut");
                 });
 
             modelBuilder.Entity("Data.Entities.ApplicationUser", b =>

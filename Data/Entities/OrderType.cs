@@ -1,4 +1,5 @@
 ﻿using Core.Data;
+using Data.Abstract;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -7,10 +8,8 @@ using System.Text;
 
 namespace Data.Entities
 {
-    public class OrderType : Entity, IDatedEntity
+    public class OrderType : DefinitionEntity, IDatedEntity
     {
-        [StringLength(100)]
-        public string Name { get; set; }
         public DateTime? UptDate { get; set; }
         public DateTime CrtDate { get; set; }
 

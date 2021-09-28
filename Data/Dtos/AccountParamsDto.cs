@@ -12,6 +12,8 @@ namespace Data.Dtos
         public int OfficeId { get; set; }
         public int EntityId { get; set; }
         public int TypeId { get; set; }
+        public int VaultId { get; set; }
+        //public int VaultOutId { get; set; }
 
     }
 }

@@ -7,25 +7,34 @@
 <hr />
 <form>
     <div class="form-group row">
-        <label for="mindate" class="col-sm-2 col-form-label">Başlangıç Tarihi</label>
         <div class="col-sm-4">
+            <label for="mindate" class="col-form-label">Başlangıç Tarihi</label>
             <input type="date" class="form-control param-change" id="mindate" value="@DateTime.Today.ToString("yyyy-MM-dd")">
         </div>
-        <label for="maxdate" class="col-sm-2 col-form-label">Bitiş Tarihi</label>
         <div class="col-sm-4">
+            <label for="maxdate" class="col-form-label">Bitiş Tarihi</label>
             <input type="date" class="form-control param-change" id="maxdate" value="@DateTime.Today.ToString("yyyy-MM-dd")">
         </div>
     </div>
     <div class="form-group row">
         <div class="col-sm-4">
+            <label for="slc-office" class="col-form-label">Şube</label>
             <select id="slc-office" class="form-control param-change"></select>
         </div>
         <div class="col-sm-4">
+            <label for="slc-entity" class="col-form-label">Cari</label>
             <select id="slc-entity" class="form-control param-change"></select>
         </div>
         <div class="col-sm-4">
+            <label for="slc-type" class="col-form-label">Kalem</label>
             <select id="slc-type" class="form-control param-change"></select>
         </div>
+        </div>
+        <div class="form-group row">
+            <div class="form-group col-md-4">
+                <label for="slc-vault" class="col-form-label">Kasa</label>
+                <select id="slc-vault" class="form-control param-change"></select>
+            </div>
 
     </div>
 
@@ -114,9 +123,10 @@
 
         });
 
-        setSelect('/Offices/GetForDropDown', 'slc-office', null, "-Şube-")
-        setSelect('/AccountEntities/GetForDropDown', 'slc-entity', null, "-Cari-")
-        setSelect('/AccountTypes/GetForDropDown', 'slc-type', null, "-Kalem-")
+        setSelect('/Offices/GetForDropDown', 'slc-office')
+        setSelect('/AccountEntities/GetForDropDown', 'slc-entity')
+        setSelect('/AccountTypes/GetForDropDown', 'slc-type')
+        setSelect('/AccountVault/GetForDropDown', 'slc-vault')
 
         buildInfoSection();
     });
@@ -152,6 +162,7 @@
         $("#slc-type").val("").change();
         $("#slc-entity").val("").change();
         $("#slc-office").val("").change();
+        $("#slc-vault").val("").change();
         refreshTable();
     }
     function refreshTable() {
@@ -187,6 +198,8 @@
         d.entityId = entityId;
         let typeId = $("#slc-type").val() || 0;
         d.typeId = typeId;
+        let vaultId = $("#slc-vault").val() || 0;
+        d.vaultId = vaultId;
 
         let date1 = $('#mindate').val();
         let date2 = $('#maxdate').val();

@@ -1,50 +1,25 @@
 ﻿using AutoMapper;
 using Business.Abstract;
-using Core.Utility;
-using Core.Utility.Datatables;
-using Data.Constants;
 using Data.Entities;
 using Data.ViewModels;
 using DataAccess.Abstract;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
+using Business.Generic;
 
 namespace Business.Concrete
 {
-    public class AccountTypeManager : IAccountTypeManager
+    public class AccountTypeManager : DefinitionManager<AccountType, IAccountTypeDal>, IAccountTypeManager
     {
         private readonly IAccountTypeDal entityDal;
         private readonly IMapper mapper;
 
-        public AccountTypeManager(IAccountTypeDal entityDal, IMapper mapper)
+        public AccountTypeManager(IAccountTypeDal entityDal, IMapper mapper) : base(entityDal)
         {
             this.entityDal = entityDal;
             this.mapper = mapper;
         }
-        
-        public async Task<List<AccountType>> Get(System.Linq.Expressions.Expression<Func<AccountType, bool>> expression = null)
-        {
-            return await entityDal.Get(expression).ToListAsync();
-        }
 
-        public async Task<AccountType> GetByIdAsync(int id)
-        {
-            AccountType result = null;
-            try
-            {
-                result = await entityDal.GetByIdAsync(id);
-            }
-            catch (Exception)
-            {
-            }
-            return result;
-        }
         public async Task<AccountTypeModel> GetModelByIdAsync(int id)
         {
             AccountTypeModel result = null;
@@ -56,84 +31,6 @@ namespace Business.Concrete
             {
             }
             return result;
-        }
-
-        public async Task<Result> Add(AccountType entity)
-        {
-            var result = new Result();
-            try
-            {
-                entityDal.Add(entity);
-                await entityDal.Save();
-            }
-            catch (Exception ex)
-            {
-                result.SetError(ex.ToString(), UserMessages.Fail);
-            }
-
-            return result;
-        }
-
-        public async Task<Result> Delete(AccountType entity)
-        {
-            var result = new Result();
-            try
-            {
-                entityDal.Delete(entity);
-                await entityDal.Save();
-            }
-            catch (Exception ex)
-            {
-                result.SetError(ex.ToString(), UserMessages.Fail);
-            }
-
-            return result;
-        }
-
-        public async Task<Result> Update(AccountType entity)
-        {
-            var result = new Result();
-            try
-            {
-                entityDal.Update(entity);
-                await entityDal.Save();
-            }
-            catch (Exception ex)
-            {
-                result.SetError(ex.ToString(), UserMessages.Fail);
-            }
-
-            return result;
-        }
-        public async Task<List<SelectListItem>> GetForDropDown()
-        {
-            return await entityDal.Get().OrderBy(a => a.Name).Select(a => new SelectListItem
-            {
-                Text = a.Name,
-                Value = a.Id.ToString()
-            }).ToListAsync();
-        }
-
-        public async Task<DataTableResult> GetForDataTable(DataTableParams param)
-        {
-            var result = new DataTableResult();
-            var query = entityDal.Get();
-            // Filter
-            if (!string.IsNullOrEmpty(param.search?.value))
-            {
-                query = query.Where(a => a.Name.Contains(param.search.value) || a.Description.Contains(param.search.value));
-            }
-
-            var list = await query.OrderBy(a => a.Name).Skip(param.start).Take(param.length).ToListAsync();
-
-            // DataTableModel
-            result.Data = list;
-            result.Draw = param.draw;
-            result.RecordsTotal = await query.CountAsync();
-            result.RecordsFiltered = result.RecordsTotal;
-
-            return result;
-
         }
     }
 }

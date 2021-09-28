@@ -1,4 +1,5 @@
 ﻿using Core.Data;
+using Data.Abstract;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,10 +9,8 @@ using System.Threading.Tasks;
 
 namespace Data.Entities
 {
-    public class AccountEntity : Entity, IDatedEntity
+    public class AccountEntity : DefinitionEntity, IDatedEntity
     {
-        [StringLength(100)]
-        public string Name { get; set; }
         [StringLength(100)]
         public string Address { get; set; }
         [StringLength(100)]
@@ -20,8 +19,6 @@ namespace Data.Entities
         public string Mail { get; set; }
         [StringLength(100)]
         public string City { get; set; }
-        [StringLength(500)]
-        public string Description { get; set; }
         public DateTime? UptDate { get; set; }
         public DateTime CrtDate { get; set; }
     }

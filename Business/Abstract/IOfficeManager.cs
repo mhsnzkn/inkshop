@@ -1,24 +1,10 @@
-﻿using Core.Utility;
-using Core.Utility.Datatables;
-using Data.Entities;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Data.Entities;
+using Business.Generic;
 
 namespace Business.Abstract
 {
-    public interface IOfficeManager
+    public interface IOfficeManager : IDefinitionManager<Office>
     {
-        Task<Office> GetByIdAsync(int id);
-        Task<List<Office>> Get(Expression<Func<Office, bool>> expression = null);
-        Task<DataTableResult> GetForDataTable(DataTableParams param);
-        Task<Result> Add(Office entity);
-        Task<Result> Update(Office entity);
-        Task<Result> Delete(Office entity);
-        Task<List<SelectListItem>> GetForDropDown();
+
     }
 }

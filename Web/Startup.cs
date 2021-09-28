@@ -71,6 +71,8 @@ namespace Web
             services.AddScoped<IAccountTypeDal, AccountTypeDal>();
             services.AddScoped<IAccountMovementManager, AccountMovementManager>();
             services.AddScoped<IAccountMovementDal, AccountMovementDal>();
+            services.AddScoped<IAccountVaultManager, AccountVaultManager>();
+            services.AddScoped<IAccountVaultDal, AccountVaultDal>();
 
             services.AddScoped<IVaultManager, VaultManager>();
             services.AddScoped<IOrderPersonnelDal, OrderPersonnelDal>();

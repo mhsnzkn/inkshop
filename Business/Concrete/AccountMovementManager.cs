@@ -108,6 +108,8 @@ namespace Business.Concrete
                 entity.Date = model.Date;
                 entity.DueDate = model.DueDate;
                 entity.Description = model.Description;
+                entity.VaultInId = model.VaultInId;
+                entity.VaultOutId = model.VaultOutId;
 
                 entity.UptDate = DateTime.Now;
                 await entityDal.Save();
@@ -167,6 +169,8 @@ namespace Business.Concrete
                 query = query.Where(a => a.EntityId == param.EntityId);
             if (param.TypeId > 0)
                 query = query.Where(a => a.TypeId == param.TypeId);
+            if (param.VaultId > 0)
+                query = query.Where(a => a.VaultInId == param.VaultId || a.VaultOutId==param.VaultId);
 
             if (param.minDate != null)
                 query = query.Where(a => a.Date.Date >= param.minDate);

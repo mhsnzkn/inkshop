@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Data.Entities
 {
-    public class Country : DefinitionEntity
+    public class AccountVault : DefinitionEntity
     {
 
     }

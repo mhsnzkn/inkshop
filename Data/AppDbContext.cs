@@ -25,6 +25,7 @@ namespace Data
         public DbSet<AccountEntity> AccountEntities { get; set; }
         public DbSet<AccountType> AccountTypes { get; set; }
         public DbSet<AccountMovement> AccountMovements { get; set; }
+        public DbSet<AccountVault> AccountVaults { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

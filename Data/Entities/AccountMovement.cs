@@ -16,6 +16,10 @@ namespace Data.Entities
         public AccountEntity Entity { get; set; }
         public int EntityId { get; set; }
         public AccountType Type { get; set; }
+        public AccountVault VaultIn { get; set; }
+        public int? VaultInId { get; set; }
+        public AccountVault VaultOut { get; set; }
+        public int? VaultOutId { get; set; }
         public int TypeId { get; set; }
 
         [Column(TypeName = "decimal(8,2)")]

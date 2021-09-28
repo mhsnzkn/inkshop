@@ -1,24 +1,10 @@
-﻿using Core.Utility;
-using Core.Utility.Datatables;
-using Data.Entities;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Data.Entities;
+using Business.Generic;
 
 namespace Business.Abstract
 {
-    public interface IOrderTypeManager
+    public interface IOrderTypeManager : IDefinitionManager<OrderType>
     {
-        Task<OrderType> GetByIdAsync(int id);
-        Task<List<OrderType>> Get(Expression<Func<OrderType, bool>> expression = null);
-        Task<DataTableResult> GetForDataTable(DataTableParams param);
-        Task<Result> Add(OrderType entity);
-        Task<Result> Update(OrderType entity);
-        Task<Result> Delete(OrderType entity);
-        Task<List<SelectListItem>> GetForDropDown();
+
     }
 }
