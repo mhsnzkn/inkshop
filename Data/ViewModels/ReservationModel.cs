@@ -17,6 +17,7 @@ namespace Data.ViewModels
         public int CurrencyId { get; set; }
         [Required(ErrorMessage = "Ülke boş bırakılamaz")]
         public int CustomerCountryId { get; set; }
+        [Required(ErrorMessage = "Artist boş bırakılamaz")]
         public int ArtistId { get; set; }
         public string CustomerName { get; set; }
         public string CustomerSurname { get; set; }

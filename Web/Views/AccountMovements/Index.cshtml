@@ -38,11 +38,10 @@
 
     </div>
 
-    <input type="button" class="btn btn-info m-1" value="Temizle" onclick="clearForm()" />
+    @*<input type="button" class="btn btn-info m-1" value="Temizle" onclick="clearForm()" />*@
 </form>
 
 <div class="d-flex justify-content-end p-3">
-    <!-- Large modal -->
     <a asp-controller="@controllerName" asp-action="Edit" class="btn btn-primary"><i class="fas fa-plus"></i> Ekle</a>
 </div>
 
@@ -63,8 +62,11 @@
     </thead>
 </table>
 <hr />
-<h5>Toplam</h5>
+<h6>Genel Toplam</h6>
 <div class="row" id="div-info"></div>
+<hr />
+<h6>Kasa Toplam</h6>
+<div class="row" id="div-info-vault"></div>
 
 @section Scripts{
 <script>
@@ -177,7 +179,7 @@
             data: JSON.stringify(buildModel(model)),
             success: function (res) {
                 var str = ``;
-                res.map(item =>{
+                res.general.map(item =>{
                     str += `<div class="card m-2" style="width: 10rem;">
                                 <div class="card-header text-center">`+item.currencyName+`</div>
                                 <ul class="list-group list-group-flush">
@@ -188,6 +190,18 @@
                             </div>`
                 })
                 $('#div-info').html(str);
+                var strVault = ``;
+                res.vault.map(item =>{
+                    strVault += `<div class="card m-2" style="width: 10rem;">
+                                <div class="card-header text-center">`+ item.vaultName +`<br>`+item.currencyName+`</div>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item text-success"><span class="float-right">`+item.income+`</span></li>
+                                    <li class="list-group-item text-danger"><span class="float-right">`+item.expense+`</span></li>
+                                    <li class="list-group-item float-right"><span class="float-right">`+(item.income - item.expense)+`</span></li>
+                                </ul>
+                            </div>`
+                })
+                $('#div-info-vault').html(strVault);
             }
         })
     }

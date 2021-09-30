@@ -71,7 +71,13 @@ namespace Web.Controllers
         [HttpPost]
         public async Task<IActionResult> GetSummary([FromBody] AccountParamsDto param)
         {
-            return Ok(await accountMovementManager.GetSummary(param));
+            var result = new
+            {
+                general = await accountMovementManager.GetSummary(param),
+                vault = await accountMovementManager.GetVaultSummary(param)
+            };
+
+            return Ok(result);
         }
     }
 }

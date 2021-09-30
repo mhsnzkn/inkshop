@@ -154,6 +154,36 @@ namespace Business.Concrete
             return result;
 
         }
+        public async Task<List<AccountMovementSumDto>> GetVaultSummary(AccountParamsDto param)
+        {
+            var query = GetFilteredQuery(param);
+            if(param.VaultId == 0)
+            {
+                query = query.Where(a => a.VaultInId != null || a.VaultOutId != null);
+            }
+            var queryResult = await query.Include(a=>a.VaultIn).Include(a=>a.VaultOut).Include(a=>a.Currency).ToListAsync();
+            var vaults = queryResult.Select(a => a.VaultIn).Distinct();
+            var currencies = queryResult.Select(a => a.Currency).Distinct();
+            var result = new List<AccountMovementSumDto>();
+            foreach (var vault in vaults)
+            {
+                for (int i = 0; i < currencies.Count(); i++)
+                {
+                    var element = currencies.ElementAt(i);
+                    var item = new AccountMovementSumDto()
+                    {
+                        CurrencyName = element.Name,
+                        VaultName = vault.Name + " " + vault.Description,
+                        Income = queryResult.Where(a => a.VaultInId == vault.Id && a.CurrencyId == element.Id).Sum(a => a.Income),
+                        Expense = queryResult.Where(a => a.VaultOutId == vault.Id && a.CurrencyId == element.Id).Sum(a => a.Expense),
+                    };
+                    result.Add(item);
+                }
+            }
+
+            return result;
+
+        }
 
         private IQueryable<AccountMovement> GetFilteredQuery(AccountParamsDto param)
         {

@@ -14,5 +14,6 @@ namespace Data.ViewModels
         public decimal Income { get; set; }
         public decimal Expense { get; set; }
         public string CurrencyName { get; set; }
+        public string VaultName { get; set; }
     }
 }
