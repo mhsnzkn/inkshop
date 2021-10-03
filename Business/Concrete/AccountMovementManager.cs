@@ -162,8 +162,8 @@ namespace Business.Concrete
                 query = query.Where(a => a.VaultInId != null || a.VaultOutId != null);
             }
             var queryResult = await query.Include(a=>a.VaultIn).Include(a=>a.VaultOut).Include(a=>a.Currency).ToListAsync();
-            var vaults = queryResult.Select(a => a.VaultIn).Distinct();
-            var currencies = queryResult.Select(a => a.Currency).Distinct();
+            var vaults = queryResult.Select(a => a.VaultIn).GroupBy(a=>a.Id).Select(a=>a.First());
+            var currencies = queryResult.Select(a => a.Currency).GroupBy(a => a.Id).Select(a => a.First());
             var result = new List<AccountMovementSumDto>();
             foreach (var vault in vaults)
             {
@@ -177,7 +177,9 @@ namespace Business.Concrete
                         Income = queryResult.Where(a => a.VaultInId == vault.Id && a.CurrencyId == element.Id).Sum(a => a.Income),
                         Expense = queryResult.Where(a => a.VaultOutId == vault.Id && a.CurrencyId == element.Id).Sum(a => a.Expense),
                     };
-                    result.Add(item);
+
+                    if(item.Income > 0 || item.Expense > 0)
+                        result.Add(item);
                 }
             }
 
