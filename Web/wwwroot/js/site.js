@@ -3,7 +3,9 @@
         $('#sidebar').toggleClass('active');
     });
 
-    $('select').select2();
+    $('select').select2({
+        theme: 'bootstrap4',
+    });
 });
 
 const ajaxSuccess = (xhr, returnUrl) => {
