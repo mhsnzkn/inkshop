@@ -146,6 +146,7 @@
                         if (res.error === false) {
                             alertify.success("İşlem Başarılı");
                             $('#datatable').DataTable().ajax.reload();
+                            buildInfoSection();
                         } else {
                             alertify.error("İşlem Başarısız");
                             console.log(res);

@@ -56,8 +56,8 @@ namespace Web.Controllers
 
             return Ok(result);
         }
-
-        public async Task<IActionResult> Delete(AccountMovement accountMovement)
+        [HttpPost]
+        public async Task<IActionResult> Delete([FromBody]AccountMovement accountMovement)
         {
             var result = await accountMovementManager.Delete(accountMovement);
 
