@@ -58,7 +58,11 @@ namespace Data.Automapper
             CreateMap<Order, ReservationModel>()
                 .ForMember(a => a.ArtistId, s => s.MapFrom(o => o.OrderPersonnel.Where(d => d.Job == OrderPersonnelJob.Artist).FirstOrDefault().PersonnelId))
                 .ForMember(a => a.InfoMenId, s => s.MapFrom(o => o.OrderPersonnel.Where(d => d.Job == OrderPersonnelJob.Info).FirstOrDefault().PersonnelId))
-                .ForMember(a => a.MiddleMenId, s => s.MapFrom(o => o.OrderPersonnel.Where(d => d.Job == OrderPersonnelJob.Hanut).FirstOrDefault().PersonnelId));
+                .ForMember(a => a.MiddleMenId, s => s.MapFrom(o => o.OrderPersonnel.Where(d => d.Job == OrderPersonnelJob.Hanut).FirstOrDefault().PersonnelId))
+                .ForMember(a => a.TypeCoverUp, s => s.MapFrom(o => o.Type.Contains(OrderTypeString.CoverUp)))
+                .ForMember(a => a.TypeFreeHand, s => s.MapFrom(o => o.Type.Contains(OrderTypeString.Freehand)))
+                .ForMember(a => a.TypeRefresh, s => s.MapFrom(o => o.Type.Contains(OrderTypeString.Refresh)))
+                .ForMember(a => a.TypeTouchUp, s => s.MapFrom(o => o.Type.Contains(OrderTypeString.TouchUp)));
 
             CreateMap<TransferModel, Order>().ReverseMap();
             #endregion

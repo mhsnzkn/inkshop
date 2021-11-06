@@ -24,24 +24,20 @@ namespace DataAccess.Concrete
         /// <summary>
         /// OrderPersonel tablosundakileri kontrol edip eklemek, duzenlemek veya silmek icin yapilan metot
         /// </summary>
-        /// <param name="orderId"></param>
-        /// <param name="personnelIds">1.Artist/ </param>
-        /// <param name="job"></param>
-        /// <returns></returns>
-        public async Task Upsert(int orderId, int artistId, int infoMenId, int middleMenId)
+        public async Task Upsert(Order order, int artistId, int infoMenId, int middleMenId)
         {
-            if (orderId == 0)
+            if (order is null)
                 return;
 
-            var list = await context.OrderPersonnel.Where(a => a.OrderId == orderId).ToListAsync();
-            CheckOrderPersonel(list, artistId, orderId, OrderPersonnelJob.Artist);
-            CheckOrderPersonel(list, infoMenId, orderId, OrderPersonnelJob.Info);
-            CheckOrderPersonel(list, middleMenId, orderId, OrderPersonnelJob.Hanut);
+            var list = await context.OrderPersonnel.Where(a => a.OrderId == order.Id).ToListAsync();
+            CheckOrderPersonel(list, artistId, order, OrderPersonnelJob.Artist);
+            CheckOrderPersonel(list, infoMenId, order, OrderPersonnelJob.Info);
+            CheckOrderPersonel(list, middleMenId, order, OrderPersonnelJob.Hanut);
             
 
         }
 
-        private void CheckOrderPersonel(List<OrderPersonnel> list, int personnelId, int orderId, OrderPersonnelJob job)
+        private void CheckOrderPersonel(List<OrderPersonnel> list, int personnelId, Order order, OrderPersonnelJob job)
         {
             var artist = list.Where(a => a.Job == job).FirstOrDefault();
             if (artist != null)
@@ -54,7 +50,7 @@ namespace DataAccess.Concrete
             else
             {
                 if (personnelId != 0)
-                    context.Add(new OrderPersonnel { OrderId = orderId, PersonnelId = personnelId, Job = job });
+                    context.Add(new OrderPersonnel { Order = order, PersonnelId = personnelId, Job = job });
             }
         }
 

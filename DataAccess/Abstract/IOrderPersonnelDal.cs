@@ -11,7 +11,7 @@ namespace DataAccess.Abstract
 {
     public interface IOrderPersonnelDal : IRepositoryBase<OrderPersonnel>
     {
-        Task Upsert(int orderId, int artistId, int infoMenId, int middleMenId);
+        Task Upsert(Order order, int artistId, int infoMenId, int middleMenId);
         void SetPersonnelPrice(OrderPersonnel orderPersonnel, Order order, decimal? price, ref decimal maxPrice);
         Task AddInternalPersonnel(Order order, decimal orderPrice);
         Task AddFranchising(Order order);

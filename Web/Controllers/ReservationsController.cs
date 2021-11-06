@@ -68,10 +68,11 @@ namespace Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(ReservationViewModel vModel)
         {
+            Core.Utility.Result result;
             if(vModel.Reservation.Id == 0)
-                return BadRequest();
-
-            var result = await orderManager.UpdateReservation(vModel.Reservation);
+                result = await orderManager.AddReservation(vModel.Reservation);
+            else
+                result = await orderManager.UpdateReservation(vModel.Reservation);
 
             return Ok(result);
         }

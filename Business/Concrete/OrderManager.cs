@@ -235,16 +235,37 @@ namespace Business.Concrete
                 entity.IsCreditCard = dto.IsCreditCard;
                 entity.TicketNumber = dto.TicketNumber;
                 entity.IsPaymentDone = false;
-
-                entity.Type = dto.TypeCoverUp ? OrderTypeString.CoverUp : string.Empty;
-                entity.Type += dto.TypeFreeHand ? OrderTypeString.Freehand : string.Empty;
-                entity.Type += dto.TypeRefresh ? OrderTypeString.Refresh : string.Empty;
-                entity.Type += dto.TypeTouchUp ? OrderTypeString.TouchUp : string.Empty;
+                entity.Type = GetOrderTypeString(dto);
                 entity.UptDate = DateTime.Now;
 
-                await orderPersonnelDal.Upsert(entity.Id, dto.ArtistId, dto.InfoMenId, dto.MiddleMenId);
-
                 orderDal.Update(entity);
+                await orderPersonnelDal.Upsert(entity, dto.ArtistId, dto.InfoMenId, dto.MiddleMenId);
+
+                await orderDal.Save();
+            }
+            catch (Exception ex)
+            {
+                result.SetError(ex.ToString(), UserMessages.Fail);
+            }
+
+            return result;
+        }
+
+        public async Task<Result> AddReservation(ReservationModel dto)
+        {
+            var result = new Result();
+            try
+            {
+                var entity = mapper.Map<Order>(dto);
+                entity.IsPaymentDone = false;
+
+                entity.Status = OrderStatus.Reservation;
+                entity.Type = GetOrderTypeString(dto);
+                entity.CrtDate = DateTime.Now;
+                orderDal.Add(entity);
+
+                await orderPersonnelDal.Upsert(entity, dto.ArtistId, dto.InfoMenId, dto.MiddleMenId);
+
                 await orderDal.Save();
             }
             catch (Exception ex)
@@ -418,6 +439,16 @@ namespace Business.Concrete
 
             outQuery = query;
             paginatedQuery = query.Skip(param.start).Take(param.length);
+        }
+
+        private string GetOrderTypeString(ReservationModel dto)
+        {
+            var result = dto.TypeCoverUp ? OrderTypeString.CoverUp : string.Empty;
+            result += dto.TypeFreeHand ? OrderTypeString.Freehand : string.Empty;
+            result += dto.TypeRefresh ? OrderTypeString.Refresh : string.Empty;
+            result += dto.TypeTouchUp ? OrderTypeString.TouchUp : string.Empty;
+
+            return result;
         }
     }
 }

@@ -32,7 +32,7 @@ namespace Data.ViewModels
         public bool TypeFreeHand { get; set; }
         public bool TypeTouchUp { get; set; }
         public bool IsTransfer { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Tarih boş bırakılamaz")]
         public DateTime Date { get; set; } = DateTime.Now;
         public string Description { get; set; }
         public bool IsCreditCard { get; set; }
