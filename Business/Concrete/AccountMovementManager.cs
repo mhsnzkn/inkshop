@@ -162,7 +162,7 @@ namespace Business.Concrete
                 query = query.Where(a => a.VaultInId != null || a.VaultOutId != null);
             }
             var queryResult = await query.Include(a=>a.VaultIn).Include(a=>a.VaultOut).Include(a=>a.Currency).ToListAsync();
-            var vaults = queryResult.Select(a => a.VaultIn).GroupBy(a=>a.Id).Select(a=>a.First());
+            var vaults = queryResult.Where(a=>a.VaultIn != null).Select(a => a.VaultIn).GroupBy(a=>a.Id).Select(a=>a.First());
             var currencies = queryResult.Select(a => a.Currency).GroupBy(a => a.Id).Select(a => a.First());
             var result = new List<AccountMovementSumDto>();
             foreach (var vault in vaults)
