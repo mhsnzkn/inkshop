@@ -99,12 +99,22 @@
                 { "data": "officeName", },
                 { "data": "entityName" },
                 { "data": "typeName" },
-                { "data": "expense" },
-                { "data": "income" },
+                {
+                    "data": "expense",
+                    render: function (data, type, row) {
+                        return data.toFixed(2);
+                    }
+                },
+                {
+                    "data": "income",
+                    render: function (data, type, row) {
+                        return data.toFixed(2);
+                    }
+                },
                 {
                     "data": "null",
                     render: function (data, type, row) {
-                        return row.income - row.expense;
+                        return (row.income - row.expense).toFixed(2);
                     }
                 },
                 { "data": "currencyName" },
@@ -158,14 +168,14 @@
 
     $('.param-change').change(function () {
         refreshTable();
-        buildInfoSection();
+        //buildInfoSection();
     })
     function clearForm() {
-        $('.param-change').val(null);
         $("#slc-type").val("").change();
         $("#slc-entity").val("").change();
         $("#slc-office").val("").change();
         $("#slc-vault").val("").change();
+        $('.param-change').val(null);
         refreshTable();
     }
     function refreshTable() {
@@ -184,9 +194,9 @@
                     str += `<div class="card m-2" style="width: 10rem;">
                                 <div class="card-header text-center">`+item.currencyName+`</div>
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item text-success"><span class="float-right">`+item.income+`</span></li>
-                                    <li class="list-group-item text-danger"><span class="float-right">`+item.expense+`</span></li>
-                                    <li class="list-group-item float-right"><span class="float-right">`+(item.income - item.expense)+`</span></li>
+                                    <li class="list-group-item text-success"><span class="float-right">`+item.income.toFixed(2)+`</span></li>
+                                    <li class="list-group-item text-danger"><span class="float-right">`+ item.expense.toFixed(2)+`</span></li>
+                                    <li class="list-group-item float-right"><span class="float-right">`+ (item.income - item.expense).toFixed(2)+`</span></li>
                                 </ul>
                             </div>`
                 })
@@ -196,9 +206,9 @@
                     strVault += `<div class="card m-2" style="width: 10rem;">
                                 <div class="card-header text-center">`+ item.vaultName +`<br>`+item.currencyName+`</div>
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item text-success"><span class="float-right">`+item.income+`</span></li>
-                                    <li class="list-group-item text-danger"><span class="float-right">`+item.expense+`</span></li>
-                                    <li class="list-group-item float-right"><span class="float-right">`+(item.income - item.expense)+`</span></li>
+                                    <li class="list-group-item text-success"><span class="float-right">`+ item.income.toFixed(2)+`</span></li>
+                                    <li class="list-group-item text-danger"><span class="float-right">`+ item.expense.toFixed(2)+`</span></li>
+                                    <li class="list-group-item float-right"><span class="float-right">`+ (item.income - item.expense).toFixed(2)+`</span></li>
                                 </ul>
                             </div>`
                 })

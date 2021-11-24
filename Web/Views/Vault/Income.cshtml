@@ -99,7 +99,7 @@
                                 return a + b;
                             }, 0);
 
-                        var sum = priceSum + depositSum;
+                        var sum = (priceSum + depositSum).toFixed(2);
 
                         return $('<tr/>')
                             .append('<td colspan="5"></td><td>TOPLAM:</td><td>' + sum + ' ' + group + '</td><td colspan="3"></td>');
@@ -140,8 +140,18 @@
                             return (new Date(data)).toLocaleString('tr-TR', { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' });
                         }
                     },
-                    { "data": "price" },
-                    { "data": "deposit" },
+                    {
+                        "data": "price",
+                        render: function (data, type, row) {
+                            return data.toFixed(2);
+                        }
+                    },
+                    {
+                        "data": "deposit",
+                        render: function (data, type, row) {
+                            return data.toFixed(2);
+                        }
+                    },
                     { "data": "currencyName" },
                     {
                         "data": null,
@@ -193,10 +203,10 @@
             refreshTable();
         })
         function clearForm() {
-            $('.param-change').val(null);
             $("#slc-order-type").val("0").change();
             $('#sw-rest').prop('checked', true);
             $('#sw-deposit').prop('checked', true);
+            $('.param-change').val(null);
             refreshTable();
         }
         function refreshTable() {
